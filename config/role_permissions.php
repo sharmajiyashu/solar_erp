@@ -9,7 +9,9 @@ return [
         'delete',
         'follow_up',
         'update_status',
-        'convert_to_lead'
+        'convert_to_lead',
+        'mark_to_close',
+        'close'
     ],
 
     'site_visits' => [
