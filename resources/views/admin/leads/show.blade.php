@@ -41,8 +41,6 @@
                             </td>
                         </tr>
 
-
-
                         <tr>
                             <th>Remarks</th>
                             <td>{{ $lead->remarks ?? '-' }}</td>
@@ -53,8 +51,39 @@
                             <td>{{ $lead->creator->name ?? '-' }}</td>
                         </tr>
 
+                        <tr>
+                            <th>Change Stage</th>
+                            <td>
+                                @if ($lead->stage != 'completed')
+                                    @php
+                                        $stages = [
+                                            'pending_lead',
+                                            'site_visit',
+                                            'quotation',
+                                            'bank',
+                                            'discom',
+                                            'dispatch',
+                                            'installation',
+                                            'verification',
+                                            'completed',
+                                        ];
+                                        $currentIndex = array_search($lead->stage, $stages);
+                                        $nextStage = $stages[$currentIndex + 1] ?? null;
+                                    @endphp
 
 
+                                    @if ($nextStage)
+                                        <div>
+                                            <a class=""
+                                                href="{{ route('admin.leads.move_stage', [$lead->id, $nextStage]) }}">
+                                                Move To
+                                                {{ ucfirst(str_replace('_', ' ', $nextStage)) }}
+                                            </a>
+                                        </div>
+                                    @endif
+                                @endif
+                            </td>
+                        </tr>
 
 
                     </table>
@@ -65,7 +94,13 @@
                         <ul class="nav nav-tabs" id="leadTabs">
 
                             <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#customerTab">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#projectStage">
+                                    Stage
+                                </button>
+                            </li>
+
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#customerTab">
                                     Customer Details
                                 </button>
                             </li>
@@ -83,14 +118,20 @@
                             </li>
 
                         </ul>
+
                     </div>
 
                     <div class="card-body">
 
                         <div class="tab-content">
 
+
+                            <div class="tab-pane fade show active" id="projectStage">
+                                @include('admin.leads.partials.projectStage')
+                            </div>
+
                             {{-- ================= CUSTOMER TAB ================= --}}
-                            <div class="tab-pane fade show active" id="customerTab">
+                            <div class="tab-pane fade show" id="customerTab">
                                 @include('admin.leads.partials.customer')
                             </div>
 
@@ -104,43 +145,18 @@
                                 @include('admin.leads.partials.visits')
                             </div>
 
+                            <div class="tab-pane fade" id="visitTab">
+                                @include('admin.leads.partials.visits')
+                            </div>
+
                         </div>
 
                     </div>
 
 
-                    @if ($lead->stage != 'completed')
-                        @php
-                            $stages = [
-                                'pending_lead',
-                                'site_visit',
-                                'quotation',
-                                'bank',
-                                'discom',
-                                'dispatch',
-                                'installation',
-                                'verification',
-                                'completed',
-                            ];
-                            $currentIndex = array_search($lead->stage, $stages);
-                            $nextStage = $stages[$currentIndex + 1] ?? null;
-                        @endphp
 
-
-                        @if ($nextStage)
-                            <div>
-                                <a class="btn btn-success"
-                                    href="{{ route('admin.leads.move_stage', [$lead->id, $nextStage]) }}">
-                                    Move To
-                                    {{ ucfirst(str_replace('_', ' ', $nextStage)) }}
-                                </a>
-                            </div>
-                        @endif
-                    @endif
 
                 </div>
-
-
 
             </div>
         </div>

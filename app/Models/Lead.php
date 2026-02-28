@@ -7,19 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Lead extends Model
 {
     protected $fillable = [
-
         'lead_no',
-
         'enquiry_id',
         'customer_id',
-
         'created_by',
-
         'stage',
         'status',
-
         'project_stages',
-
         'remarks'
     ];
 
@@ -68,5 +62,15 @@ class Lead extends Model
         return $this->hasMany(SiteVisit::class);
     }
 
-
+    public static $workflowStages = [
+        'pending_lead',
+        'site_visit',
+        'quotation',
+        'bank',
+        'discom',
+        'dispatch',
+        'installation',
+        'verification',
+        'completed'
+    ];
 }

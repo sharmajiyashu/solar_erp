@@ -213,7 +213,6 @@ class LeadController extends Controller
     {
         $lead = Lead::with(['customer', 'assignedUser', 'creator'])
             ->findOrFail($id);
-
         return view('admin.leads.show', compact('lead'));
     }
 
