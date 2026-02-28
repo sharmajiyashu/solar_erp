@@ -69,7 +69,7 @@ Route::middleware(['isAdmin'])
             Route::get('/verification', [LeadController::class, 'verification'])->name('verification');
             Route::get('/completed', [LeadController::class, 'completed'])->name('completed');
 
-            Route::post('/{id}/move-stage', [LeadController::class,'moveStage'])->name('move_stage');
+            Route::get('/{id}/{stage}/move-stage', [LeadController::class,'moveStage'])->name('move_stage');
 
             Route::post('/{lead}/visit', [LeadController::class, 'storeVisit'])
                 ->name('storeVisit');

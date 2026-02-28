@@ -226,7 +226,6 @@ class LeadController extends Controller
     public function moveStage($id, $nextStage)
     {
         $lead = Lead::findOrFail($id);
-
         $stages = $lead->project_stages;
 
         // Mark current stage as done

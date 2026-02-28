@@ -6,7 +6,60 @@
 
             <div class="content-body">
 
+
                 <div class="card">
+
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th>Lead Number</th>
+                            <td>{{ $lead->lead_no }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Stage</th>
+                            <td>
+                                <span class="badge bg-info">
+                                    {{ ucfirst(str_replace('_', ' ', $lead->stage)) }}
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Status</th>
+                            <td>
+                                @if ($lead->status == 'completed')
+                                    <span class="badge bg-success">Completed</span>
+                                @elseif($lead->status == 'cancelled')
+                                    <span class="badge bg-danger">Cancelled</span>
+                                @else
+                                    <span class="badge bg-warning">
+                                        {{ ucfirst($lead->status) }}
+                                    </span>
+                                @endif
+                            </td>
+                        </tr>
+
+
+
+                        <tr>
+                            <th>Remarks</th>
+                            <td>{{ $lead->remarks ?? '-' }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Created By</th>
+                            <td>{{ $lead->creator->name ?? '-' }}</td>
+                        </tr>
+
+
+
+
+
+                    </table>
+
+
 
                     <div class="card-header">
                         <ul class="nav nav-tabs" id="leadTabs">
@@ -54,6 +107,36 @@
                         </div>
 
                     </div>
+
+
+                    @if ($lead->stage != 'completed')
+                        @php
+                            $stages = [
+                                'pending_lead',
+                                'site_visit',
+                                'quotation',
+                                'bank',
+                                'discom',
+                                'dispatch',
+                                'installation',
+                                'verification',
+                                'completed',
+                            ];
+                            $currentIndex = array_search($lead->stage, $stages);
+                            $nextStage = $stages[$currentIndex + 1] ?? null;
+                        @endphp
+
+
+                        @if ($nextStage)
+                            <div>
+                                <a class="btn btn-success"
+                                    href="{{ route('admin.leads.move_stage', [$lead->id, $nextStage]) }}">
+                                    Move To
+                                    {{ ucfirst(str_replace('_', ' ', $nextStage)) }}
+                                </a>
+                            </div>
+                        @endif
+                    @endif
 
                 </div>
 
