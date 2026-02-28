@@ -25,11 +25,13 @@
                     </div>
                 </div>
 
-                <div class="col-md-3 text-end">
-                    <a href="{{ route('admin.enquiries.create') }}" class="btn btn-primary btn-gradient round">
-                        Create Enquiry
-                    </a>
-                </div>
+                @can('enquiries create')
+                    <div class="col-md-3 text-end">
+                        <a href="{{ route('admin.enquiries.create') }}" class="btn btn-primary btn-gradient round">
+                            Create Enquiry
+                        </a>
+                    </div>
+                @endcan
             </div>
 
             <div class="content-body">

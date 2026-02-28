@@ -29,12 +29,14 @@
                 </a>
             </li>
 
-            <li class="nav-item {{ \Str::is('admin.enquiries*', request()->route()->getName()) ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('admin.enquiries.index') }}">
-                    <i data-feather="file-text"></i>
-                    <span class="menu-title text-truncate">Enquiry Management</span>
-                </a>
-            </li>
+            @can('enquiries view')
+                <li class="nav-item {{ \Str::is('admin.enquiries*', request()->route()->getName()) ? 'active' : '' }}">
+                    <a class="d-flex align-items-center" href="{{ route('admin.enquiries.index') }}">
+                        <i data-feather="file-text"></i>
+                        <span class="menu-title text-truncate">Enquiry Management</span>
+                    </a>
+                </li>
+            @endcan
 
 
             @can('roles_permissions view')
@@ -79,12 +81,6 @@
                     <span class="menu-title text-truncate">Logout</span>
                 </a>
             </li>
-
-
-
-
-
-
 
 
         </ul>

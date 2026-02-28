@@ -58,117 +58,155 @@
 
                                     <div class="row">
 
-                                        <!-- Enquiry No -->
-                                        <div class="col-md-6 mb-1">
-                                            <label class="form-label">Enquiry No</label>
-                                            <input type="text" name="enquiry_no" class="form-control"
-                                                value="{{ $enquiry->enquiry_no ?? '' }}">
-                                            <span class="text-danger validation-class" id="enquiry_no-submit_errors"></span>
-                                        </div>
+                                        @if (isset($enquiry) && $enquiry->exists)
+                                            <div class="col-md-6 mb-1">
+                                                <label class="form-label">Enquiry No</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ $enquiry->enquiry_no }}" readonly>
+                                            </div>
+                                        @endif
 
                                         <!-- Customer Name -->
                                         <div class="col-md-6 mb-1">
                                             <label class="form-label">Customer Name</label>
                                             <input type="text" name="customer_name" class="form-control"
-                                                value="{{ $enquiry->customer_name ?? '' }}">
-                                            <span class="text-danger validation-class"
-                                                id="customer_name-submit_errors"></span>
+                                                placeholder="Enter customer full name"
+                                                value="{{ old('customer_name', $enquiry->customer_name ?? '') }}">
+                                            <span class="text-danger validation-class" id="customer_name-submit_errors">
+
+                                            </span>
                                         </div>
 
                                         <!-- Mobile -->
                                         <div class="col-md-6 mb-1">
                                             <label class="form-label">Mobile</label>
                                             <input type="text" name="mobile" class="form-control"
-                                                value="{{ $enquiry->mobile ?? '' }}">
-                                            <span class="text-danger validation-class" id="mobile-submit_errors"></span>
+                                                placeholder="Enter mobile number"
+                                                value="{{ old('mobile', $enquiry->mobile ?? '') }}">
+                                            <span class="text-danger validation-class" id="mobile-submit_errors">
+
+                                            </span>
                                         </div>
 
                                         <!-- Alternate Mobile -->
                                         <div class="col-md-6 mb-1">
                                             <label class="form-label">Alternate Mobile</label>
                                             <input type="text" name="alternate_mobile" class="form-control"
-                                                value="{{ $enquiry->alternate_mobile ?? '' }}">
-                                            <span class="text-danger validation-class"
-                                                id="alternate_mobile-submit_errors"></span>
+                                                placeholder="Enter alternate mobile number"
+                                                value="{{ old('alternate_mobile', $enquiry->alternate_mobile ?? '') }}">
+                                            <span class="text-danger validation-class" id="alternate_mobile-submit_errors">
+
+                                            </span>
                                         </div>
 
                                         <!-- Email -->
                                         <div class="col-md-6 mb-1">
                                             <label class="form-label">Email</label>
                                             <input type="email" name="email" class="form-control"
-                                                value="{{ $enquiry->email ?? '' }}">
-                                            <span class="text-danger validation-class" id="email-submit_errors"></span>
+                                                placeholder="Enter email address"
+                                                value="{{ old('email', $enquiry->email ?? '') }}">
+                                            <span class="text-danger validation-class" id="email-submit_errors">
+                                                @error('email')
+                                                    {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
 
                                         <!-- Source -->
                                         <div class="col-md-6 mb-1">
                                             <label class="form-label">Source</label>
                                             <input type="text" name="source" class="form-control"
-                                                value="{{ $enquiry->source ?? '' }}">
-                                            <span class="text-danger validation-class" id="source-submit_errors"></span>
+                                                placeholder="Eg: Website, Facebook, Referral"
+                                                value="{{ old('source', $enquiry->source ?? '') }}">
+                                            <span class="text-danger validation-class" id="source-submit_errors">
+
+                                            </span>
                                         </div>
 
                                         <!-- Address -->
                                         <div class="col-12 mb-1">
                                             <label class="form-label">Address</label>
-                                            <textarea name="address" class="form-control">{{ $enquiry->address ?? '' }}</textarea>
-                                            <span class="text-danger validation-class" id="address-submit_errors"></span>
+                                            <textarea name="address" class="form-control" placeholder="Enter full address">{{ old('address', $enquiry->address ?? '') }}</textarea>
+                                            <span class="text-danger validation-class" id="address-submit_errors">
+
+                                            </span>
                                         </div>
 
                                         <!-- City -->
                                         <div class="col-md-4 mb-1">
                                             <label class="form-label">City</label>
                                             <input type="text" name="city" class="form-control"
-                                                value="{{ $enquiry->city ?? '' }}">
-                                            <span class="text-danger validation-class" id="city-submit_errors"></span>
+                                                placeholder="Enter city" value="{{ old('city', $enquiry->city ?? '') }}">
+                                            <span class="text-danger validation-class" id="city-submit_errors">
+
+                                            </span>
                                         </div>
 
                                         <!-- State -->
                                         <div class="col-md-4 mb-1">
                                             <label class="form-label">State</label>
                                             <input type="text" name="state" class="form-control"
-                                                value="{{ $enquiry->state ?? '' }}">
-                                            <span class="text-danger validation-class" id="state-submit_errors"></span>
+                                                placeholder="Enter state"
+                                                value="{{ old('state', $enquiry->state ?? '') }}">
+                                            <span class="text-danger validation-class" id="state-submit_errors">
+
+                                            </span>
                                         </div>
 
                                         <!-- Pincode -->
                                         <div class="col-md-4 mb-1">
                                             <label class="form-label">Pincode</label>
                                             <input type="text" name="pincode" class="form-control"
-                                                value="{{ $enquiry->pincode ?? '' }}">
-                                            <span class="text-danger validation-class" id="pincode-submit_errors"></span>
+                                                placeholder="Enter pincode"
+                                                value="{{ old('pincode', $enquiry->pincode ?? '') }}">
+                                            <span class="text-danger validation-class" id="pincode-submit_errors">
+
+                                            </span>
                                         </div>
 
                                         <!-- Status -->
                                         <div class="col-md-6 mb-1">
                                             <label class="form-label">Status</label>
                                             <select name="status" class="form-control">
-                                                <option value="New"
-                                                    {{ ($enquiry->status ?? '') == 'New' ? 'selected' : '' }}>New</option>
-                                                <option value="Follow Up"
-                                                    {{ ($enquiry->status ?? '') == 'Follow Up' ? 'selected' : '' }}>Follow
-                                                    Up</option>
-                                                <option value="Closed"
-                                                    {{ ($enquiry->status ?? '') == 'Closed' ? 'selected' : '' }}>Closed
-                                                </option>
+                                                <option value="pending"
+                                                    {{ old('status', $enquiry->status ?? '') == 'pending' ? 'selected' : '' }}>
+                                                    Pending</option>
+                                                <option value="next_followup"
+                                                    {{ old('status', $enquiry->status ?? '') == 'next_followup' ? 'selected' : '' }}>
+                                                    Next Followup</option>
+                                                <option value="mark_to_close"
+                                                    {{ old('status', $enquiry->status ?? '') == 'mark_to_close' ? 'selected' : '' }}>
+                                                    Mark To Close</option>
+                                                <option value="converted_to_lead"
+                                                    {{ old('status', $enquiry->status ?? '') == 'converted_to_lead' ? 'selected' : '' }}>
+                                                    Converted To Lead</option>
+                                                <option value="closed"
+                                                    {{ old('status', $enquiry->status ?? '') == 'closed' ? 'selected' : '' }}>
+                                                    Closed</option>
                                             </select>
-                                            <span class="text-danger validation-class" id="status-submit_errors"></span>
+                                            <span class="text-danger validation-class" id="status-submit_errors">
+
+                                            </span>
                                         </div>
 
                                         <!-- Next Followup Date -->
                                         <div class="col-md-6 mb-1">
                                             <label class="form-label">Next Followup Date</label>
                                             <input type="date" name="next_followup_date" class="form-control"
-                                                value="{{ isset($enquiry->next_followup_date) ? $enquiry->next_followup_date->format('Y-m-d') : '' }}">
+                                                value="{{ old('next_followup_date', isset($enquiry->next_followup_date) ? \Carbon\Carbon::parse($enquiry->next_followup_date)->format('Y-m-d') : '') }}">
                                             <span class="text-danger validation-class"
-                                                id="next_followup_date-submit_errors"></span>
+                                                id="next_followup_date-submit_errors">
+
+                                            </span>
                                         </div>
 
                                         <!-- Remarks -->
                                         <div class="col-12 mb-1">
                                             <label class="form-label">Remarks</label>
-                                            <textarea name="remarks" class="form-control">{{ $enquiry->remarks ?? '' }}</textarea>
-                                            <span class="text-danger validation-class" id="remarks-submit_errors"></span>
+                                            <textarea name="remarks" class="form-control" placeholder="Enter remarks or discussion notes">{{ old('remarks', $enquiry->remarks ?? '') }}</textarea>
+                                            <span class="text-danger validation-class" id="remarks-submit_errors">
+
+                                            </span>
                                         </div>
 
                                         <div class="col-12">
@@ -194,14 +232,6 @@
         $(document).ready(function() {
             $('#submitFrom').on('submit', function(e) {
                 e.preventDefault(); // Prevent the default form submission
-
-
-                // let headingElements =
-                // document.getElementsByClassName('ql-editor');
-                // let headingVal = headingElements[0].innerHTML;
-
-                // $('#description_id').val(headingVal);
-
 
                 var $form = $('#submitFrom');
                 var url = $form.attr('action');

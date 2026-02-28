@@ -7,7 +7,7 @@
 
                 {{-- ================= ENQUIRY DETAILS ================= --}}
                 <div class="card">
-                    <div class="card-header bg-primary text-white">
+                    <div class="card-header">
                         <h4 class="card-title">Enquiry Details</h4>
                     </div>
 
@@ -150,44 +150,57 @@
 
                 {{-- ================= ADD FOLLOWUP ================= --}}
                 @if (!in_array($enquiry->status, ['closed', 'converted_to_lead']))
-                    <div class="card mt-2">
-                        <div class="card-header">
-                            <h5>Add Followup</h5>
-                        </div>
+                    <div class="modal fade" id="addFollowupModal" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
 
-                        <div class="card-body">
-                            <form action="{{ route('admin.enquiries.storeFollowup', $enquiry->id) }}" method="POST">
-                                @csrf
+                                <form action="{{ route('admin.enquiries.storeFollowup', $enquiry->id) }}" method="POST">
+                                    @csrf
 
-                                <div class="row">
-
-                                    <div class="col-md-3">
-                                        <label>Next Followup Date</label>
-                                        <input type="date" name="next_followup_date" class="form-control" required>
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Add Followup</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <label>Status</label>
-                                        <select name="status" class="form-control" required>
-                                            <option value="pending">Pending</option>
-                                            <option value="completed">Completed</option>
-                                            <option value="rescheduled">Rescheduled</option>
-                                        </select>
+                                    <div class="modal-body">
+                                        <div class="row">
+
+                                            <div class="col-md-4 mb-1">
+                                                <label>Next Followup Date</label>
+                                                <input type="date" name="next_followup_date" class="form-control"
+                                                    required>
+                                            </div>
+
+                                            <div class="col-md-4 mb-1">
+                                                <label>Status</label>
+                                                <select name="status" class="form-control">
+                                                    <option value="pending">Pending</option>
+                                                    <option value="completed">Completed</option>
+                                                    <option value="rescheduled">Rescheduled</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-12 mb-1">
+                                                <label>Remarks</label>
+                                                <textarea name="remarks" class="form-control" placeholder="Enter followup discussion" required></textarea>
+                                            </div>
+
+                                        </div>
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <label>Remarks</label>
-                                        <textarea name="remarks" class="form-control" required></textarea>
-                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                            Cancel
+                                        </button>
 
-                                    <div class="col-md-2 d-flex align-items-end">
-                                        <button type="submit" class="btn btn-primary w-100">
-                                            Save
+                                        <button type="submit" class="btn btn-primary">
+                                            Save Followup
                                         </button>
                                     </div>
 
-                                </div>
-                            </form>
+                                </form>
+
+                            </div>
                         </div>
                     </div>
                 @endif
@@ -195,8 +208,16 @@
 
                 {{-- ================= FOLLOWUP HISTORY ================= --}}
                 <div class="card mt-2">
-                    <div class="card-header bg-dark text-white">
+                    <div class="card-header">
                         <h5>Followup History</h5>
+
+                        @if (!in_array($enquiry->status, ['closed', 'converted_to_lead']))
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#addFollowupModal">
+                                Add Followup
+                            </button>
+                        @endif
+
                     </div>
 
                     <div class="card-body table-responsive">
