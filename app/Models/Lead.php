@@ -62,6 +62,11 @@ class Lead extends Model
         return $this->hasMany(SiteVisit::class);
     }
 
+    public function quotations()
+    {
+        return $this->hasMany(Quotation::class);
+    }
+
     public static $workflowStages = [
         'pending_lead',
         'site_visit',

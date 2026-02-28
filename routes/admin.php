@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\{
     HomeController,
     LeadController,
     LoginController,
+    QuotationController,
     RoleController,
 };
 use App\Http\Controllers\AirpotCsvController;
@@ -69,7 +70,7 @@ Route::middleware(['isAdmin'])
             Route::get('/verification', [LeadController::class, 'verification'])->name('verification');
             Route::get('/completed', [LeadController::class, 'completed'])->name('completed');
 
-            Route::get('/{id}/{stage}/move-stage', [LeadController::class,'moveStage'])->name('move_stage');
+            Route::get('/{id}/{stage}/move-stage', [LeadController::class, 'moveStage'])->name('move_stage');
 
             Route::post('/{lead}/visit', [LeadController::class, 'storeVisit'])
                 ->name('storeVisit');
@@ -77,6 +78,8 @@ Route::middleware(['isAdmin'])
                 ->name('updateVisit');
         });
 
+        Route::post('quotations/store/{id}', [QuotationController::class, 'store'])->name('quotations.store');
+        Route::delete('/quotations/{id}',[QuotationController::class, 'destroy'])->name('quotations.destroy');
 
         Route::resource('roles', RoleController::class);
         Route::resource('admin_users', AdminUserController::class);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Lead;
+use App\Models\Quotation;
 use App\Models\SiteVisit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -213,7 +214,10 @@ class LeadController extends Controller
     {
         $lead = Lead::with(['customer', 'assignedUser', 'creator'])
             ->findOrFail($id);
-        return view('admin.leads.show', compact('lead'));
+
+        $quotation = Quotation::with('items', 'lead')->where('lead_id', $id)
+            ->first();
+        return view('admin.leads.show', compact('lead', 'quotation'));
     }
 
     /*

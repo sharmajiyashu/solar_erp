@@ -42,16 +42,6 @@
                         </tr>
 
                         <tr>
-                            <th>Remarks</th>
-                            <td>{{ $lead->remarks ?? '-' }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Created By</th>
-                            <td>{{ $lead->creator->name ?? '-' }}</td>
-                        </tr>
-
-                        <tr>
                             <th>Change Stage</th>
                             <td>
                                 @if ($lead->stage != 'completed')
@@ -117,6 +107,12 @@
                                 </button>
                             </li>
 
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#quotationTab">
+                                    Quotation Management
+                                </button>
+                            </li>
+
                         </ul>
 
                     </div>
@@ -145,9 +141,11 @@
                                 @include('admin.leads.partials.visits')
                             </div>
 
-                            <div class="tab-pane fade" id="visitTab">
-                                @include('admin.leads.partials.visits')
+                            <div class="tab-pane fade" id="quotationTab">
+                                @include('admin.leads.partials.quotation')
                             </div>
+
+
 
                         </div>
 
