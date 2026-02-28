@@ -38,6 +38,81 @@
                 </li>
             @endcan
 
+            <li class="nav-item">
+
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather="briefcase"></i>
+                    <span class="menu-title text-truncate">Lead Management</span>
+                </a>
+
+                <ul class="menu-content">
+
+                    <li class="{{ Request::routeIs('admin.leads.pending') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.leads.pending') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Pending Leads</span>
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::routeIs('admin.leads.site_visit') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.leads.site_visit') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Site Visit</span>
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::routeIs('admin.leads.quotation') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.leads.quotation') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Quotation</span>
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::routeIs('admin.leads.bank') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.leads.bank') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Bank</span>
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::routeIs('admin.leads.discom') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.leads.discom') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Discom</span>
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::routeIs('admin.leads.dispatch') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.leads.dispatch') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Dispatch</span>
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::routeIs('admin.leads.installation') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.leads.installation') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Installation</span>
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::routeIs('admin.leads.verification') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.leads.verification') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Verification</span>
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::routeIs('admin.leads.completed') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.leads.completed') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Completed</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
 
             @can('roles_permissions view')
 
