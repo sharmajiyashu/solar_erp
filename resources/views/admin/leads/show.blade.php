@@ -113,6 +113,12 @@
                                 </button>
                             </li>
 
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#bankTab">
+                                    Bank Management
+                                </button>
+                            </li>
+
                         </ul>
 
                     </div>
@@ -143,6 +149,10 @@
 
                             <div class="tab-pane fade" id="quotationTab">
                                 @include('admin.leads.partials.quotation')
+                            </div>
+
+                             <div class="tab-pane fade" id="bankTab">
+                                @include('admin.leads.partials.bank')
                             </div>
 
 

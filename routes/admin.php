@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\{
     AdminUserController,
+    BankController,
     EnquiryController,
     HomeController,
     LeadController,
@@ -79,7 +80,22 @@ Route::middleware(['isAdmin'])
         });
 
         Route::post('quotations/store/{id}', [QuotationController::class, 'store'])->name('quotations.store');
-        Route::delete('/quotations/{id}',[QuotationController::class, 'destroy'])->name('quotations.destroy');
+        Route::delete('/quotations/{id}', [QuotationController::class, 'destroy'])->name('quotations.destroy');
+
+        Route::post('/leads/{lead}/bank-documents', [BankController::class, 'store'])
+            ->name('bank-documents.store');
+
+        Route::delete(
+            '/bank-documents/{id}',
+            [BankController::class, 'destroy']
+        )
+            ->name('bank-documents.destroy');
+
+        Route::post(
+            '/bank-documents/{id}/status',
+            [BankController::class, 'changeStatus']
+        )
+            ->name('bank-documents.status');
 
         Route::resource('roles', RoleController::class);
         Route::resource('admin_users', AdminUserController::class);

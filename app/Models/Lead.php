@@ -67,6 +67,12 @@ class Lead extends Model
         return $this->hasMany(Quotation::class);
     }
 
+    public function bankDocuments()
+    {
+        return $this->hasMany(BankDocument::class);
+    }
+
+
     public static $workflowStages = [
         'pending_lead',
         'site_visit',
