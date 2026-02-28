@@ -1,6 +1,19 @@
 @extends('admin.layouts.app')
 
 @section('content')
+
+    <style>
+        .Active {
+            color: green;
+            font-weight: 900;
+        }
+
+        .Inactive {
+            color: red;
+            font-weight: 900;
+        }
+    </style>
+
     <!-- BEGIN: Content-->
     <!-- BEGIN: Content-->
     <div class="app-content content ">
@@ -11,12 +24,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Agent</h2>
+                            <h2 class="content-header-title float-start mb-0">Role</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="{{ route('admin.agents.index') }}">Agents</a>
+                                    <li class="breadcrumb-item"><a href="{{ route('admin.roles.index') }}">Roles</a>
                                     </li>
                                     <li class="breadcrumb-item active">List
                                     </li>
@@ -26,12 +39,26 @@
                     </div>
                 </div>
 
+                @can('roles_permissions edit')
+                    <div class="col-md-3" style="text-align: end">
+                        <a href="{{ route('admin.roles.create') }}" class=" btn btn-primary btn-gradient round  ">Create</a>
+                    </div>
+                @endcan
 
-                <div class="col-md-3" style="text-align: end">
-                    <a href="{{ route('admin.agents.create') }}" class=" btn btn-primary btn-gradient round  ">Create</a>
-                </div>
             </div>
             <div class="content-body">
+
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <div class="alert-body">
+                                {{ $error }}
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endforeach
+                @endif
+
 
                 <!-- Ajax Sourced Server-side -->
                 <section id="ajax-datatable">
@@ -39,49 +66,39 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card card-company-table">
-                                <div class="card-header">
-                                    <h4 class="card-title"></h4>
-                                    <div class="col-md-3" style="text-align: end">
-                                        <input type="text" id="searchInput" class="form-control" placeholder="Search">
-                                    </div>
+                                {{-- <div class="card-header">
+                                <h4 class="card-title"></h4>
+                                <div class="col-md-3" style="text-align: end">
+                                    <input type="text" id="searchInput" class="form-control" placeholder="Search">
                                 </div>
+                            </div> --}}
                                 <div class="table-responsive" id="table-responsive">
                                     <table class="table mb-0">
                                         <thead class="table-dark">
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th>Name</th>
-                                                <th scope="col">Password</th>
-                                                <th>Created At</th>
+                                                <th scope="col">Role</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php  $i = ($agents->currentPage() - 1) * $agents->perPage() + 1; @endphp
-                                            @foreach ($agents as $item)
+                                            @php  $i = ($roles->currentPage() - 1) * $roles->perPage() + 1; @endphp
+                                            @foreach ($roles as $item)
                                                 <tr>
                                                     <td>{{ $i }}</td>
                                                     <td>
                                                         <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="{{ url('public/storage/' . $item->profile) }}"
-                                                                        width="50" height="50" alt="Toolbar svg" />
-                                                                </div>
-                                                            </div>
                                                             <div>
-                                                                <div class="fw-bolder"><a href="#">{{ $item->name }}
-                                                                    </a></div>
-                                                                <div class="font-small-2 text-muted">{{ $item->email }}
-                                                                </div>
-                                                                <div class="font-small-2 text-muted">{{ $item->mobile }}
+                                                                <div class="fw-bolder">
+                                                                    <a
+                                                                        href="{{ route('admin.roles.set_permissions', $item->id) }}">
+                                                                        {{ $item->name }}
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td>{{ $item->password_2 ?? '' }}</td>
-                                                    <td>{{ date('d-m-Y h:i a', strtotime($item->created_at)) }}</td>
-
+                                                    {{-- <td><a href="{{ route('admin.roles.set_permissions',$item->id) }}">Set Permissions</a></td> --}}
                                                     <td>
                                                         <div class="dropdown">
                                                             <button type="button"
@@ -90,27 +107,22 @@
                                                                 <i data-feather="more-vertical"></i>
                                                             </button>
                                                             <div class="dropdown-menu dropdown-menu-end">
-
                                                                 <a class="dropdown-item"
-                                                                    href="{{ route('admin.agents.edit', $item->id) }}">
+                                                                    href="{{ route('admin.roles.edit', $item->id) }}">
                                                                     <i data-feather="edit-2" class="me-50"></i>
                                                                     <span>Edit</span>
                                                                 </a>
 
-                                                                {{-- <a class="dropdown-item"
-                                                                    href="{{ route('admin.agents.show', $item->id) }}">
-                                                                    <i data-feather="eye" class="me-50"></i>
-                                                                    <span>View</span>
-                                                                </a> --}}
-
-
+                                                                {{-- <a class="dropdown-item" href="{{route('admin.roles.show',$item->id)}}">
+                                                                <i data-feather="eye" class="me-50"></i>
+                                                                <span>View</span>
+                                                            </a> --}}
                                                                 <a class="dropdown-item" href="#"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#danger_ke{{ $item->id }}">
                                                                     <i data-feather="trash" class="me-50"></i>
                                                                     <span>Delete</span>
                                                                 </a>
-
                                                             </div>
                                                         </div>
 
@@ -131,7 +143,7 @@
                                                                         Are you sure you want to delete !
                                                                     </div>
                                                                     <form
-                                                                        action="{{ route('admin.agents.destroy', $item->id) }}"
+                                                                        action="{{ route('admin.roles.destroy', $item->id) }}"
                                                                         method="POST">
                                                                         @csrf
                                                                         @method('delete')
@@ -152,9 +164,15 @@
 
                                         </tbody>
                                     </table>
-                                    @include('admin._pagination', ['data' => $agents])
+                                    @include('admin._pagination', ['data' => $roles])
                                 </div>
 
+                                {{-- <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <!-- ... (your table structure) ... -->
+                                </table>
+                                {{ $roles->links('admin._pagination') }}
+                            </div> --}}
                             </div>
                         </div>
                     </div>
@@ -198,7 +216,7 @@
 
         function changeStatus(id) {
             $.ajax({
-                url: "",
+                url: "{{ route('admin.roles.index') }}",
                 method: 'GET',
                 data: {
                     change_status: id
@@ -216,29 +234,6 @@
                 }
             });
         }
-
-        function copyToClipboard(text) {
-            // Get the text content of the element
-            // const text = document.getElementById(elementId).textContent;
-
-            // Use the Clipboard API to copy the text
-            navigator.clipboard.writeText(text)
-                .then(() => {
-
-                    Toastify({
-                        text: `Code copied to clipboard!`,
-                        className: "success",
-                        style: {
-                            background: "linear-gradient(to right, #00b09b, #96c93d)",
-                        }
-                    }).showToast();
-
-
-                    // alert('Text copied to clipboard!');
-                })
-                .catch(err => {
-                    console.error('Failed to copy text: ', err);
-                });
-        }
     </script>
+
 @endsection

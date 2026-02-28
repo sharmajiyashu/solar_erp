@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\{
+    AdminUserController,
     HomeController,
     LoginController,
+    RoleController,
 };
 use App\Http\Controllers\AirpotCsvController;
 use Illuminate\Support\Facades\Route;
@@ -26,5 +28,10 @@ Route::controller(LoginController::class)->group(function () {
 */
 Route::middleware(['isAdmin'])
     ->group(function () {
+
+        Route::resource('roles', RoleController::class);
+        Route::resource('admin_users', AdminUserController::class);
+        Route::get('set_permissions/{id}', [RoleController::class, 'setPermission'])->name('roles.set_permissions');
+        Route::post('roles-set-update_permission', [RoleController::class, 'updatePermission'])->name('roles.update_permission');
         Route::get('/', [HomeController::class, 'index'])->name('dashboard');
     });

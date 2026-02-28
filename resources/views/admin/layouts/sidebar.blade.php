@@ -29,80 +29,40 @@
                 </a>
             </li>
 
-            <li class="nav-item {{ \Str::is('admin.quotes*', request()->route()->getName()) ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('admin.quotes.index') }}">
-                    <i data-feather="file-text"></i>
-                    <span class="menu-title text-truncate">Quote Management</span>
-                </a>
-            </li>
 
-            <li class="nav-item {{ \Str::is('admin.trips*', request()->route()->getName()) ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('admin.trips.index') }}">
-                    <i data-feather="map"></i> {{-- Use map icon for trips --}}
-                    <span class="menu-title text-truncate">Trips</span>
-                </a>
-            </li>
+            @can('roles_permissions view')
 
+                <li class=" nav-item ">
 
-            <li class="nav-item {{ \Str::is('admin.clients*', request()->route()->getName()) ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('admin.clients.index') }}">
-                    <i data-feather="users"></i>
-                    <span class="menu-title text-truncate">Client Management</span>
-                </a>
-            </li>
-
-
-            @if (auth()->user() && auth()->user()->role == 'admin')
-                <li class="nav-item {{ \Str::is('admin.agents*', request()->route()->getName()) ? 'active' : '' }}">
-                    <a class="d-flex align-items-center" href="{{ route('admin.agents.index') }}">
-                        <i data-feather="user-check"></i>
-                        <span class="menu-title text-truncate">Agent Management</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#">
-                        <i data-feather="layers"></i>
-                        <span class="menu-title text-truncate">Attributes</span>
+                    <a class="d-flex align-items-center" href="#"> <i data-feather="shield"></i><span
+                            class="menu-title text-truncate" data-i18n="Invoice">Role & Permissions</span>
                     </a>
 
                     <ul class="menu-content">
-                        <li
-                            class="nav-item {{ \Str::is('admin.airplanes*', request()->route()->getName()) ? 'active' : '' }}">
-                            <a class="d-flex align-items-center" href="{{ route('admin.airplanes.index') }}">
-                                <i data-feather="airplay"></i>
-                                <span class="menu-title text-truncate">Airplane</span>
-                            </a>
-                        </li>
 
-                        <li
-                            class="nav-item {{ \Str::is('admin.airpots*', request()->route()->getName()) ? 'active' : '' }}">
-                            <a class="d-flex align-items-center" href="{{ route('admin.airpots.index') }}">
-                                <i data-feather="map-pin"></i>
-                                <span class="menu-title text-truncate">Airport</span>
-                            </a>
-                        </li>
+                        @can('roles_permissions view')
+                            <li
+                                class="nav-item {{ Request::routeIs('admin.roles.index', 'admin.roles.create', 'admin.roles.edit', 'admin.roles.show', 'admin.roles.set_permissions') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('admin.roles.index') }}"><i
+                                        data-feather="circle"></i><span class="menu-title text-truncate"
+                                        data-i18n="File Manager">Role</span></a>
+                            </li>
+                        @endcan
+
+
+                        @can('users view')
+                            <li
+                                class="nav-item {{ Request::routeIs('admin.admin_users.index', 'admin.admin_users.create', 'admin.admin_users.edit', 'admin.admin_users.show', 'admin.admin_users.set_permissions') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('admin.admin_users.index') }}"><i
+                                        data-feather="circle"></i><span class="menu-title text-truncate"
+                                        data-i18n="File Manager">Admin User</span></a>
+                            </li>
+                        @endcan
+
                     </ul>
                 </li>
 
-                <li class="nav-item {{ \Str::is('admin.logs*', request()->route()->getName()) ? 'active' : '' }}">
-                    <a class="d-flex align-items-center" href="{{ route('admin.logs.index') }}">
-                        <i data-feather="activity"></i>
-                        <span class="menu-title text-truncate">Logs</span>
-                    </a>
-                </li>
-            @endif
-
-
-
-
-
-            <li class="nav-item {{ \Str::is('admin.notifications*', request()->route()->getName()) ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('admin.notifications.index') }}">
-                    <i data-feather="bell"></i>
-                    <span class="menu-title text-truncate">Notification</span>
-                </a>
-            </li>
+            @endcan
 
 
 

@@ -40,7 +40,7 @@
                     </div>
                 </div>
 
-                @can('admin_users edit')
+                @can('users edit')
                     <div class="col-md-3" style="text-align: end">
                         <a href="{{ route('admin.admin_users.create') }}"
                             class=" btn btn-primary btn-gradient round  ">Create</a>

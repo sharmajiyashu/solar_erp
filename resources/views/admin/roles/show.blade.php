@@ -108,7 +108,7 @@
                                         <label class="form-label" for="accountAddress">City</label>
                                         <input type="text" class="form-control" id="accountAddress" name="address" placeholder="Your Address" value="{{ $employee->city }}" />
                                     </div>
-                                    
+
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary mt-1 me-1">Save changes</button>
                                         <button type="reset" class="btn btn-outline-secondary mt-1">Discard</button>

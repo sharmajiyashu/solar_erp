@@ -24,12 +24,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Permission</h2>
+                            <h2 class="content-header-title float-start mb-0">Role</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="{{ route('admin.permissions.index') }}">Permissions</a>
+                                    <li class="breadcrumb-item"><a href="{{ route('admin.roles.index') }}">Roles</a>
                                     </li>
                                     <li class="breadcrumb-item active">Create
                                     </li>
@@ -61,20 +61,20 @@
                                     {{-- <h4 class="card-title">Create</h4> --}}
                                 </div>
                                 <div class="card-body">
-                                    <form class="form" action="{{ route('admin.permissions.store') }}" method="POST" enctype="multipart/form-data">
+                                    <form class="form" action="{{ route('admin.roles.store') }}" method="POST" enctype="multipart/form-data">
                                     {{ csrf_field() }}
-                                    
+
                                         <div class="row">
-                                            
+
 
                                             <div class="col-md-8 col-12">
                                                 <div class="mb-1">
-                                                    <label class="form-label" for="first-name-column">Module Name <span class="error"></span></label>
-                                                    <input type="text" id="first-name-column" name="name" class="form-control" placeholder="Permission Name"  value="{{ old('name') }}" />
+                                                    <label class="form-label" for="first-name-column">Name <span class="error"></span></label>
+                                                    <input type="text" id="first-name-column" name="name" class="form-control" placeholder="Role Name"  value="{{ old('name') }}" />
                                                     @error('name')<span class="error">{{ $message }}</span>@enderror
                                                 </div>
                                             </div>
-                                            
+
 
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-primary me-1">Submit</button>
@@ -93,5 +93,5 @@
         </div>
     </div>
     <!-- END: Content-->
-    
+
 @endsection
