@@ -45,65 +45,88 @@
                     <span class="menu-title text-truncate">Lead Management</span>
                 </a>
 
+                @php
+                    $stageMenuMap = [
+                        'pending_lead' => 'pending_lead',
+                        'site_visit' => 'site_visit',
+                        'quotation' => 'quotation',
+                        'bank' => 'bank',
+                        'discom' => 'discom',
+                        'dispatch' => 'dispatch',
+                        'installation' => 'installation',
+                        'verification' => 'verification',
+                        'completed' => 'completed',
+                    ];
+                @endphp
+
                 <ul class="menu-content">
 
-                    <li class="{{ Request::routeIs('admin.leads.pending') ? 'active' : '' }}">
+                    <li
+                        class="{{ Request::routeIs('admin.leads.pending') || ($activeStage ?? '') == 'pending_lead' ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.leads.pending') }}">
                             <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate">Pending Leads</span>
+                            <span class="menu-item">Pending Leads</span>
                         </a>
                     </li>
 
-                    <li class="{{ Request::routeIs('admin.leads.site_visit') ? 'active' : '' }}">
+                    <li
+                        class="{{ Request::routeIs('admin.leads.site_visit') || ($activeStage ?? '') == 'site_visit' ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.leads.site_visit') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Site Visit</span>
                         </a>
                     </li>
 
-                    <li class="{{ Request::routeIs('admin.leads.quotation') ? 'active' : '' }}">
+                    <li
+                        class="{{ Request::routeIs('admin.leads.quotation') || ($activeStage ?? '') == 'quotation' ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.leads.quotation') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Quotation</span>
                         </a>
                     </li>
 
-                    <li class="{{ Request::routeIs('admin.leads.bank') ? 'active' : '' }}">
+                    <li
+                        class="{{ Request::routeIs('admin.leads.bank') || ($activeStage ?? '') == 'bank' ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.leads.bank') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Bank</span>
                         </a>
                     </li>
 
-                    <li class="{{ Request::routeIs('admin.leads.discom') ? 'active' : '' }}">
+                    <li
+                        class="{{ Request::routeIs('admin.leads.discom') || ($activeStage ?? '') == 'discom' ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.leads.discom') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Discom</span>
                         </a>
                     </li>
 
-                    <li class="{{ Request::routeIs('admin.leads.dispatch') ? 'active' : '' }}">
+                    <li
+                        class="{{ Request::routeIs('admin.leads.dispatch') || ($activeStage ?? '') == 'dispatch' ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.leads.dispatch') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Dispatch</span>
                         </a>
                     </li>
 
-                    <li class="{{ Request::routeIs('admin.leads.installation') ? 'active' : '' }}">
+                    <li
+                        class="{{ Request::routeIs('admin.leads.installation') || ($activeStage ?? '') == 'installation' ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.leads.installation') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Installation</span>
                         </a>
                     </li>
 
-                    <li class="{{ Request::routeIs('admin.leads.verification') ? 'active' : '' }}">
+                    <li
+                        class="{{ Request::routeIs('admin.leads.verification') || ($activeStage ?? '') == 'verification' ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.leads.verification') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Verification</span>
                         </a>
                     </li>
 
-                    <li class="{{ Request::routeIs('admin.leads.completed') ? 'active' : '' }}">
+                    <li
+                        class="{{ Request::routeIs('admin.leads.completed') || ($activeStage ?? '') == 'completed' ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.leads.completed') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Completed</span>

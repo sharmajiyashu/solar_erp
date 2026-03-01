@@ -217,7 +217,9 @@ class LeadController extends Controller
 
         $quotation = Quotation::with('items', 'lead')->where('lead_id', $id)
             ->first();
-        return view('admin.leads.show', compact('lead', 'quotation'));
+
+        $activeStage = $lead->stage;
+        return view('admin.leads.show', compact('lead', 'quotation','activeStage'));
     }
 
     /*
