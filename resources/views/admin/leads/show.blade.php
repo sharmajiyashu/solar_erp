@@ -125,6 +125,12 @@
                                 </button>
                             </li>
 
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#installationTab">
+                                    Installation Management
+                                </button>
+                            </li>
+
                         </ul>
 
                     </div>
@@ -163,6 +169,10 @@
 
                             <div class="tab-pane fade" id="dispatchDetailTab">
                                 @include('admin.leads.partials.dispatchDetail')
+                            </div>
+
+                            <div class="tab-pane fade" id="installationTab">
+                                @include('admin.leads.partials.installation')
                             </div>
 
 

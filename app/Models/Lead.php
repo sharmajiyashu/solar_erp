@@ -77,6 +77,11 @@ class Lead extends Model
         return $this->hasOne(DispatchDetail::class);
     }
 
+    public function installation()
+    {
+        return $this->hasOne(Installation::class);
+    }
+
 
     public static $workflowStages = [
         'pending_lead',

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\{
     DispatchDetailController,
     EnquiryController,
     HomeController,
+    InstallationController,
     LeadController,
     LoginController,
     QuotationController,
@@ -103,6 +104,12 @@ Route::middleware(['isAdmin'])
             [DispatchDetailController::class, 'storeOrUpdate']
         )
             ->name('dispatch.store');
+
+        Route::post(
+            '/installation/store/{lead}',
+            [InstallationController::class, 'store']
+        )
+            ->name('installation.store');
 
         Route::resource('roles', RoleController::class);
         Route::resource('admin_users', AdminUserController::class);
