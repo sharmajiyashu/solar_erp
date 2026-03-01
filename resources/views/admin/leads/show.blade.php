@@ -119,6 +119,12 @@
                                 </button>
                             </li>
 
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#dispatchDetailTab">
+                                    Dispatch Management
+                                </button>
+                            </li>
+
                         </ul>
 
                     </div>
@@ -153,6 +159,10 @@
 
                              <div class="tab-pane fade" id="bankTab">
                                 @include('admin.leads.partials.bank')
+                            </div>
+
+                            <div class="tab-pane fade" id="dispatchDetailTab">
+                                @include('admin.leads.partials.dispatchDetail')
                             </div>
 
 

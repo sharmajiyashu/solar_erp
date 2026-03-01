@@ -1,0 +1,79 @@
+<form action="{{ route('admin.dispatch.store', $lead->id) }}" method="POST">
+    @csrf
+
+    <div class="modal-body">
+
+        <div class="row">
+
+            <!-- Transporter Name -->
+            <div class="col-md-6 mb-1">
+                <label>Transporter Name</label>
+                <input type="text" name="transporter_name" placeholder="Enter transporter name"
+                    value="{{ $lead->dispatchDetail->transporter_name ?? '' }}" class="form-control">
+            </div>
+
+            <!-- Vehicle Number -->
+            <div class="col-md-6 mb-1">
+                <label>Vehicle Number</label>
+                <input type="text" name="vehicle_number" placeholder="Enter vehicle number"
+                    value="{{ $lead->dispatchDetail->vehicle_number ?? '' }}" class="form-control">
+            </div>
+
+            <!-- Driver Contact -->
+            <div class="col-md-6 mb-1">
+                <label>Driver Contact</label>
+                <input type="text" name="driver_contact" placeholder="Enter driver contact number"
+                    value="{{ $lead->dispatchDetail->driver_contact ?? '' }}" class="form-control">
+            </div>
+
+            <!-- Dispatch Date -->
+            <div class="col-md-6 mb-1">
+                <label>Dispatch Date</label>
+                <input type="date" name="dispatch_date" value="{{ $lead->dispatchDetail->dispatch_date ?? '' }}"
+                    class="form-control">
+            </div>
+
+            <!-- Status -->
+            <div class="col-md-6 mb-1">
+                <label>Status</label>
+
+                <select name="status" class="form-control">
+
+                    <option value="packed" {{ optional($lead->dispatchDetail)->status == 'packed' ? 'selected' : '' }}>
+                        Packed
+                    </option>
+
+                    <option value="dispatched"
+                        {{ optional($lead->dispatchDetail)->status == 'dispatched' ? 'selected' : '' }}>
+                        Dispatched
+                    </option>
+
+                    <option value="delivered"
+                        {{ optional($lead->dispatchDetail)->status == 'delivered' ? 'selected' : '' }}>
+                        Delivered
+                    </option>
+
+                    <option value="cancelled"
+                        {{ optional($lead->dispatchDetail)->status == 'cancelled' ? 'selected' : '' }}>
+                        Cancelled
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+        </button>
+
+        <button class="btn btn-success">
+            Save Dispatch Details
+        </button>
+    </div>
+
+</form>

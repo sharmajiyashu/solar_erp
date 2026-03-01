@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\{
     AdminUserController,
     BankController,
+    DispatchDetailController,
     EnquiryController,
     HomeController,
     LeadController,
@@ -96,6 +97,12 @@ Route::middleware(['isAdmin'])
             [BankController::class, 'changeStatus']
         )
             ->name('bank-documents.status');
+
+        Route::post(
+            '/dispatch-details/{lead}',
+            [DispatchDetailController::class, 'storeOrUpdate']
+        )
+            ->name('dispatch.store');
 
         Route::resource('roles', RoleController::class);
         Route::resource('admin_users', AdminUserController::class);

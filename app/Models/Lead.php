@@ -72,6 +72,11 @@ class Lead extends Model
         return $this->hasMany(BankDocument::class);
     }
 
+    public function dispatchDetail()
+    {
+        return $this->hasOne(DispatchDetail::class);
+    }
+
 
     public static $workflowStages = [
         'pending_lead',
