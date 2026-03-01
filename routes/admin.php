@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\{
     LoginController,
     QuotationController,
     RoleController,
+    VerificationController,
 };
 use App\Http\Controllers\AirpotCsvController;
 use Illuminate\Support\Facades\Route;
@@ -110,6 +111,12 @@ Route::middleware(['isAdmin'])
             [InstallationController::class, 'store']
         )
             ->name('installation.store');
+
+        Route::post(
+            '/verification/store/{lead}',
+            [VerificationController::class, 'store']
+        )
+            ->name('verification.store');
 
         Route::resource('roles', RoleController::class);
         Route::resource('admin_users', AdminUserController::class);

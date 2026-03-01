@@ -78,22 +78,38 @@
 
                     </table>
 
+                    @php
+                        $stageTabMap = [
+                            'pending_lead' => 'projectStage',
+                            'site_visit' => 'visitTab',
+                            'quotation' => 'quotationTab',
+                            'bank' => 'bankTab',
+                            'dispatch' => 'dispatchDetailTab',
+                            'installation' => 'installationTab',
+                            'verification' => 'verificationTab',
+                            'completed' => 'projectStage',
+                        ];
+
+                        $activeTab = $stageTabMap[$lead->stage] ?? 'projectStage';
+                    @endphp
+
 
 
                     <div class="card-header">
                         <ul class="nav nav-tabs" id="leadTabs">
 
                             <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#projectStage">
+                                <button class="nav-link {{ $activeTab == 'projectStage' ? 'active' : '' }}"
+                                    data-bs-toggle="tab" data-bs-target="#projectStage">
                                     Stage
                                 </button>
                             </li>
 
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#customerTab">
                                     Customer Details
                                 </button>
-                            </li>
+                            </li> --}}
 
                             <li class="nav-item">
                                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#leadTab">
@@ -102,32 +118,44 @@
                             </li>
 
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#visitTab">
+                                <button class="nav-link {{ $activeTab == 'visitTab' ? 'active' : '' }}" data-bs-toggle="tab"
+                                    data-bs-target="#visitTab">
                                     Visit Management
                                 </button>
                             </li>
 
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#quotationTab">
+                                <button class="nav-link {{ $activeTab == 'quotationTab' ? 'active' : '' }}"
+                                    data-bs-toggle="tab" data-bs-target="#quotationTab">
                                     Quotation Management
                                 </button>
                             </li>
 
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#bankTab">
+                                <button class="nav-link {{ $activeTab == 'bankTab' ? 'active' : '' }}" data-bs-toggle="tab"
+                                    data-bs-target="#bankTab">
                                     Bank Management
                                 </button>
                             </li>
 
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#dispatchDetailTab">
+                                <button class="nav-link {{ $activeTab == 'dispatchDetailTab' ? 'active' : '' }}"
+                                    data-bs-toggle="tab" data-bs-target="#dispatchDetailTab">
                                     Dispatch Management
                                 </button>
                             </li>
 
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#installationTab">
+                                <button class="nav-link {{ $activeTab == 'installationTab' ? 'active' : '' }}"
+                                    data-bs-toggle="tab" data-bs-target="#installationTab">
                                     Installation Management
+                                </button>
+                            </li>
+
+                            <li class="nav-item">
+                                <button class="nav-link {{ $activeTab == 'verificationTab' ? 'active' : '' }}"
+                                    data-bs-toggle="tab" data-bs-target="#verificationTab">
+                                    Verification Management
                                 </button>
                             </li>
 
@@ -145,13 +173,14 @@
                             </div>
 
                             {{-- ================= CUSTOMER TAB ================= --}}
-                            <div class="tab-pane fade show" id="customerTab">
+                            {{-- <div class="tab-pane fade show" id="customerTab">
                                 @include('admin.leads.partials.customer')
-                            </div>
+                            </div> --}}
 
                             {{-- ================= LEAD TAB ================= --}}
                             <div class="tab-pane fade" id="leadTab">
                                 @include('admin.leads.partials.lead')
+                                @include('admin.leads.partials.customer')
                             </div>
 
                             {{-- ================= VISIT TAB ================= --}}
@@ -163,7 +192,7 @@
                                 @include('admin.leads.partials.quotation')
                             </div>
 
-                             <div class="tab-pane fade" id="bankTab">
+                            <div class="tab-pane fade" id="bankTab">
                                 @include('admin.leads.partials.bank')
                             </div>
 
@@ -173,6 +202,10 @@
 
                             <div class="tab-pane fade" id="installationTab">
                                 @include('admin.leads.partials.installation')
+                            </div>
+
+                            <div class="tab-pane fade" id="verificationTab">
+                                @include('admin.leads.partials.verification')
                             </div>
 
 

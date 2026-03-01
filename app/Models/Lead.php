@@ -82,6 +82,10 @@ class Lead extends Model
         return $this->hasOne(Installation::class);
     }
 
+    public function verificationReport()
+    {
+        return $this->hasOne(VerificationReport::class);
+    }
 
     public static $workflowStages = [
         'pending_lead',
