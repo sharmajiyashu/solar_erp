@@ -5,6 +5,8 @@ return [
     'enquiries' => [
         'create',
         'view',
+        'get-own',
+        'get-all',
         'edit',
         'delete',
         'follow_up',

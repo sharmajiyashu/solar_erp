@@ -44,7 +44,7 @@
                                                 <h4 class="mb-2 text-primary">Customer Details</h4>
                                             </div>
 
-                                            <div class="col-md-6 mb-1">
+                                            <div class="col-md-4 mb-1">
                                                 <label>Customer Name</label>
                                                 <input type="text" name="customer_name" class="form-control"
                                                     placeholder="Enter customer name"
@@ -54,7 +54,7 @@
                                                     id="customer_name-submit_errors"></span>
                                             </div>
 
-                                            <div class="col-md-6 mb-1">
+                                            <div class="col-md-4 mb-1">
                                                 <label>Customer Phone</label>
                                                 <input type="text" name="customer_phone" class="form-control"
                                                     placeholder="Enter mobile number"
@@ -64,7 +64,7 @@
                                                     id="customer_phone-submit_errors"></span>
                                             </div>
 
-                                            <div class="col-md-6 mb-1">
+                                            <div class="col-md-4 mb-1">
                                                 <label>Customer Email</label>
                                                 <input type="email" name="customer_email" class="form-control"
                                                     placeholder="Enter email"
@@ -104,7 +104,7 @@
                                                 <h4 class="mb-2 text-primary">Lead Details</h4>
                                             </div>
 
-                                            <div class="col-md-6 mb-1">
+                                            {{-- <div class="col-md-3 mb-1">
                                                 <label>Lead Status</label>
                                                 <select name="status" class="form-control">
 
@@ -127,14 +127,19 @@
                                                 </select>
 
                                                 <span class="text-danger validation-class" id="status-submit_errors"></span>
+                                            </div> --}}
+
+                                            <div class="col-md-3 mb-2">
+                                                <label>Visit Date</label>
+                                                <input type="date" name="visit_date" class="form-control">
+                                                <span class="text-danger validation-class"
+                                                    id="visit_date-submit_errors"></span>
                                             </div>
 
-                                            <div class="col-md-6 mb-1">
-                                                <label>Assign To</label>
+                                            <div class="col-md-3 mb-1">
+                                                <label>Visit Assign To</label>
                                                 <select name="assigned_to" class="form-control">
-
                                                     <option value="">Select User</option>
-
                                                     @foreach (\App\Models\User::all() as $user)
                                                         <option value="{{ $user->id }}"
                                                             {{ old('assigned_to', $lead->assigned_to ?? '') == $user->id ? 'selected' : '' }}>
@@ -143,6 +148,8 @@
                                                     @endforeach
 
                                                 </select>
+                                                <span class="text-danger validation-class"
+                                                    id="assigned_to-submit_errors"></span>
                                             </div>
 
                                             <div class="col-12 mb-1">
@@ -152,6 +159,8 @@
                                                 <span class="text-danger validation-class"
                                                     id="remarks-submit_errors"></span>
                                             </div>
+
+
 
                                             <div class="col-12 mt-2">
                                                 <button type="submit" class="btn btn-primary">
@@ -190,8 +199,7 @@
                     processData: false,
                     contentType: false,
                     success: function(res) {
-
-                        // window.location.href = "{{ route('admin.leads.pending') }}";
+                        window.location.href = res;
                     },
                     error: function(res) {
                         if (res.status === 422) {

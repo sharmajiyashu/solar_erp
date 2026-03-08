@@ -143,7 +143,6 @@
                                                                 @if ($item->stage != 'completed')
                                                                     @php
                                                                         $stages = [
-                                                                            'pending_lead',
                                                                             'site_visit',
                                                                             'quotation',
                                                                             'bank',

@@ -47,7 +47,6 @@
                                 @if ($lead->stage != 'completed')
                                     @php
                                         $stages = [
-                                            'pending_lead',
                                             'site_visit',
                                             'quotation',
                                             'bank',
@@ -80,7 +79,6 @@
 
                     @php
                         $stageTabMap = [
-                            'pending_lead' => 'projectStage',
                             'site_visit' => 'visitTab',
                             'quotation' => 'quotationTab',
                             'bank' => 'bankTab',
@@ -93,8 +91,6 @@
                         $activeTab = $stageTabMap[$lead->stage] ?? 'projectStage';
                     @endphp
 
-
-
                     <div class="card-header">
                         <ul class="nav nav-tabs" id="leadTabs">
 
@@ -105,14 +101,9 @@
                                 </button>
                             </li>
 
-                            {{-- <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#customerTab">
-                                    Customer Details
-                                </button>
-                            </li> --}}
-
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#leadTab">
+                                <button class="nav-link {{ $activeTab == 'leadTab' ? 'active' : '' }}" data-bs-toggle="tab"
+                                    data-bs-target="#leadTab">
                                     Lead Details
                                 </button>
                             </li>
@@ -160,55 +151,49 @@
                             </li>
 
                         </ul>
-
                     </div>
 
                     <div class="card-body">
 
                         <div class="tab-content">
 
-
-                            <div class="tab-pane fade show active" id="projectStage">
+                            <div class="tab-pane fade {{ $activeTab == 'projectStage' ? 'show active' : '' }}"
+                                id="projectStage">
                                 @include('admin.leads.partials.projectStage')
                             </div>
 
-                            {{-- ================= CUSTOMER TAB ================= --}}
-                            {{-- <div class="tab-pane fade show" id="customerTab">
-                                @include('admin.leads.partials.customer')
-                            </div> --}}
-
-                            {{-- ================= LEAD TAB ================= --}}
-                            <div class="tab-pane fade" id="leadTab">
+                            <div class="tab-pane fade {{ $activeTab == 'leadTab' ? 'show active' : '' }}" id="leadTab">
                                 @include('admin.leads.partials.lead')
                                 @include('admin.leads.partials.customer')
                             </div>
 
-                            {{-- ================= VISIT TAB ================= --}}
-                            <div class="tab-pane fade" id="visitTab">
+                            <div class="tab-pane fade {{ $activeTab == 'visitTab' ? 'show active' : '' }}" id="visitTab">
                                 @include('admin.leads.partials.visits')
                             </div>
 
-                            <div class="tab-pane fade" id="quotationTab">
+                            <div class="tab-pane fade {{ $activeTab == 'quotationTab' ? 'show active' : '' }}"
+                                id="quotationTab">
                                 @include('admin.leads.partials.quotation')
                             </div>
 
-                            <div class="tab-pane fade" id="bankTab">
+                            <div class="tab-pane fade {{ $activeTab == 'bankTab' ? 'show active' : '' }}" id="bankTab">
                                 @include('admin.leads.partials.bank')
                             </div>
 
-                            <div class="tab-pane fade" id="dispatchDetailTab">
+                            <div class="tab-pane fade {{ $activeTab == 'dispatchDetailTab' ? 'show active' : '' }}"
+                                id="dispatchDetailTab">
                                 @include('admin.leads.partials.dispatchDetail')
                             </div>
 
-                            <div class="tab-pane fade" id="installationTab">
+                            <div class="tab-pane fade {{ $activeTab == 'installationTab' ? 'show active' : '' }}"
+                                id="installationTab">
                                 @include('admin.leads.partials.installation')
                             </div>
 
-                            <div class="tab-pane fade" id="verificationTab">
+                            <div class="tab-pane fade {{ $activeTab == 'verificationTab' ? 'show active' : '' }}"
+                                id="verificationTab">
                                 @include('admin.leads.partials.verification')
                             </div>
-
-
 
                         </div>
 

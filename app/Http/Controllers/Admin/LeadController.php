@@ -39,8 +39,8 @@ class LeadController extends Controller
 
             // Lead Details
             'assigned_to' => 'required|exists:users,id',
+            'visit_date' => 'required',
             'remarks'     => 'required|string',
-            'status'      => 'required|in:pending,in_progress,completed,cancelled'
 
         ]);
 
@@ -75,10 +75,6 @@ class LeadController extends Controller
             $leadNo = 'LD-' . now()->format('Ymd') . '-' . rand(1000, 9999);
 
             $projectStages = [
-                'pending_lead' => [
-                    'status' => 'pending',
-                    'completed_at' => null
-                ],
                 'site_visit' => [
                     'status' => 'pending',
                     'completed_at' => null
@@ -113,24 +109,30 @@ class LeadController extends Controller
                 ],
             ];
 
-            Lead::create([
+            $lead =   Lead::create([
                 'lead_no' => $leadNo,
                 'customer_id' => $customer->id,
                 'assigned_to' => $request->assigned_to,
-                'stage' => 'pending_lead',
-                'status' => $request->status ?? 'in_progress',
+                'stage' => 'site_visit',
+                'status' => 'pending',
                 'project_stages' => $projectStages,
                 'remarks' => $request->remarks,
                 'created_by' => Auth::id(),
             ]);
 
+            SiteVisit::create([
+                'lead_id' => $lead->id,
+                'user_id' => $request->assigned_to,
+                'visit_date' => $request->visit_date,
+                'status' => 'pending',
+                'notes' => $request->remarks
+            ]);
+
+
             DB::commit();
+            session()->flash('success', 'Lead Create Successfully');
 
-            // return redirect()
-            //     ->route('admin.leads.index')
-            //     ->with('success', 'Lead Created Successfully');
-
-
+            return route('admin.leads.show', $lead->id);
         } catch (\Exception $e) {
 
             DB::rollBack();
@@ -219,7 +221,7 @@ class LeadController extends Controller
             ->first();
 
         $activeStage = $lead->stage;
-        return view('admin.leads.show', compact('lead', 'quotation','activeStage'));
+        return view('admin.leads.show', compact('lead', 'quotation', 'activeStage'));
     }
 
     /*
@@ -254,7 +256,7 @@ class LeadController extends Controller
             'user_id' => 'required|exists:users,id',
             'visit_date' => 'required|date',
             'status' => 'required',
-            'notes' => 'nullable|string'
+            'notes' => 'nullable|string',
         ]);
 
         SiteVisit::create([

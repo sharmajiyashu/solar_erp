@@ -16,6 +16,11 @@ class EnquiryController extends Controller
         $change_status = $request->input('change_status');
 
         $enquiries = Enquiry::with('creator')
+
+            ->when(!Auth::user()->can('enquiries get-all'), function ($query) {
+                $query->where('created_by', Auth::id());
+            })
+
             ->when($query_search, function ($query) use ($query_search) {
                 $query->where(function ($q) use ($query_search) {
                     $q->where('customer_name', 'like', '%' . $query_search . '%')
@@ -23,9 +28,11 @@ class EnquiryController extends Controller
                         ->orWhere('enquiry_no', 'like', '%' . $query_search . '%');
                 });
             })
+
             ->when($change_status !== null, function ($query) use ($change_status) {
                 $query->where('status', $change_status);
             })
+
             ->latest()
             ->paginate(10);
 

@@ -61,11 +61,10 @@
 
                 <ul class="menu-content">
 
-                    <li
-                        class="{{ Request::routeIs('admin.leads.pending') || ($activeStage ?? '') == 'pending_lead' ? 'active' : '' }}">
-                        <a class="d-flex align-items-center" href="{{ route('admin.leads.pending') }}">
+                    <li class="{{ Request::routeIs('admin.leads.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.leads.create') }}">
                             <i data-feather="circle"></i>
-                            <span class="menu-item">Pending Leads</span>
+                            <span class="menu-item">Create Leads</span>
                         </a>
                     </li>
 

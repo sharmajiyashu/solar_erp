@@ -88,7 +88,6 @@ class Lead extends Model
     }
 
     public static $workflowStages = [
-        'pending_lead',
         'site_visit',
         'quotation',
         'bank',

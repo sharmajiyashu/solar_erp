@@ -67,7 +67,9 @@
                                         <thead class="table-dark">
                                             <tr>
                                                 <th>#</th>
-                                                <th>Customer</th>
+                                                @can('enquiries get-all')
+                                                    <th>Customer</th>
+                                                @endcan
                                                 <th>Status</th>
                                                 <th>Next Followup</th>
                                                 <th>Created By</th>
@@ -84,17 +86,19 @@
                                                 <tr>
                                                     <td>{{ $i }}</td>
 
-                                                    <td>
-                                                        <div class="fw-bolder">
-                                                            {{ $item->customer_name }}
-                                                        </div>
-                                                        <div class="text-muted">
-                                                            {{ $item->mobile }}
-                                                        </div>
-                                                        <div class="text-muted">
-                                                            {{ $item->enquiry_no }}
-                                                        </div>
-                                                    </td>
+                                                    @can('enquiries get-all')
+                                                        <td>
+                                                            <div class="fw-bolder">
+                                                                {{ $item->customer_name }}
+                                                            </div>
+                                                            <div class="text-muted">
+                                                                {{ $item->mobile }}
+                                                            </div>
+                                                            <div class="text-muted">
+                                                                {{ $item->enquiry_no }}
+                                                            </div>
+                                                        </td>
+                                                    @endcan
 
                                                     {{-- STATUS --}}
                                                     <td>
