@@ -82,7 +82,7 @@
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Email</th>
                                                 <th>Role Name</th>
-                                                <th scope="col">Password</th>
+                                                <th scope="col">Attendance</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -100,7 +100,7 @@
                                                     </td>
                                                     <td>{{ $item->email }}</td>
                                                     <td>{{ $item->role_name }}</td>
-                                                    <td>{{ $item->password_2 ?? '' }}</td>
+                                                    <td><a href="{{ route('admin.admin_users.show',$item->id) }}" class="btn btn-dark">Show</a></td>
                                                     <td>
 
                                                         @if ($item->email != 'admin@gmail.com')

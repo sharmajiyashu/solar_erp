@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,12 +68,19 @@ class AttendanceController extends Controller
         $month = $request->month ?? Carbon::now()->month;
         $year  = $request->year ?? Carbon::now()->year;
 
+        $start = Carbon::create($year, $month, 1);
+        $end = $start->copy()->endOfMonth();
+
+        $dates = CarbonPeriod::create($start, $end);
+
         $attendances = Attendance::where('user_id', Auth::id())
             ->whereMonth('date', $month)
             ->whereYear('date', $year)
-            ->orderBy('date', 'desc')
-            ->get();
+            ->get()
+            ->keyBy(function ($item) {
+                return \Carbon\Carbon::parse($item->date)->format('Y-m-d');
+            });
 
-        return view('admin.attendance.index', compact('attendances', 'month', 'year'));
+        return view('admin.attendance.index', compact('dates', 'attendances', 'month', 'year'));
     }
 }

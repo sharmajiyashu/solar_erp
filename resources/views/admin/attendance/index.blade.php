@@ -13,7 +13,7 @@
     <div class="app-content content">
         <div class="content-wrapper container-xxl p-0">
             <div class="content-header row">
-                <form method="GET" action="{{ route('admin.attendance.index') }}" class="row mb-3">
+                <form method="GET" action="" class="row mb-3">
 
                     <div class="col-md-3">
                         <select name="month" class="form-control">
@@ -64,36 +64,57 @@
 
                             <tbody>
 
-                                @forelse($attendances as $attendance)
-                                    <tr>
-                                        <td>{{ \Carbon\Carbon::parse($attendance->date)->format('d M Y') }}</td>
+                                @foreach ($dates as $date)
+                                    @php
+                                        $attendance = $attendances[$date->format('Y-m-d')] ?? null;
+
+                                        $isFuture = $date->isFuture();
+                                        $isHoliday = $date->isSunday(); // Sunday holiday
+                                        $isAbsent = !$attendance && !$isFuture && !$isHoliday;
+                                    @endphp
+
+                                    <tr
+                                        @if ($isAbsent) class="table-danger"
+@elseif($isHoliday) class="table-secondary" @endif>
+
+                                        <td>{{ $date->format('d M Y') }}</td>
 
                                         <td>
-                                            {{ $attendance->punch_in ? \Carbon\Carbon::parse($attendance->punch_in)->format('h:i A') : '-' }}
-                                        </td>
-
-                                        <td>
-                                            {{ $attendance->punch_out ? \Carbon\Carbon::parse($attendance->punch_out)->format('h:i A') : '-' }}
-                                        </td>
-
-                                        <td>
-                                            @if ($attendance->punch_in_photo)
-                                                <a href="{{ url('public/' . $attendance->punch_in_photo) }}" target="_blank">
-                                                    View
-                                                </a>
+                                            @if ($attendance && $attendance->punch_in)
+                                                {{ \Carbon\Carbon::parse($attendance->punch_in)->format('h:i A') }}
+                                            @else
+                                                -
                                             @endif
                                         </td>
 
-                                    </tr>
-
-                                @empty
-
-                                    <tr>
-                                        <td colspan="4" class="text-center">
-                                            No Attendance Found
+                                        <td>
+                                            @if ($attendance && $attendance->punch_out)
+                                                {{ \Carbon\Carbon::parse($attendance->punch_out)->format('h:i A') }}
+                                            @else
+                                                -
+                                            @endif
                                         </td>
+
+                                        <td>
+
+                                            @if ($attendance && $attendance->punch_in_photo)
+                                                <a href="{{ url('public/' . $attendance->punch_in_photo) }}" target="_blank">
+                                                    View
+                                                </a>
+                                            @else
+                                                @if ($isHoliday)
+                                                    <span class="badge bg-secondary">Holiday</span>
+                                                @elseif($isFuture)
+                                                    <span class="badge bg-light text-dark">Upcoming</span>
+                                                @else
+                                                    <span class="badge bg-danger">Absent</span>
+                                                @endif
+                                            @endif
+
+                                        </td>
+
                                     </tr>
-                                @endforelse
+                                @endforeach
 
                             </tbody>
 
