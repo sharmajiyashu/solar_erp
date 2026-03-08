@@ -125,14 +125,14 @@
                             <li class="nav-item">
                                 <button class="nav-link {{ $activeTab == 'bankTab' ? 'active' : '' }}" data-bs-toggle="tab"
                                     data-bs-target="#bankTab">
-                                    Bank Management
+                                    Document
                                 </button>
                             </li>
 
                             <li class="nav-item">
                                 <button class="nav-link {{ $activeTab == 'dispatchDetailTab' ? 'active' : '' }}"
                                     data-bs-toggle="tab" data-bs-target="#dispatchDetailTab">
-                                    Dispatch Management
+                                    Procure Management
                                 </button>
                             </li>
 

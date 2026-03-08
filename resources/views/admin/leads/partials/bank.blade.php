@@ -12,7 +12,6 @@
             <th>#</th>
             <th>Document Type</th>
             <th>File</th>
-            <th>Status</th>
             <th>Uploaded At</th>
             <th>Action</th>
         </tr>
@@ -31,33 +30,6 @@
                     <a href="{{ url('public/' . $doc->file_path) }}" target="_blank" class="btn btn-sm btn-info">
                         View File
                     </a>
-                </td>
-
-                <td>
-
-                    <!-- Status Update -->
-                    <form action="{{ route('admin.bank-documents.status', $doc->id) }}" method="POST">
-
-                        @csrf
-
-                        <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
-
-                            <option value="pending" {{ $doc->status == 'pending' ? 'selected' : '' }}>
-                                Pending
-                            </option>
-
-                            <option value="approved" {{ $doc->status == 'approved' ? 'selected' : '' }}>
-                                Approved
-                            </option>
-
-                            <option value="rejected" {{ $doc->status == 'rejected' ? 'selected' : '' }}>
-                                Rejected
-                            </option>
-
-                        </select>
-
-                    </form>
-
                 </td>
 
                 <td>
@@ -92,8 +64,7 @@
 
                                 <div class="modal-footer">
 
-                                    <form action="{{ route('admin.bank-documents.destroy', $doc->id) }}"
-                                        method="POST">
+                                    <form action="{{ route('admin.bank-documents.destroy', $doc->id) }}" method="POST">
 
                                         @csrf
                                         @method('DELETE')

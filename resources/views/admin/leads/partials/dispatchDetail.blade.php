@@ -1,4 +1,4 @@
-<form action="{{ route('admin.dispatch.store', $lead->id) }}" method="POST">
+<form action="{{ route('admin.dispatch.store', $lead->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="modal-body">
@@ -31,6 +31,20 @@
                 <label>Dispatch Date</label>
                 <input type="date" name="dispatch_date" value="{{ $lead->dispatchDetail->dispatch_date ?? '' }}"
                     class="form-control">
+            </div>
+
+            <div class="col-md-6 mb-1">
+                <label>Challan Book</label>
+
+                <input type="file" name="challan_book" class="form-control">
+
+                @if (!empty($lead->dispatchDetail->challan_book))
+                    <a href="{{ url('public/' . $lead->dispatchDetail->challan_book) }}" target="_blank"
+                        class="btn btn-sm btn-info">
+                        View File
+                    </a>
+                @endif
+
             </div>
 
             <!-- Status -->

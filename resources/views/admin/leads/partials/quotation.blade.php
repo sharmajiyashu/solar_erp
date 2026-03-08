@@ -1,6 +1,5 @@
 @if ($quotation)
-
-    <div class="border">
+    <div class="border p-1">
 
         <div class="row">
 
@@ -22,28 +21,6 @@
 
         <hr>
 
-        <div class="row">
-
-            <div class="col-md-6">
-                <h6>Lead Name</h6>
-                <p>
-                    {{ $quotation->lead->name ?? '-' }}
-                </p>
-            </div>
-
-            <div class="col-md-6 text-end">
-                <h6>Status</h6>
-
-                <span class="badge bg-warning">
-                    {{ ucfirst($quotation->status) }}
-                </span>
-
-            </div>
-
-        </div>
-
-        <hr>
-
         <h5 class="mb-3">Quotation Items</h5>
 
         <table class="table table-bordered table-striped">
@@ -54,8 +31,6 @@
                     <th>Item Name</th>
                     <th>Description</th>
                     <th class="text-center">Qty</th>
-                    <th class="text-end">Price</th>
-                    <th class="text-end">Total</th>
                 </tr>
             </thead>
 
@@ -63,6 +38,7 @@
 
                 @foreach ($quotation->items as $key => $item)
                     <tr>
+
                         <td>{{ $key + 1 }}</td>
 
                         <td>
@@ -77,14 +53,6 @@
                             {{ $item->quantity }}
                         </td>
 
-                        <td class="text-end">
-                            {{ number_format($item->price, 2) }}
-                        </td>
-
-                        <td class="text-end">
-                            {{ number_format($item->total, 2) }}
-                        </td>
-
                     </tr>
                 @endforeach
 
@@ -97,28 +65,15 @@
         <div class="text-end">
 
             <h6>
-                Subtotal :
+                Total Amount :
                 <span class="fw-bold">
-                    {{ number_format($quotation->subtotal, 2) }}
+                    {{ number_format($quotation->total_amount, 2) }}
                 </span>
             </h6>
-
-            <h6>
-                GST :
-                <span class="fw-bold">
-                    {{ number_format($quotation->gst_amount, 2) }}
-                </span>
-            </h6>
-
-            <h4 class="text-success">
-                Grand Total :
-                {{ number_format($quotation->total_amount, 2) }}
-            </h4>
 
         </div>
 
     </div>
-
 @endif
 
 
@@ -135,7 +90,7 @@
 
             <div class="modal-content">
 
-                <div class="modal-header bg-danger text-white">
+                <div class="modal-header">
                     <h5>Confirm Delete</h5>
                     <button class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
@@ -181,17 +136,28 @@
 
             <div class="modal-content">
 
-                <div class="modal-header bg-primary text-white">
+                <div class="modal-header ">
                     <h5>Create Quotation</h5>
                     <button class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
                 <div class="modal-body">
 
-                    <div class="mb-3">
-                        <label>Quotation Date</label>
-                        <input type="date" name="quotation_date" class="form-control" required>
+                    <div class="row mb-3">
+
+                        <div class="col-md-6">
+                            <label>Total Amount</label>
+                            <input type="number" name="total_amount" class="form-control" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Quotation Date</label>
+                            <input type="date" name="quotation_date" class="form-control" required>
+                        </div>
+
                     </div>
+
+
 
                     <h6>Items</h6>
 
@@ -199,19 +165,15 @@
 
                         <div class="row item-row mb-2">
 
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <input name="items[0][item_name]" placeholder="Item Name" class="form-control">
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <input name="items[0][quantity]" placeholder="Qty" type="number" class="form-control">
                             </div>
 
-                            <div class="col-md-3">
-                                <input name="items[0][price]" placeholder="Price" type="number" class="form-control">
-                            </div>
-
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <input name="items[0][description]" placeholder="Description" class="form-control">
                             </div>
 
@@ -245,30 +207,16 @@
         let html = `
 <div class="row item-row mb-2">
 
+<div class="col-md-5">
+<input name="items[${index}][item_name]" placeholder="Item Name" class="form-control">
+</div>
+
+<div class="col-md-3">
+<input name="items[${index}][quantity]" type="number" placeholder="Qty" class="form-control">
+</div>
+
 <div class="col-md-4">
-<input name="items[${index}][item_name]"
-placeholder="Item Name"
-class="form-control">
-</div>
-
-<div class="col-md-2">
-<input name="items[${index}][quantity]"
-type="number"
-placeholder="Qty"
-class="form-control">
-</div>
-
-<div class="col-md-3">
-<input name="items[${index}][price]"
-type="number"
-placeholder="Price"
-class="form-control">
-</div>
-
-<div class="col-md-3">
-<input name="items[${index}][description]"
-placeholder="Description"
-class="form-control">
+<input name="items[${index}][description]" placeholder="Description" class="form-control">
 </div>
 
 </div>

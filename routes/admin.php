@@ -112,6 +112,9 @@ Route::middleware(['isAdmin'])
         )
             ->name('installation.store');
 
+        Route::delete('/installation-attachments/{id}', [InstallationController::class, 'deleteAttachment'])
+            ->name('installation.attachment.delete');
+
         Route::post(
             '/verification/store/{lead}',
             [VerificationController::class, 'store']

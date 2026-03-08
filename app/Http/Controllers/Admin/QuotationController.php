@@ -12,8 +12,11 @@ class QuotationController extends Controller
     public function store(Request $request, $leadId)
     {
         $request->validate([
-            'quotation_date' => 'required',
-            'items' => 'required|array'
+            'quotation_date' => 'required|date',
+            'total_amount' => 'required|numeric',
+            'items' => 'required|array',
+            'items.*.item_name' => 'required',
+            'items.*.quantity' => 'required|numeric'
         ]);
 
         DB::beginTransaction();
@@ -21,46 +24,34 @@ class QuotationController extends Controller
         try {
 
             $quotationNo = 'QT-' . time();
-            $subtotal = 0;
 
             $quotation = Quotation::create([
                 'lead_id' => $leadId,
                 'quotation_no' => $quotationNo,
                 'quotation_date' => $request->quotation_date,
+                'total_amount' => $request->total_amount,
                 'status' => 'draft'
             ]);
 
             foreach ($request->items as $item) {
 
-                $total = $item['quantity'] * $item['price'];
-                $subtotal += $total;
-
                 $quotation->items()->create([
                     'item_name' => $item['item_name'],
                     'description' => $item['description'] ?? null,
                     'quantity' => $item['quantity'],
-                    'price' => $item['price'],
-                    'total' => $total
+                    'price' => 0,
+                    'total' => 0
                 ]);
             }
 
-            $gst = ($subtotal * 18) / 100;
-            $grandTotal = $subtotal + $gst;
-
-            $quotation->update([
-                'subtotal' => $subtotal,
-                'gst_amount' => $gst,
-                'total_amount' => $grandTotal
-            ]);
-
             DB::commit();
 
-            return back()->with('success', 'Quotation Created');
+            return back()->with('success', 'Quotation Created Successfully');
         } catch (\Exception $e) {
 
             DB::rollback();
 
-            return back()->with('error', $e->getMessage());
+            return  $e->getMessage();
         }
     }
 

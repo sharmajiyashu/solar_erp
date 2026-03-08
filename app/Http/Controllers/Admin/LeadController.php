@@ -72,7 +72,20 @@ class LeadController extends Controller
             );
 
 
-            $leadNo = 'LD-' . now()->format('Ymd') . '-' . rand(1000, 9999);
+            $year = now()->format('y');
+            $month = now()->format('m');
+
+            $prefix = "APS{$year}{$month}";
+
+            // current month leads count
+            $count = Lead::whereYear('created_at', $year)
+                ->whereMonth('created_at', $month)
+                ->count();
+
+            $series = str_pad($count + 1, 4, '0', STR_PAD_LEFT);
+
+            $leadNo = $prefix . $series;
+
 
             $projectStages = [
                 'site_visit' => [

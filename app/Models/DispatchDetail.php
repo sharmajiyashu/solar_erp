@@ -12,7 +12,8 @@ class DispatchDetail extends Model
         'vehicle_number',
         'driver_contact',
         'dispatch_date',
-        'status'
+        'status',
+        'challan_book'
     ];
 
     public function lead()

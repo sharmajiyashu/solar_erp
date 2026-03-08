@@ -88,7 +88,7 @@
                         class="{{ Request::routeIs('admin.leads.bank') || ($activeStage ?? '') == 'bank' ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.leads.bank') }}">
                             <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate">Bank</span>
+                            <span class="menu-item text-truncate">Document</span>
                         </a>
                     </li>
 
@@ -96,7 +96,7 @@
                         class="{{ Request::routeIs('admin.leads.discom') || ($activeStage ?? '') == 'discom' ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.leads.discom') }}">
                             <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate">Discom</span>
+                            <span class="menu-item text-truncate">Backend</span>
                         </a>
                     </li>
 
