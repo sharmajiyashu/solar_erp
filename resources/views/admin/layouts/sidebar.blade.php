@@ -25,7 +25,7 @@
             <li class="nav-item {{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('admin.dashboard') }}">
                     <i data-feather="home"></i>
-                    <span class="menu-title text-truncate">Insights</span>
+                    <span class="menu-title text-truncate">Dashboard</span>
                 </a>
             </li>
 
@@ -111,7 +111,7 @@
                         class="{{ Request::routeIs('admin.leads.dispatch') || ($activeStage ?? '') == 'dispatch' ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.leads.dispatch') }}">
                             <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate">Dispatch</span>
+                            <span class="menu-item text-truncate">Procure</span>
                         </a>
                     </li>
 
