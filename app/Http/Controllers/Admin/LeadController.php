@@ -72,7 +72,7 @@ class LeadController extends Controller
             );
 
 
-            $year = now()->format('y');
+            $year = now()->format('Y');
             $month = now()->format('m');
 
             $prefix = "APS{$year}{$month}";
@@ -204,11 +204,31 @@ class LeadController extends Controller
     |--------------------------------------------------------------------------
     */
 
+
+    public function index(Request $request)
+    {
+        $query_search = $request->input('search');
+
+        $leads = Lead::with(['customer'])
+            ->search($request->search)
+            ->latest()
+            ->paginate(20);
+
+        if ($request->ajax()) {
+            return view('admin.leads.pagination', compact('leads'))->render();
+        }
+
+        return view('admin.leads.index', compact('leads'));
+    }
+
     private function stageView($stage, Request $request)
     {
         $query_search = $request->input('search');
 
         $leads = Lead::with(['customer'])
+            ->when(!Auth::user()->can('leads get-all'), function ($query) {
+                $query->where('created_by', Auth::id());
+            })
             ->where('stage', $stage)
             ->search($request->search)
             ->latest()

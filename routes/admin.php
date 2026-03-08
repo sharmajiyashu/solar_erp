@@ -65,6 +65,8 @@ Route::middleware(['isAdmin'])
             Route::get('edit/{id}/edit', [LeadController::class, 'edit'])->name('edit');
             Route::put('update/{id}', [LeadController::class, 'update'])->name('update');
 
+            Route::get('/', [LeadController::class, 'index'])->name('index');
+
             Route::get('/site-visit', [LeadController::class, 'siteVisit'])->name('site_visit');
             Route::get('/quotation', [LeadController::class, 'quotation'])->name('quotation');
             Route::get('/bank', [LeadController::class, 'bank'])->name('bank');

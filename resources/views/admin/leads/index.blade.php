@@ -52,7 +52,7 @@
                                                 <th>Customer</th>
                                                 <th>Stage</th>
                                                 <th>Status</th>
-                                                <th>Assigned To</th>
+                                                <th>Created By</th>
                                                 <th>Created At</th>
                                                 <th>Action</th>
                                             </tr>
@@ -102,7 +102,7 @@
 
                                                     <!-- Assigned User -->
                                                     <td>
-                                                        {{ $item->assignedUser->name ?? '-' }}
+                                                        {{ $item->creator->name ?? '-' }}
                                                     </td>
 
                                                     <!-- Created -->

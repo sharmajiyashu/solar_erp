@@ -16,6 +16,10 @@ return [
         'close'
     ],
 
+    'leads' => [
+        'create','get-own','get-all',
+    ],
+
     'site_visits' => [
         'schedule',
         'view',
