@@ -171,6 +171,13 @@
             @endcan
 
 
+            <li class="nav-item {{ Request::routeIs('admin.attendance.index') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('admin.attendance.index') }}">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate">Attendance</span>
+                </a>
+            </li>
+
 
             <li class="nav-item">
                 <a data-bs-toggle="modal" data-bs-target="#logout" class="d-flex align-items-center" href="#">

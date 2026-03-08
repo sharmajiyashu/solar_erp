@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\{
     AdminUserController,
+    AttendanceController,
     BankController,
     DispatchDetailController,
     EnquiryController,
@@ -126,4 +127,10 @@ Route::middleware(['isAdmin'])
         Route::get('set_permissions/{id}', [RoleController::class, 'setPermission'])->name('roles.set_permissions');
         Route::post('roles-set-update_permission', [RoleController::class, 'updatePermission'])->name('roles.update_permission');
         Route::get('/', [HomeController::class, 'index'])->name('dashboard');
+
+
+
+        Route::post('/punch-in', [AttendanceController::class, 'punchIn'])->name('punch.in');
+        Route::post('/punch-out', [AttendanceController::class, 'punchOut'])->name('punch.out');
+        Route::get('/attendance', [AttendanceController::class,'index'])->name('attendance.index');
     });

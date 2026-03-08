@@ -1,21 +1,39 @@
 <!-- BEGIN: Header-->
-<nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
+<nav
+    class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
     <div class="navbar-container d-flex content">
         <div class="bookmark-wrapper d-flex align-items-center">
             <ul class="nav navbar-nav d-xl-none">
-                <li class="nav-item"><a class="nav-link menu-toggle" href="#"><i class="ficon" data-feather="menu"></i></a></li>
+                <li class="nav-item"><a class="nav-link menu-toggle" href="#"><i class="ficon"
+                            data-feather="menu"></i></a></li>
             </ul>
-            {{-- <ul class="nav navbar-nav bookmark-icons">
-                <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-email.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Email"><i class="ficon" data-feather="mail"></i></a></li>
-                <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-chat.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"><i class="ficon" data-feather="message-square"></i></a></li>
-                <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-calendar.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Calendar"><i class="ficon" data-feather="calendar"></i></a></li>
-                <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-todo.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Todo"><i class="ficon" data-feather="check-square"></i></a></li>
-            </ul> --}}
+            <ul class="nav navbar-nav bookmark-icons">
+                @php
+                    $attendance = \App\Models\Attendance::where('user_id', auth()->id())
+                        ->whereDate('date', now())
+                        ->first();
+                @endphp
+
+                @if (!$attendance)
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#punchInModal">
+                        Punch In
+                    </button>
+                @elseif($attendance && !$attendance->punch_out)
+                    <form method="POST" action="{{ route('admin.punch.out') }}">
+                        @csrf
+                        <button class="btn btn-danger">
+                            Punch Out
+                        </button>
+                    </form>
+                @endif
+            </ul>
             {{-- <ul class="nav navbar-nav">
-                <li class="nav-item d-none d-lg-block"><a class="nav-link bookmark-star"><i class="ficon text-warning" data-feather="star"></i></a>
+                <li class="nav-item d-none d-lg-block"><a class="nav-link bookmark-star"><i class="ficon text-warning"
+                            data-feather="star"></i></a>
                     <div class="bookmark-input search-input">
                         <div class="bookmark-input-icon"><i data-feather="search"></i></div>
-                        <input class="form-control input" type="text" placeholder="Bookmark" tabindex="0" data-search="search">
+                        <input class="form-control input" type="text" placeholder="Bookmark" tabindex="0"
+                            data-search="search">
                         <ul class="search-list search-list-bookmark"></ul>
                     </div>
                 </li>
@@ -199,8 +217,16 @@
                     <li class="dropdown-menu-footer"><a class="btn btn-primary w-100" href="#">Read all notifications</a></li>
                 </ul>
             </li> --}}
-            <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">{{ auth()->user()->name }}</span><span class="user-status">{{ auth()->user()->role ?? '' }}</span></div><span class="avatar"><img class="round" src="{{ asset('public/dashboard-assets/app-assets/images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
+            <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link"
+                    id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <div class="user-nav d-sm-flex d-none"><span
+                            class="user-name fw-bolder">{{ auth()->user()->name }}</span><span
+                            class="user-status">{{ auth()->user()->role ?? '' }}</span></div><span class="avatar"><img
+                            class="round"
+                            src="{{ asset('public/dashboard-assets/app-assets/images/portrait/small/avatar-s-11.jpg') }}"
+                            alt="avatar" height="40" width="40"><span
+                            class="avatar-status-online"></span></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
                     {{-- <a class="dropdown-item" href="page-profile.html"><i class="me-50" data-feather="user"></i> Profile</a> --}}
@@ -211,7 +237,8 @@
                     {{-- <a class="dropdown-item" href="page-account-settings-account.html"><i class="me-50" data-feather="settings"></i> Settings</a> --}}
                     {{-- <a class="dropdown-item" href="page-pricing.html"><i class="me-50" data-feather="credit-card"></i> Pricing</a> --}}
                     {{-- <a class="dropdown-item" href="page-faq.html"><i class="me-50" data-feather="help-circle"></i> FAQ</a> --}}
-                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logout"><i class="me-50" data-feather="power"></i> Logout</a>
+                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logout"><i
+                            class="me-50" data-feather="power"></i> Logout</a>
                 </div>
             </li>
         </ul>
@@ -296,3 +323,56 @@
         </a></li>
 </ul> --}}
 <!-- END: Header-->
+
+
+<div class="modal fade" id="punchInModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5>Punch In Photo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form method="POST" action="{{ route('admin.punch.in') }}">
+                @csrf
+
+                <div class="modal-body text-center">
+
+                    <!-- Camera -->
+                    <video id="camera" width="100%" autoplay playsinline></video>
+
+                    <!-- Preview -->
+                    <img id="preview" style="width:100%; display:none; margin-top:10px;">
+
+                    <canvas id="canvas" style="display:none;"></canvas>
+
+                    <input type="hidden" name="photo" id="photo">
+
+                    <div class="mt-3">
+
+                        <button type="button" id="captureBtn" class="btn btn-primary" onclick="capturePhoto()">
+                            Capture Photo
+                        </button>
+
+                        <button type="button" id="retakeBtn" class="btn btn-warning" onclick="retakePhoto()" style="display:none;">
+                            Retake
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="submit" id="submitBtn" class="btn btn-success" style="display:none;">
+                        Submit Punch In
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
