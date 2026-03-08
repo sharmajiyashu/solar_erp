@@ -140,7 +140,7 @@
                                                 <label>Visit Assign To</label>
                                                 <select name="assigned_to" class="form-control">
                                                     <option value="">Select User</option>
-                                                    @foreach (\App\Models\User::all() as $user)
+                                                    @foreach ($visitUsers as $user)
                                                         <option value="{{ $user->id }}"
                                                             {{ old('assigned_to', $lead->assigned_to ?? '') == $user->id ? 'selected' : '' }}>
                                                             {{ $user->name }}

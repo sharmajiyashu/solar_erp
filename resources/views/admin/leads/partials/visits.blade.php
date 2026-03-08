@@ -98,7 +98,7 @@
 
                                                 <select name="user_id" class="form-control">
 
-                                                    @foreach (\App\Models\User::all() as $user)
+                                                    @foreach ($visitUsers as $user)
                                                         <option value="{{ $user->id }}"
                                                             {{ $visit->user_id == $user->id ? 'selected' : '' }}>
                                                             {{ $user->name }}
@@ -172,7 +172,7 @@
                             <select name="user_id" class="form-control" required>
                                 <option value="">Select User</option>
 
-                                @foreach (\App\Models\User::all() as $user)
+                                @foreach ($visitUsers as $user)
                                     <option value="{{ $user->id }}">
                                         {{ $user->name }}
                                     </option>
