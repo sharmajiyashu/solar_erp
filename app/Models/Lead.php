@@ -17,6 +17,25 @@ class Lead extends Model
         'remarks'
     ];
 
+    public function scopeSearch($query, $search)
+{
+    if (!$search) {
+        return $query;
+    }
+
+    return $query->where(function ($q) use ($search) {
+
+        $q->where('lead_no', 'like', "%{$search}%")
+          ->orWhere('remarks', 'like', "%{$search}%")
+
+          ->orWhereHas('customer', function ($sub) use ($search) {
+              $sub->where('name', 'like', "%{$search}%")
+                  ->orWhere('mobile', 'like', "%{$search}%");
+          });
+
+    });
+}
+
     /*
     |--------------------------------------------------------------------------
     | Casts

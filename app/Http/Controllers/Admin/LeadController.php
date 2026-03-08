@@ -158,49 +158,44 @@ class LeadController extends Controller
     }
 
 
-    public function pending()
+    public function siteVisit(Request $request)
     {
-        return $this->stageView('pending_lead');
+        return $this->stageView('site_visit', $request);
     }
 
-    public function siteVisit()
+    public function quotation(Request $request)
     {
-        return $this->stageView('site_visit');
+        return $this->stageView('quotation', $request);
     }
 
-    public function quotation()
+    public function bank(Request $request)
     {
-        return $this->stageView('quotation');
+        return $this->stageView('bank', $request);
     }
 
-    public function bank()
+    public function discom(Request $request)
     {
-        return $this->stageView('bank');
+        return $this->stageView('discom', $request);
     }
 
-    public function discom()
+    public function dispatch(Request $request)
     {
-        return $this->stageView('discom');
+        return $this->stageView('dispatch', $request);
     }
 
-    public function dispatch()
+    public function installation(Request $request)
     {
-        return $this->stageView('dispatch');
+        return $this->stageView('installation', $request);
     }
 
-    public function installation()
+    public function verification(Request $request)
     {
-        return $this->stageView('installation');
+        return $this->stageView('verification', $request);
     }
 
-    public function verification()
+    public function completed(Request $request)
     {
-        return $this->stageView('verification');
-    }
-
-    public function completed()
-    {
-        return $this->stageView('completed');
+        return $this->stageView('completed', $request);
     }
 
     /*
@@ -209,12 +204,19 @@ class LeadController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    private function stageView($stage)
+    private function stageView($stage, Request $request)
     {
-        $leads = Lead::with(['customer', 'assignedUser'])
+        $query_search = $request->input('search');
+
+        $leads = Lead::with(['customer'])
             ->where('stage', $stage)
+            ->search($request->search)
             ->latest()
             ->paginate(20);
+
+        if ($request->ajax()) {
+            return view('admin.leads.pagination', compact('leads', 'stage'))->render();
+        }
 
         return view('admin.leads.index', compact('leads', 'stage'));
     }

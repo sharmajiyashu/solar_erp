@@ -41,21 +41,6 @@
                                             <input type="text" id="searchInput" class="form-control"
                                                 placeholder="Search by name, mobile, lead no">
                                         </div>
-
-                                        <div class="col-md-3">
-                                            <select id="stageFilter" class="form-control">
-                                                <option value="">All Stages</option>
-                                                <option value="pending_lead">Pending Lead</option>
-                                                <option value="site_visit">Site Visit</option>
-                                                <option value="quotation">Quotation</option>
-                                                <option value="bank">Bank</option>
-                                                <option value="discom">Discom</option>
-                                                <option value="dispatch">Dispatch</option>
-                                                <option value="installation">Installation</option>
-                                                <option value="verification">Verification</option>
-                                                <option value="completed">Completed</option>
-                                            </select>
-                                        </div>
                                     </div>
                                 </div>
 
