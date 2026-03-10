@@ -49,14 +49,14 @@
                     <ul class="menu-content">
 
                         {{-- Create Lead --}}
-                        @can('leads create')
+                        {{-- @can('leads create')
                             <li class="{{ Request::routeIs('admin.leads.create') ? 'active' : '' }}">
                                 <a class="d-flex align-items-center" href="{{ route('admin.leads.create') }}">
                                     <i data-feather="circle"></i>
                                     <span class="menu-item">Create Leads</span>
                                 </a>
                             </li>
-                        @endcan
+                        @endcan --}}
 
 
                         {{-- Lead Listing --}}

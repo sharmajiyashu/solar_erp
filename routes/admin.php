@@ -62,6 +62,7 @@ Route::middleware(['isAdmin'])
             Route::post('/store', [LeadController::class, 'store'])->name('store');
 
             Route::get('show/{id}', [LeadController::class, 'show'])->name('show');
+            Route::put('update/{id}', [LeadController::class, 'update'])->name('update');
             Route::get('edit/{id}/edit', [LeadController::class, 'edit'])->name('edit');
             Route::put('update/{id}', [LeadController::class, 'update'])->name('update');
 

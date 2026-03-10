@@ -19,10 +19,40 @@ class LeadController extends Controller
     |--------------------------------------------------------------------------
     */
 
+
+    public function edit($id)
+    {
+        $lead = Lead::find($id);
+        return view('admin.leads.create', compact('lead'));
+    }
+
     public function create()
     {
         return view('admin.leads.create');
     }
+
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'assigned_to' => 'required|exists:users,id',
+            'visit_date' => 'required',
+            'remarks'     => 'required|string',
+        ]);
+
+        lead::where('id',$id)->update([
+            'remarks' => $request->remarks,
+        ]);
+        SiteVisit::create([
+            'lead_id' => $id,
+            'user_id' => $request->assigned_to,
+            'visit_date' => $request->visit_date,
+            'status' => 'pending',
+            'notes' => null
+        ]);
+        return route('admin.leads.show', $id);
+    }
+
 
     public function store(Request $request)
     {
