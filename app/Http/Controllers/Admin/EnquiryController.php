@@ -81,7 +81,13 @@ class EnquiryController extends Controller
         $validated['enquiry_no'] = 'ENQ-' . now()->timestamp;
         $validated['created_by'] = Auth::id();
 
-        Enquiry::create($validated);
+        $enquiry = Enquiry::create($validated);
+        if ($enquiry->status == 'converted_to_lead') {
+            $leadId = $this->leadGenerate($enquiry->id);
+            return redirect()->route('admin.leads.edit', $leadId)
+                ->with('success', 'Enquiry converted to Lead');
+        }
+
 
         return redirect()->route('admin.enquiries.index')
             ->with('success', 'Enquiry created successfully');
@@ -115,6 +121,12 @@ class EnquiryController extends Controller
         ]);
 
         Enquiry::where('id', $id)->update($validated);
+
+        if ($request->status == 'converted_to_lead') {
+            $leadId = $this->leadGenerate($id);
+            return redirect()->route('admin.leads.edit', $leadId)
+                ->with('success', 'Enquiry converted to Lead');
+        }
 
         return redirect()->route('admin.enquiries.index')
             ->with('success', 'Enquiry updated successfully');
