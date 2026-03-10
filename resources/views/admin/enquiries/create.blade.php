@@ -112,15 +112,89 @@
                                             </span>
                                         </div>
 
+                                        <div class="col-md-6 mb-1">
+                                            <label class="form-label">Project Size in KW</label>
+
+                                            <input type="number" step="0.01" name="project_size_kw" class="form-control"
+                                                placeholder="Enter project size in KW"
+                                                value="{{ old('project_size_kw', $enquiry->project_size_kw ?? '') }}">
+
+                                            <span class="text-danger validation-class" id="project_size_kw-submit_errors">
+                                                @error('project_size_kw')
+                                                    {{ $message }}
+                                                @enderror
+                                            </span>
+                                        </div>
+
+                                        <div class="col-md-6 mb-1">
+                                            <label class="form-label">Price Quote</label>
+
+                                            <input type="number" step="0.01" name="price_quote" class="form-control"
+                                                placeholder="Enter price quote"
+                                                value="{{ old('price_quote', $enquiry->price_quote ?? '') }}">
+
+                                            <span class="text-danger validation-class" id="price_quote-submit_errors">
+                                                @error('price_quote')
+                                                    {{ $message }}
+                                                @enderror
+                                            </span>
+                                        </div>
+
+
+
                                         <!-- Source -->
                                         <div class="col-md-6 mb-1">
                                             <label class="form-label">Source</label>
-                                            <input type="text" name="source" class="form-control"
-                                                placeholder="Eg: Website, Facebook, Referral"
-                                                value="{{ old('source', $enquiry->source ?? '') }}">
-                                            <span class="text-danger validation-class" id="source-submit_errors">
 
-                                            </span>
+                                            @php
+                                                $sources = [
+                                                    'FIELD SALES EMP',
+                                                    'REFERANCE',
+                                                    'TELECALLING',
+                                                    'CONNECTORS',
+                                                    'DIGITAL MARKETING',
+                                                    'CHARTED ACCOUNTS',
+                                                ];
+                                            @endphp
+
+                                            <select name="source" class="form-control">
+
+                                                <option value="">Select Source</option>
+
+                                                @foreach ($sources as $source)
+                                                    <option value="{{ $source }}"
+                                                        {{ old('source', $enquiry->source ?? '') == $source ? 'selected' : '' }}>
+                                                        {{ $source }}
+                                                    </option>
+                                                @endforeach
+
+                                            </select>
+
+                                            <span class="text-danger validation-class" id="source-submit_errors"></span>
+                                        </div>
+
+                                        <div class="col-md-6 mb-1">
+                                            <label class="form-label">Solar Type</label>
+
+                                            @php
+                                                $solorTypes = ['RESIDENTIAL', 'C&I'];
+                                            @endphp
+
+                                            <select name="solar_type" class="form-control">
+
+                                                <option value="">Select Type</option>
+
+                                                @foreach ($solorTypes as $type)
+                                                    <option value="{{ $type }}"
+                                                        {{ old('solar_type', $enquiry->solar_type ?? '') == $type ? 'selected' : '' }}>
+                                                        {{ $type }}
+                                                    </option>
+                                                @endforeach
+
+                                            </select>
+
+                                            <span class="text-danger validation-class"
+                                                id="solar_type-submit_errors"></span>
                                         </div>
 
                                         <!-- Address -->

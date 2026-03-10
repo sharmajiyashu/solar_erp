@@ -66,7 +66,6 @@ class AdminUserController extends Controller
     {
         $data = $request->validated();
         $data['password'] = Hash::make($request->password);
-        $data['password_2'] = $request->password;
         $data['role'] = User::$admin;
         $role = Role::findById($request->role_id);
         $user = User::create($data);
@@ -92,7 +91,6 @@ class AdminUserController extends Controller
     {
         $data = $request->validated();
         $data['password'] = Hash::make($request->password);
-        $data['password_2'] = $request->password;
         $data['role'] = User::$admin;
         unset($data['role_id']);
         $role = Role::findById($request->role_id);

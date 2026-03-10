@@ -116,10 +116,12 @@
                         <!-- Login basic -->
                         <div class="card mb-0" style="">
                             <div class="card-body">
-                                <!--<a href="#" class="brand-logo">-->
+                                <a href="#" class="brand-logo">
                                 <!--    <img src="{{ url('public/dashboard-assets/logo.png') }}" alt="" width="177">-->
                                 <!--    {{-- <h2 class="brand-text text-primary ms-1" style="color:#386fb9 !important;">Premad Software Solution</h2> --}}-->
-                                <!--</a>-->
+                                <img src="{{ url('public/logo.jpg') }}" alt="" width="177">
+                                </a>
+
 
                                 @if ($errors->any())
                                     @foreach ($errors->all() as $error)
@@ -135,6 +137,7 @@
 
                                 <h4 class="card-title mb-1">Welcome to {{ env('APP_NAME') }}!</h4>
                                 <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
+
 
                                 <form class="auth-login-form mt-2" action="{{ route('admin.check_login') }}"
                                     method="POST">

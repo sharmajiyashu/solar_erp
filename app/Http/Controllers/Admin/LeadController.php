@@ -210,6 +210,9 @@ class LeadController extends Controller
         $query_search = $request->input('search');
 
         $leads = Lead::with(['customer'])
+            ->when(!Auth::user()->can('leads get-all'), function ($query) {
+                $query->where('created_by', Auth::id());
+            })
             ->search($request->search)
             ->latest()
             ->paginate(20);
@@ -226,9 +229,6 @@ class LeadController extends Controller
         $query_search = $request->input('search');
 
         $leads = Lead::with(['customer'])
-            ->when(!Auth::user()->can('leads get-all'), function ($query) {
-                $query->where('created_by', Auth::id());
-            })
             ->where('stage', $stage)
             ->search($request->search)
             ->latest()
