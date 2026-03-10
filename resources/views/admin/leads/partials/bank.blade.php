@@ -135,6 +135,7 @@
                             <option value="Bank Statement">Bank Statement</option>
                             <option value="Salary Slip">Salary Slip</option>
                             <option value="Electricity Bill">Electricity Bill</option>
+                            <option value="Roof Photo">Roof Photo</option>
                             <option value="Other">Other</option>
 
                         </select>
