@@ -63,20 +63,19 @@ class EnquiryController extends Controller
         $validated = $request->validate([
             'customer_name'     => 'required|string',
             'mobile'            => 'required|string',
-            'alternate_mobile'  => 'nullable|string',
-            'email'             => 'nullable|email',
             'address'           => 'nullable|string',
             'city'              => 'nullable|string',
-            'state'             => 'nullable|string',
-            'pincode'           => 'nullable|string',
             'source'            => 'nullable|string',
             'remarks'           => 'nullable|string',
             'next_followup_date' => 'nullable|date',
+            'solar_type'         => 'required',
+            'price_quote'         => 'required',
+            'status' => 'required',
+            'project_size' => 'required',
         ]);
 
         $validated['enquiry_no'] = 'ENQ-' . now()->timestamp;
         $validated['created_by'] = Auth::id();
-        $validated['status']     = 'pending';
 
         Enquiry::create($validated);
 

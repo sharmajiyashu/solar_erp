@@ -20,7 +20,10 @@ class Enquiry extends Model
         'created_by',
         'status',
         'next_followup_date',
-        'remarks'
+        'remarks',
+        'solar_type',
+        'price_quote',
+        'project_size',
     ];
 
     protected $casts = [

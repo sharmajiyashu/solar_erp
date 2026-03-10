@@ -128,6 +128,7 @@ Route::middleware(['isAdmin'])
 
         Route::get('set_permissions/{id}', [RoleController::class, 'setPermission'])->name('roles.set_permissions');
         Route::post('roles-set-update_permission', [RoleController::class, 'updatePermission'])->name('roles.update_permission');
+
         Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 
