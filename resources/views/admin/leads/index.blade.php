@@ -120,10 +120,12 @@
 
                                                             <div class="dropdown-menu dropdown-menu-end">
 
-                                                                <a class="dropdown-item"
-                                                                    href="{{ route('admin.leads.show', $item->id) }}">
-                                                                    View Details
-                                                                </a>
+                                                                @can('leads view')
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ route('admin.leads.show', $item->id) }}">
+                                                                        View Details
+                                                                    </a>
+                                                                @endcan
 
                                                                 @if ($item->stage != 'completed')
                                                                     @php
@@ -137,19 +139,18 @@
                                                                             'verification',
                                                                             'completed',
                                                                         ];
-                                                                        $currentIndex = array_search(
-                                                                            $item->stage,
-                                                                            $stages,
-                                                                        );
+                                                                        $currentIndex = array_search($item->stage, $stages);
                                                                         $nextStage = $stages[$currentIndex + 1] ?? null;
                                                                     @endphp
 
                                                                     @if ($nextStage)
-                                                                        <a class="dropdown-item"
-                                                                            href="{{ route('admin.leads.move_stage', [$item->id, $nextStage]) }}">
-                                                                            Move To
-                                                                            {{ ucfirst(str_replace('_', ' ', $nextStage)) }}
-                                                                        </a>
+                                                                        @can('leads move-stage')
+                                                                            <a class="dropdown-item"
+                                                                                href="{{ route('admin.leads.move_stage', [$item->id, $nextStage]) }}">
+                                                                                Move To
+                                                                                {{ ucfirst(str_replace('_', ' ', $nextStage)) }}
+                                                                            </a>
+                                                                        @endcan
                                                                     @endif
                                                                 @endif
 

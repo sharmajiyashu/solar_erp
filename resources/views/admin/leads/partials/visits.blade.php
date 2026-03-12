@@ -1,6 +1,8 @@
+@can('leads edit')
 <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#addVisitModal">
     + Create Visit
 </button>
+@endcan
 
 <table class="table table-bordered">
 
@@ -40,10 +42,12 @@
                 <td>{{ $visit->notes }}</td>
 
                 <td>
+                    @can('leads edit')
                     <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                         data-bs-target="#editVisitModal{{ $visit->id }}">
                         Edit
                     </button>
+                    @endcan
 
 
                     <div class="modal fade" id="editVisitModal{{ $visit->id }}" tabindex="-1">

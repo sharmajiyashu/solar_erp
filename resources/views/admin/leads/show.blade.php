@@ -62,13 +62,15 @@
 
 
                                     @if ($nextStage)
-                                        <div>
-                                            <a class=""
-                                                href="{{ route('admin.leads.move_stage', [$lead->id, $nextStage]) }}">
-                                                Move To
-                                                {{ ucfirst(str_replace('_', ' ', $nextStage)) }}
-                                            </a>
-                                        </div>
+                                        @can('leads move-stage')
+                                            <div>
+                                                <a class=""
+                                                    href="{{ route('admin.leads.move_stage', [$lead->id, $nextStage]) }}">
+                                                    Move To
+                                                    {{ ucfirst(str_replace('_', ' ', $nextStage)) }}
+                                                </a>
+                                            </div>
+                                        @endcan
                                     @endif
                                 @endif
                             </td>

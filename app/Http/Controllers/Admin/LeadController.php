@@ -20,6 +20,14 @@ class LeadController extends Controller
     */
 
 
+    // public function __construct()
+    // {
+    //     $this->middleware('can:leads view')->only(['index', 'show', 'siteVisit', 'quotation', 'bank', 'discom', 'dispatch', 'installation', 'verification', 'completed']);
+    //     $this->middleware('can:leads create')->only(['create', 'store']);
+    //     $this->middleware('can:leads edit')->only(['edit', 'update', 'storeVisit', 'updateVisit']);
+    //     $this->middleware('can:leads move-stage')->only(['moveStage']);
+    // }
+
     public function edit($id)
     {
         $lead = Lead::find($id);

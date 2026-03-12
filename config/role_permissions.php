@@ -17,7 +17,7 @@ return [
     ],
 
     'leads' => [
-        'create','get-own','get-all',
+        'create', 'get-own', 'get-all', 'view', 'edit', 'delete', 'move-stage' 
     ],
 
     'site_visits' => [
@@ -58,7 +58,7 @@ return [
     ],
 
     'verification' => [
-        'verify_project'
+        'view', 'verify_project'
     ],
 
     'project_completion' => [
