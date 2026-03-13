@@ -81,9 +81,9 @@
                                     $stages = [
                                         'site_visit',
                                         'quotation',
-                                        'bank',
-                                        'discom',
-                                        'dispatch',
+                                        'document',
+                                        'backend',
+                                        'procurement',
                                         'installation',
                                         'verification',
                                         'completed',

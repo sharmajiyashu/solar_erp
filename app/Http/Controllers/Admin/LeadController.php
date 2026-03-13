@@ -22,7 +22,7 @@ class LeadController extends Controller
 
     // public function __construct()
     // {
-    //     $this->middleware('can:leads view')->only(['index', 'show', 'siteVisit', 'quotation', 'bank', 'discom', 'dispatch', 'installation', 'verification', 'completed']);
+    //     $this->middleware('can:leads view')->only(['index', 'show', 'siteVisit', 'quotation', 'document', 'backend', 'dispatch', 'installation', 'verification', 'completed']);
     //     $this->middleware('can:leads create')->only(['create', 'store']);
     //     $this->middleware('can:leads edit')->only(['edit', 'update', 'storeVisit', 'updateVisit']);
     //     $this->middleware('can:leads move-stage')->only(['moveStage']);
@@ -216,9 +216,9 @@ class LeadController extends Controller
         return $this->stageView('backend', $request);
     }
 
-    public function dispatch(Request $request)
+    public function procurement(Request $request)
     {
-        return $this->stageView('dispatch', $request);
+        return $this->stageView('procurement', $request);
     }
 
     public function installation(Request $request)

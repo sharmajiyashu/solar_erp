@@ -2,7 +2,7 @@
     <h5>Documents</h5>
 
     <div>
-        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addBankDocumentModal">
+        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addDocumentModal">
             + Upload Document
         </button>
     </div>
@@ -52,7 +52,7 @@
 
     <tbody>
 
-        @forelse($lead->bankDocuments as $key => $doc)
+        @forelse($lead->documents as $key => $doc)
             <tr>
 
                 <td>{{ $key + 1 }}</td>
@@ -140,7 +140,7 @@
 
 <!-- ================= Upload Modal ================= -->
 
-<div class="modal fade" id="addBankDocumentModal">
+<div class="modal fade" id="addDocumentModal">
     <div class="modal-dialog">
 
         <form action="{{ route('admin.document-tracking.store', $lead->id) }}" method="POST"

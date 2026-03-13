@@ -80,7 +80,6 @@ class DocumentController extends Controller
             'is_document_done' => $request->has('is_document_done'),
         ]);
 
-        // Auto move to backend if both are checked
         if ($lead->first_payment_received && $lead->is_document_done && $lead->stage == 'document') {
             
             $stages = $lead->project_stages;

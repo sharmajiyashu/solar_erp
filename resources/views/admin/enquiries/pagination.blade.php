@@ -6,6 +6,8 @@
             <th>City / Address</th>
             <th>Status</th>
             <th>Next Followup</th>
+            <th>Created By</th>
+            <th>Created At</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -62,6 +64,14 @@
                 {{-- NEXT FOLLOWUP --}}
                 <td>
                     {{ $item->next_followup_date ? \Carbon\Carbon::parse($item->next_followup_date)->format('d-m-Y') : '-' }}
+                </td>
+
+                <td>
+                    {{ $item->creator->name ?? '-' }}
+                </td>
+
+                <td>
+                    {{ $item->created_at->format('d-m-Y h:i A') }}
                 </td>
 
                 {{-- ACTIONS --}}

@@ -55,6 +55,9 @@ Route::middleware(['isAdmin'])
         Route::get('/enquiries/{id}/mark-to-close', [EnquiryController::class, 'markToClose'])
             ->name('enquiries.markToClose');
 
+        Route::get('enquiries/followup/{followupId}/edit', [EnquiryController::class, 'editFollowup'])->name('enquiries.followup.edit');
+        Route::post('enquiries/followup/{followupId}/update', [EnquiryController::class, 'updateFollowup'])->name('enquiries.followup.update');
+
 
 
 
@@ -62,11 +65,9 @@ Route::middleware(['isAdmin'])
         Route::prefix('/leads')->name('leads.')->group(function () {
             Route::get('/create', [LeadController::class, 'create'])->name('create');
             Route::post('/store', [LeadController::class, 'store'])->name('store');
-
             Route::get('show/{id}', [LeadController::class, 'show'])->name('show');
             Route::put('update/{id}', [LeadController::class, 'update'])->name('update');
             Route::get('edit/{id}/edit', [LeadController::class, 'edit'])->name('edit');
-            Route::put('update/{id}', [LeadController::class, 'update'])->name('update');
 
             Route::get('/', [LeadController::class, 'index'])->name('index');
 
@@ -74,7 +75,7 @@ Route::middleware(['isAdmin'])
             Route::get('/quotation', [LeadController::class, 'quotation'])->name('quotation');
             Route::get('/document', [LeadController::class, 'document'])->name('document');
             Route::get('/backend', [LeadController::class, 'backend'])->name('backend');
-            Route::get('/dispatch', [LeadController::class, 'dispatch'])->name('dispatch');
+            Route::get('/procurement', [LeadController::class, 'procurement'])->name('procurement');
             Route::get('/installation', [LeadController::class, 'installation'])->name('installation');
             Route::get('/verification', [LeadController::class, 'verification'])->name('verification');
             Route::get('/completed', [LeadController::class, 'completed'])->name('completed');
@@ -102,7 +103,7 @@ Route::middleware(['isAdmin'])
             '/dispatch-details/{lead}',
             [DispatchDetailController::class, 'storeOrUpdate']
         )
-            ->name('dispatch.store');
+            ->name('procurement.store');
 
         Route::post(
             '/installation/store/{lead}',

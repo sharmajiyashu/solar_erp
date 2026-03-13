@@ -71,6 +71,8 @@
                                                 <th>City / Address</th>
                                                 <th>Status</th>
                                                 <th>Next Followup</th>
+                                                <th>Created By</th>
+                                                <th>Created At</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>

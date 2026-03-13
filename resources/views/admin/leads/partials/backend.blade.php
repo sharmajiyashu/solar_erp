@@ -10,8 +10,8 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="form-check form-switch mt-1">
-                        <input class="form-check-input" type="checkbox" name="first_payment_received" id="discom_first_payment_received" {{ $lead->first_payment_received ? 'checked' : '' }}>
-                        <label class="form-check-label" for="discom_first_payment_received">First Payment Received</label>
+                        <input class="form-check-input" type="checkbox" name="first_payment_received" id="backend_first_payment_received" {{ $lead->first_payment_received ? 'checked' : '' }}>
+                        <label class="form-check-label" for="backend_first_payment_received">First Payment Received</label>
                     </div>
                 </div>
                 <div class="col-md-6 text-end">
@@ -24,7 +24,7 @@
 
 <div class="card border-warning">
     <div class="card-body text-center">
-        <p>Once the first payment is received, you can move the lead to the Procurement (Dispatch) stage.</p>
+        <p>Once the first payment is received, you can move the lead to the Procurement stage.</p>
         
         <form action="{{ route('admin.backend-tracking.move', $lead->id) }}" method="POST">
             @csrf

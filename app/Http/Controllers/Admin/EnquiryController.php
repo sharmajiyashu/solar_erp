@@ -81,20 +81,38 @@ class EnquiryController extends Controller
             'project_size' => 'required',
             'alternate_mobile' => 'nullable|string',
             'email' => 'nullable|email',
-            'state' => 'nullable|string',
             'pincode' => 'nullable|string',
+            'assigned_to' => 'nullable|required_if:status,converted_to_lead|exists:users,id',
+            'visit_date' => 'nullable|required_if:status,converted_to_lead|date',
         ]);
 
         $validated['enquiry_no'] = 'ENQ-' . now()->timestamp;
         $validated['created_by'] = Auth::id();
 
         $enquiry = Enquiry::create($validated);
+
+        if ($request->ajax()) {
+            if ($enquiry->status == 'converted_to_lead') {
+                $leadId = $this->leadGenerate($enquiry->id, $request->assigned_to, $request->visit_date);
+                session()->flash('success', 'Enquiry converted to Lead');
+                return response()->json([
+                    'success' => true,
+                    'redirect' => route('admin.leads.show', $leadId)
+                ]);
+            }
+
+            session()->flash('success', 'Enquiry created successfully');
+            return response()->json([
+                'success' => true,
+                'redirect' => route('admin.enquiries.index')
+            ]);
+        }
+
         if ($enquiry->status == 'converted_to_lead') {
-            $leadId = $this->leadGenerate($enquiry->id);
+            $leadId = $this->leadGenerate($enquiry->id, $request->assigned_to, $request->visit_date);
             return redirect()->route('admin.leads.show', $leadId)
                 ->with('success', 'Enquiry converted to Lead');
         }
-
 
         return redirect()->route('admin.enquiries.index')
             ->with('success', 'Enquiry created successfully');
@@ -126,13 +144,33 @@ class EnquiryController extends Controller
             'state'         => 'nullable|string',
             'pincode'       => 'nullable|string',
             'alternate_mobile' => 'nullable|string',
-            'status'        => 'required'
+            'status'        => 'required',
+            'assigned_to' => 'nullable|required_if:status,converted_to_lead|exists:users,id',
+            'visit_date' => 'nullable|required_if:status,converted_to_lead|date',
         ]);
 
-        Enquiry::where('id', $id)->update($validated);
+        $enquiry = Enquiry::findOrFail($id);
+        $enquiry->update($validated);
+
+        if ($request->ajax()) {
+            if ($request->status == 'converted_to_lead') {
+                $leadId = $this->leadGenerate($id, $request->assigned_to, $request->visit_date);
+                session()->flash('success', 'Enquiry converted to Lead');
+                return response()->json([
+                    'success' => true,
+                    'redirect' => route('admin.leads.show', $leadId)
+                ]);
+            }
+
+            session()->flash('success', 'Enquiry updated successfully');
+            return response()->json([
+                'success' => true,
+                'redirect' => route('admin.enquiries.index')
+            ]);
+        }
 
         if ($request->status == 'converted_to_lead') {
-            $leadId = $this->leadGenerate($id);
+            $leadId = $this->leadGenerate($id, $request->assigned_to, $request->visit_date);
             return redirect()->route('admin.leads.show', $leadId)
                 ->with('success', 'Enquiry converted to Lead');
         }
@@ -176,7 +214,8 @@ class EnquiryController extends Controller
     {
         $request->validate([
             'remarks'            => 'required|string',
-            'next_followup_date' => 'required|date',
+            'next_followup_date' => 'nullable|date|required_if:status,rescheduled,pending',
+            'status'             => 'required|in:pending,completed,rescheduled',
         ]);
 
         EnquiryFollowUp::create([
@@ -188,13 +227,62 @@ class EnquiryController extends Controller
             'status'            => $request->status,
         ]);
 
-        Enquiry::where('id', $id)->update([
-            'status' => 'next_followup',
-            'next_followup_date' => $request->next_followup_date
-        ]);
+        $updateData = [];
+        if ($request->status == 'rescheduled' || $request->status == 'pending') {
+            $updateData['status'] = 'next_followup';
+            $updateData['next_followup_date'] = $request->next_followup_date;
+        }
+
+        if (!empty($updateData)) {
+            Enquiry::where('id', $id)->update($updateData);
+        }
 
         return redirect()->back()
             ->with('success', 'Followup added successfully');
+    }
+
+
+    public function editFollowup($followupId)
+    {
+        $followup = EnquiryFollowUp::findOrFail($followupId);
+        return response()->json($followup);
+    }
+
+    public function updateFollowup(Request $request, $followupId)
+    {
+        $request->validate([
+            'remarks'            => 'required|string',
+            'next_followup_date' => 'nullable|date|required_if:status,rescheduled,pending',
+            'status'             => 'required|in:pending,completed,rescheduled',
+        ]);
+
+        $followup = EnquiryFollowUp::findOrFail($followupId);
+        $enquiryId = $followup->enquiry_id;
+
+        $followup->update([
+            'next_followup_date' => $request->next_followup_date,
+            'remarks'           => $request->remarks,
+            'status'            => $request->status,
+        ]);
+
+        $updateData = [];
+        if ($request->status == 'rescheduled' || $request->status == 'pending') {
+            $updateData['status'] = 'next_followup';
+            $updateData['next_followup_date'] = $request->next_followup_date;
+        } elseif ($request->status == 'completed') {
+            // If they just mark it completed, we might want to keep the status but clear the date?
+            // Actually, if it's completed, the enquiry is effectively "in progress" or "pending" again 
+            // until a NEW followup is added.
+            $updateData['status'] = 'pending'; 
+            $updateData['next_followup_date'] = null;
+        }
+
+        if (!empty($updateData)) {
+            Enquiry::where('id', $enquiryId)->update($updateData);
+        }
+
+        return redirect()->back()
+            ->with('success', 'Followup updated successfully');
     }
 
 
@@ -215,12 +303,12 @@ class EnquiryController extends Controller
                 'status' => 'converted_to_lead'
             ]);
 
-            $leadId = $this->leadGenerate($id);
+            $leadId = $this->leadGenerate($id, $request->assigned_to, $request->visit_date);
 
             DB::commit();
 
             return redirect()->route('admin.leads.show', $leadId)
-                ->with('success', 'Enquiry converted to Lead');
+                ->with('success', 'Enquiry created successfully');
         } catch (\Exception $e) {
 
             DB::rollBack();
@@ -277,7 +365,7 @@ class EnquiryController extends Controller
             'quotation' => ['status' => 'pending', 'completed_at' => null],
             'document' => ['status' => 'pending', 'completed_at' => null],
             'backend' => ['status' => 'pending', 'completed_at' => null],
-            'dispatch' => ['status' => 'pending', 'completed_at' => null],
+            'procurement' => ['status' => 'pending', 'completed_at' => null],
             'installation' => ['status' => 'pending', 'completed_at' => null],
             'verification' => ['status' => 'pending', 'completed_at' => null],
             'completed' => ['status' => 'pending', 'completed_at' => null],

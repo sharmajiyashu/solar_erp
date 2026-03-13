@@ -87,7 +87,7 @@ class Lead extends Model
         return $this->hasMany(Quotation::class);
     }
 
-    public function bankDocuments()
+    public function documents()
     {
         return $this->hasMany(BankDocument::class);
     }
@@ -112,7 +112,7 @@ class Lead extends Model
         'quotation',
         'document',
         'backend',
-        'dispatch',
+        'procurement',
         'installation',
         'verification',
         'completed'

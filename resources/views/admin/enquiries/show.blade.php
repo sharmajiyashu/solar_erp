@@ -166,18 +166,17 @@
                                         <div class="row">
 
                                             <div class="col-md-4 mb-1">
-                                                <label>Next Followup Date</label>
-                                                <input type="date" name="next_followup_date" class="form-control"
-                                                    required>
-                                            </div>
-
-                                            <div class="col-md-4 mb-1">
                                                 <label>Status</label>
-                                                <select name="status" class="form-control">
+                                                <select name="status" id="followup_status" class="form-control" onchange="toggleFollowupDate()">
                                                     <option value="pending">Pending</option>
                                                     <option value="completed">Completed</option>
                                                     <option value="rescheduled">Rescheduled</option>
                                                 </select>
+                                            </div>
+
+                                            <div class="col-md-4 mb-1" id="next_followup_date_row">
+                                                <label>Next Followup Date</label>
+                                                <input type="date" name="next_followup_date" id="next_followup_date" class="form-control">
                                             </div>
 
                                             <div class="col-md-12 mb-1">
@@ -230,6 +229,7 @@
                                     <th>Status</th>
                                     <th>Remarks</th>
                                     <th>Created By</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
 
@@ -238,7 +238,7 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $follow->followup_date->format('d-m-Y') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($follow->next_followup_date)->format('d-m-Y') }}</td>
+                                        <td>{{ $follow->next_followup_date ? \Carbon\Carbon::parse($follow->next_followup_date)->format('d-m-Y') : '-' }}</td>
 
                                         <td>
                                             @switch($follow->status)
@@ -258,6 +258,12 @@
 
                                         <td>{{ $follow->remarks }}</td>
                                         <td>{{ $follow->creator->name ?? '-' }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info edit-followup-btn" 
+                                                data-id="{{ $follow->id }}">
+                                                Edit
+                                            </button>
+                                        </td>
                                     </tr>
                                     @empty
                                         <tr>
@@ -274,8 +280,120 @@
                 </div>
 
                 {{-- CONVERT MODAL --}}
-                @include('admin.enquiries.partials.convert_modal', ['item' => $enquiry, 'users' => $users])
+                @include('admin.enquiries.partials.convert_modal', ['item' => $enquiry])
+
+
+                {{-- ================= EDIT FOLLOWUP MODAL ================= --}}
+                <div class="modal fade" id="editFollowupModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                            <form id="editFollowupForm" method="POST">
+                                @csrf
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Followup</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="row">
+
+                                        <div class="col-md-4 mb-1">
+                                            <label>Status</label>
+                                            <select name="status" id="edit_followup_status" class="form-control" onchange="toggleEditFollowupDate()">
+                                                <option value="pending">Pending</option>
+                                                <option value="completed">Completed</option>
+                                                <option value="rescheduled">Rescheduled</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4 mb-1" id="edit_next_followup_date_row">
+                                            <label>Next Followup Date</label>
+                                            <input type="date" name="next_followup_date" id="edit_next_followup_date" class="form-control">
+                                        </div>
+
+                                        <div class="col-md-12 mb-1">
+                                            <label>Remarks</label>
+                                            <textarea name="remarks" id="edit_followup_remarks" class="form-control" placeholder="Enter followup discussion" required></textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+
+                                    <button type="submit" class="btn btn-primary">
+                                        Update Followup
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
-    @endsection
+        @push('scripts')
+        <script>
+            function toggleFollowupDate() {
+                var status = $('#followup_status').val();
+                if (status === 'completed') {
+                    $('#next_followup_date_row').hide();
+                    $('#next_followup_date').prop('required', false);
+                } else {
+                    $('#next_followup_date_row').show();
+                    $('#next_followup_date').prop('required', true);
+                }
+            }
+
+            // Inital check
+            $(document).ready(function() {
+                toggleFollowupDate();
+
+                $('.edit-followup-btn').on('click', function() {
+                    var id = $(this).data('id');
+                    var url = "{{ route('admin.enquiries.followup.edit', ':id') }}";
+                    url = url.replace(':id', id);
+
+                    $.get(url, function(data) {
+                        $('#editFollowupForm').attr('action', "{{ route('admin.enquiries.followup.update', ':id') }}".replace(':id', id));
+                        $('#edit_followup_status').val(data.status);
+                        
+                        if(data.next_followup_date) {
+                             // Format date for input[type="date"]
+                             var date = new Date(data.next_followup_date);
+                             var day = ("0" + date.getDate()).slice(-2);
+                             var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                             var formattedDate = date.getFullYear() + "-" + (month) + "-" + (day);
+                             $('#edit_next_followup_date').val(formattedDate);
+                        } else {
+                             $('#edit_next_followup_date').val('');
+                        }
+
+                        $('#edit_followup_remarks').val(data.remarks);
+                        
+                        toggleEditFollowupDate();
+                        $('#editFollowupModal').modal('show');
+                    });
+                });
+            });
+
+            function toggleEditFollowupDate() {
+                var status = $('#edit_followup_status').val();
+                if (status === 'completed') {
+                    $('#edit_next_followup_date_row').hide();
+                    $('#edit_next_followup_date').prop('required', false);
+                } else {
+                    $('#edit_next_followup_date_row').show();
+                    $('#edit_next_followup_date').prop('required', true);
+                }
+            }
+        </script>
+    @endpush
+@endsection

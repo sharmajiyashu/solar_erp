@@ -92,7 +92,7 @@
                         @endcan
 
 
-                        {{-- Bank Documents --}}
+                        {{-- Document --}}
                         @can('document_management view')
                             <li class="{{ Request::routeIs('admin.leads.document') ? 'active' : '' }}">
                                 <a class="d-flex align-items-center" href="{{ route('admin.leads.document') }}">
@@ -103,7 +103,7 @@
                         @endcan
 
 
-                        {{-- Backend / Discom --}}
+                        {{-- Backend --}}
                         @can('backend_management approve')
                             <li class="{{ Request::routeIs('admin.leads.backend') ? 'active' : '' }}">
                                 <a class="d-flex align-items-center" href="{{ route('admin.leads.backend') }}">
@@ -114,12 +114,12 @@
                         @endcan
 
 
-                        {{-- Procure / Dispatch --}}
+                        {{-- Procure / Procurement --}}
                         @can('materials view')
-                            <li class="{{ Request::routeIs('admin.leads.dispatch') ? 'active' : '' }}">
-                                <a class="d-flex align-items-center" href="{{ route('admin.leads.dispatch') }}">
+                            <li class="{{ Request::routeIs('admin.leads.procurement') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('admin.leads.procurement') }}">
                                     <i data-feather="circle"></i>
-                                    <span class="menu-item text-truncate">Procure</span>
+                                    <span class="menu-item text-truncate">Procurement</span>
                                 </a>
                             </li>
                         @endcan

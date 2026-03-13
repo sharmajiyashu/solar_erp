@@ -49,9 +49,9 @@
                                         $stages = [
                                             'site_visit',
                                             'quotation',
-                                            'bank',
-                                            'discom',
-                                            'dispatch',
+                                            'document',
+                                            'backend',
+                                            'procurement',
                                             'installation',
                                             'verification',
                                             'completed',
@@ -85,7 +85,7 @@
                             'quotation'    => ['tab' => 'quotationTab',       'permission' => 'quotations view'],
                             'document'     => ['tab' => 'documentTab',        'permission' => 'document_management view'],
                             'backend'      => ['tab' => 'backendTab',         'permission' => 'leads view'],
-                            'dispatch'     => ['tab' => 'dispatchDetailTab',  'permission' => 'materials view'],
+                            'procurement'  => ['tab' => 'dispatchDetailTab',  'permission' => 'materials view'],
                             'installation' => ['tab' => 'installationTab',    'permission' => 'technicians view'],
                             'verification' => ['tab' => 'verificationTab',    'permission' => 'verification view'],
                             'completed'    => ['tab' => 'projectStage',       'permission' => 'project_completion view'],
@@ -158,7 +158,7 @@
                             <li class="nav-item">
                                 <button class="nav-link {{ $activeTab == 'dispatchDetailTab' ? 'active' : '' }}"
                                     data-bs-toggle="tab" data-bs-target="#dispatchDetailTab">
-                                    Procure Management
+                                    Procurement Management
                                 </button>
                             </li>
                             @endcan

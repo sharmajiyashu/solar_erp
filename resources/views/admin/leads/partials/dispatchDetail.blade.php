@@ -1,4 +1,4 @@
-<form action="{{ route('admin.dispatch.store', $lead->id) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.procurement.store', $lead->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="modal-body">
@@ -28,7 +28,7 @@
 
             <!-- Dispatch Date -->
             <div class="col-md-6 mb-1">
-                <label>Dispatch Date</label>
+                <label>Procurement Date</label>
                 <input type="date" name="dispatch_date" value="{{ $lead->dispatchDetail->dispatch_date ?? '' }}"
                     class="form-control">
             </div>
@@ -59,7 +59,7 @@
 
                     <option value="dispatched"
                         {{ optional($lead->dispatchDetail)->status == 'dispatched' ? 'selected' : '' }}>
-                        Dispatched
+                        Procured
                     </option>
 
                     <option value="delivered"
@@ -86,7 +86,7 @@
         </button>
 
         <button class="btn btn-success">
-            Save Dispatch Details
+            Save Procurement Details
         </button>
     </div>
 

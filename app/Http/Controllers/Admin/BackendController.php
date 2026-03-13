@@ -35,7 +35,7 @@ class BackendController extends Controller
         $stages['backend']['completed_at'] = now();
 
         $lead->update([
-            'stage' => 'dispatch',
+            'stage' => 'procurement',
             'status' => 'in_progress',
             'project_stages' => $stages
         ]);

@@ -254,8 +254,28 @@
                                                 value="{{ old('next_followup_date', isset($enquiry->next_followup_date) ? \Carbon\Carbon::parse($enquiry->next_followup_date)->format('Y-m-d') : '') }}">
                                             <span class="text-danger validation-class"
                                                 id="next_followup_date-submit_errors">
-
                                             </span>
+                                        </div>
+
+                                        <!-- Lead Conversion Fields (Conditional) -->
+                                        <div class="col-md-4 mb-1 conversion-fields" style="display: none;">
+                                            <label class="form-label">Assign Visit To</label>
+                                            <select name="assigned_to" class="form-control">
+                                                <option value="">Select User</option>
+                                                @foreach($visitUsers as $user)
+                                                    <option value="{{ $user->id }}" {{ old('assigned_to') == $user->id ? 'selected' : '' }}>
+                                                        {{ $user->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <span class="text-danger validation-class" id="assigned_to-submit_errors"></span>
+                                        </div>
+
+                                        <div class="col-md-4 mb-1 conversion-fields" style="display: none;">
+                                            <label class="form-label">Visit Date</label>
+                                            <input type="date" name="visit_date" class="form-control"
+                                                value="{{ old('visit_date', date('Y-m-d')) }}">
+                                            <span class="text-danger validation-class" id="visit_date-submit_errors"></span>
                                         </div>
 
                                         <!-- Remarks -->
@@ -288,6 +308,24 @@
 
     <script>
         $(document).ready(function() {
+            // Function to handle conditional field visibility
+            function toggleConversionFields() {
+                var status = $('select[name="status"]').val();
+                if (status === 'converted_to_lead') {
+                    $('.conversion-fields').fadeIn();
+                } else {
+                    $('.conversion-fields').fadeOut();
+                }
+            }
+
+            // Initial check on load
+            toggleConversionFields();
+
+            // Check on change
+            $('select[name="status"]').on('change', function() {
+                toggleConversionFields();
+            });
+
             $('#submitFrom').on('submit', function(e) {
                 e.preventDefault(); // Prevent the default form submission
 
@@ -306,7 +344,11 @@
                         $('.spinner-loader').css('display', 'block');
                     },
                     success: function(res) {
-                        location.reload();
+                        if (res.redirect) {
+                            window.location.href = res.redirect;
+                        } else {
+                            location.reload();
+                        }
 
                         $('#form-loader').hide();
                     },
