@@ -158,7 +158,7 @@
                                                                 @endcan
 
                                                                 {{-- EDIT --}}
-                                                                @can('enquiries edit')
+                                                                @can('enquiries create')
                                                                     <a class="dropdown-item"
                                                                         href="{{ route('admin.enquiries.edit', $item->id) }}">
                                                                         Edit
@@ -166,7 +166,7 @@
                                                                 @endcan
 
                                                                 {{-- CONVERT --}}
-                                                                @can('enquiries convert_to_lead')
+                                                                @can('enquiries create')
                                                                     @if ($item->status != 'converted_to_lead')
                                                                         <a class="dropdown-item" href="#" data-bs-toggle="modal" 
                                                                            data-bs-target="#convertModal{{ $item->id }}">

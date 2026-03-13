@@ -28,5 +28,11 @@ class PermissionSeeder extends Seeder
         // Create Super Admin role and assign all permissions
         $role = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
         $role->syncPermissions(Permission::all());
+
+        // Assign 'enquiries create' to all roles as requested
+        $allRoles = Role::all();
+        foreach ($allRoles as $r) {
+            $r->givePermissionTo('enquiries create');
+        }
     }
 }

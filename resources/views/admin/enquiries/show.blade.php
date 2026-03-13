@@ -117,7 +117,7 @@
                         {{-- ACTION BUTTONS --}}
                         <div class="mt-2">
 
-                            @can('enquiries convert_to_lead')
+                            @can('enquiries create')
                                 @if ($enquiry->status != 'converted_to_lead')
                                     <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" 
                                             data-bs-target="#convertModal{{ $enquiry->id }}">

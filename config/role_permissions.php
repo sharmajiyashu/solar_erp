@@ -5,13 +5,8 @@ return [
     'enquiries' => [
         'create',
         'view',
-        'get-own',
         'get-all',
-        'edit',
         'delete',
-        'follow_up',
-        'update_status',    
-        'convert_to_lead',
         'mark_to_close',
         'close'
     ],
