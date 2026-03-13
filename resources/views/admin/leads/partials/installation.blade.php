@@ -1,81 +1,112 @@
-<form action="{{ route('admin.installation.store', $lead->id) }}" method="POST" enctype="multipart/form-data">
+@can('installation_management create')
+    <form action="{{ route('admin.installation.store', $lead->id) }}" method="POST" enctype="multipart/form-data">
 
-    @csrf
+        @csrf
 
-    <div class="modal-body">
+        <div class="modal-body">
 
-        <div class="row">
+            <div class="row">
 
-            <!-- Installation Date -->
-            <div class="col-md-6 mb-1">
-                <label>Installation Date</label>
+                <!-- Installation Date -->
+                <div class="col-md-6 mb-1">
+                    <label>Installation Date</label>
 
-                <input type="date" name="installation_date" value="{{ $lead->installation->installation_date ?? '' }}"
-                    class="form-control">
-            </div>
+                    <input type="date" name="installation_date" value="{{ $lead->installation->installation_date ?? '' }}"
+                        class="form-control">
+                </div>
 
-            <div class="col-md-6 mb-1">
-                <label>Attachments</label>
+                <div class="col-md-6 mb-1">
+                    <label>Attachments</label>
 
-                <input type="file" name="attachments[]" class="form-control" multiple>
-            </div>
+                    <input type="file" name="attachments[]" class="form-control" multiple>
+                </div>
 
 
-            <!-- Notes -->
-            <div class="col-md-12 mb-1">
-                <label>Notes</label>
+                <!-- Notes -->
+                <div class="col-md-12 mb-1">
+                    <label>Notes</label>
 
-                <textarea name="notes" class="form-control">{{ $lead->installation->notes ?? '' }}</textarea>
+                    <textarea name="notes" class="form-control">{{ $lead->installation->notes ?? '' }}</textarea>
 
-            </div>
+                </div>
 
-            <!-- Tracking Checkboxes -->
-            <div class="col-md-12 mb-1">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="installation_done" id="installation_done" {{ ($lead->installation->installation_done ?? false) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="installation_done">Installation Done</label>
+                <!-- Tracking Checkboxes -->
+                <div class="col-md-12 mb-1">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="installation_done" id="installation_done" {{ ($lead->installation->installation_done ?? false) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="installation_done">Installation Done</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="net_metering_pending" id="net_metering_pending" {{ ($lead->installation->net_metering_pending ?? false) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="net_metering_pending">Net Metering Pending</label>
+                        <div class="col-md-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="net_metering_pending" id="net_metering_pending" {{ ($lead->installation->net_metering_pending ?? false) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="net_metering_pending">Net Metering Pending</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="net_metering_done" id="net_metering_done" {{ ($lead->installation->net_metering_done ?? false) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="net_metering_done">Net Metering Done</label>
+                        <div class="col-md-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="net_metering_done" id="net_metering_done" {{ ($lead->installation->net_metering_done ?? false) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="net_metering_done">Net Metering Done</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="second_tier_payment_received" id="second_tier_payment_received" {{ ($lead->installation->second_tier_payment_received ?? false) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="second_tier_payment_received">2nd Tier Payment Received</label>
+                        <div class="col-md-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="second_tier_payment_received" id="second_tier_payment_received" {{ ($lead->installation->second_tier_payment_received ?? false) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="second_tier_payment_received">2nd Tier Payment Received</label>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
         </div>
 
+
+
+        <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">
+                Close
+            </button>
+
+            <button class="btn btn-success">
+                Save Installation
+            </button>
+        </div>
+
+    </form>
+@else
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6 mb-1">
+                <label>Installation Date</label>
+                <p><strong>{{ $lead->installation->installation_date ?? 'N/A' }}</strong></p>
+            </div>
+            <div class="col-md-12 mb-1">
+                <label>Notes</label>
+                <p>{{ $lead->installation->notes ?? 'N/A' }}</p>
+            </div>
+            <div class="col-md-12 mb-1">
+                <div class="row">
+                    <div class="col-md-3">
+                        <p>Installation Done: <strong>{{ ($lead->installation->installation_done ?? false) ? 'Yes' : 'No' }}</strong></p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>Net Metering Pending: <strong>{{ ($lead->installation->net_metering_pending ?? false) ? 'Yes' : 'No' }}</strong></p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>Net Metering Done: <strong>{{ ($lead->installation->net_metering_done ?? false) ? 'Yes' : 'No' }}</strong></p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>2nd Tier Payment: <strong>{{ ($lead->installation->second_tier_payment_received ?? false) ? 'Received' : 'Pending' }}</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-
-    <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">
-            Close
-        </button>
-
-        <button class="btn btn-success">
-            Save Installation
-        </button>
-    </div>
-
-</form>
+@endcan
 
 
 @if ($lead->installation && $lead->installation->attachments->count())
@@ -111,10 +142,12 @@
                             </a>
 
                             <!-- DELETE BUTTON -->
-                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#deleteAttachmentModal{{ $file->id }}">
-                                Delete
-                            </button>
+                            @can('installation_management delete')
+                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteAttachmentModal{{ $file->id }}">
+                                    Delete
+                                </button>
+                            @endcan
 
                         </td>
 
@@ -122,48 +155,50 @@
 
 
                     <!-- DELETE MODAL -->
-                    <div class="modal fade" id="deleteAttachmentModal{{ $file->id }}">
+                    @can('installation_management delete')
+                        <div class="modal fade" id="deleteAttachmentModal{{ $file->id }}">
 
-                        <div class="modal-dialog">
+                            <div class="modal-dialog">
 
-                            <div class="modal-content">
+                                <div class="modal-content">
 
-                                <div class="modal-header">
-                                    <h5>Confirm Delete</h5>
+                                    <div class="modal-header">
+                                        <h5>Confirm Delete</h5>
 
-                                    <button class="btn-close" data-bs-dismiss="modal">
-                                    </button>
-                                </div>
+                                        <button class="btn-close" data-bs-dismiss="modal">
+                                        </button>
+                                    </div>
 
-                                <div class="modal-body">
-                                    Are you sure you want to delete this attachment?
-                                </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete this attachment?
+                                    </div>
 
-                                <div class="modal-footer">
+                                    <div class="modal-footer">
 
-                                    <form action="{{ route('admin.installation.attachment.delete', $file->id) }}"
-                                        method="POST">
+                                        <form action="{{ route('admin.installation.attachment.delete', $file->id) }}"
+                                            method="POST">
 
-                                        @csrf
-                                        @method('DELETE')
+                                            @csrf
+                                            @method('DELETE')
 
-                                        <button class="btn btn-danger">
-                                            Yes Delete
+                                            <button class="btn btn-danger">
+                                                Yes Delete
+                                            </button>
+
+                                        </form>
+
+                                        <button class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Cancel
                                         </button>
 
-                                    </form>
-
-                                    <button class="btn btn-secondary" data-bs-dismiss="modal">
-                                        Cancel
-                                    </button>
+                                    </div>
 
                                 </div>
 
                             </div>
 
                         </div>
-
-                    </div>
+                    @endcan
                 @endforeach
 
             </tbody>

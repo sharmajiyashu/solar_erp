@@ -29,20 +29,35 @@ class PermissionSeeder extends Seeder
         $role = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
         $role->syncPermissions(Permission::all());
 
-        // Assign basic permissions to all roles as requested
+        // Assign basic permissions to all roles
         $allRoles = Role::all();
         foreach ($allRoles as $r) {
             $r->givePermissionTo('enquiries create');
             $r->givePermissionTo('leads view');
             $r->givePermissionTo('leads create');
             $r->givePermissionTo('site_visits schedule');
+            
+            // Granular Stage Permissions (View + Create)
             $r->givePermissionTo('quotations view');
+            $r->givePermissionTo('quotations create');
+            
             $r->givePermissionTo('document_management view');
+            $r->givePermissionTo('document_management create');
+            
             $r->givePermissionTo('backend_management view');
+            $r->givePermissionTo('backend_management create');
+            
             $r->givePermissionTo('procurement_management view');
+            $r->givePermissionTo('procurement_management create');
+            
             $r->givePermissionTo('installation_management view');
+            $r->givePermissionTo('installation_management create');
+            
             $r->givePermissionTo('verification_management view');
+            $r->givePermissionTo('verification_management create');
+            
             $r->givePermissionTo('project_completion view');
+            $r->givePermissionTo('project_completion create');
         }
     }
 }

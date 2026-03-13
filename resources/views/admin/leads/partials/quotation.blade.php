@@ -79,124 +79,130 @@
 
 @if ($quotation)
     <!-- DELETE BUTTON -->
-    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQuotationModal">
-        Delete Quotation
-    </button>
+    @can('quotations delete')
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQuotationModal">
+            Delete Quotation
+        </button>
 
 
 
-    <div class="modal fade" id="deleteQuotationModal">
-        <div class="modal-dialog">
+        <div class="modal fade" id="deleteQuotationModal">
+            <div class="modal-dialog">
 
-            <div class="modal-content">
+                <div class="modal-content">
 
-                <div class="modal-header">
-                    <h5>Confirm Delete</h5>
-                    <button class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+                    <div class="modal-header">
+                        <h5>Confirm Delete</h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
 
-                <div class="modal-body">
-                    <h5>Are you sure you want to delete this quotation?</h5>
-                </div>
+                    <div class="modal-body">
+                        <h5>Are you sure you want to delete this quotation?</h5>
+                    </div>
 
-                <div class="modal-footer">
+                    <div class="modal-footer">
 
-                    <form method="POST" action="{{ route('admin.quotations.destroy', $quotation->id) }}">
+                        <form method="POST" action="{{ route('admin.quotations.destroy', $quotation->id) }}">
 
-                        @csrf
-                        @method('DELETE')
+                            @csrf
+                            @method('DELETE')
 
-                        <button class="btn btn-danger">
-                            Yes Delete
+                            <button class="btn btn-danger">
+                                Yes Delete
+                            </button>
+
+                        </form>
+
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancel
                         </button>
 
-                    </form>
-
-                    <button class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cancel
-                    </button>
+                    </div>
 
                 </div>
-
             </div>
         </div>
-    </div>
+    @endcan
 @else
     <!-- CREATE BUTTON -->
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQuotationModal">
-        + Create Quotation
-    </button>
+    @can('quotations create')
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQuotationModal">
+            + Create Quotation
+        </button>
+    @endcan
 @endif
 
-<div class="modal fade" id="addQuotationModal">
-    <div class="modal-dialog modal-lg">
+@can('quotations create')
+    <div class="modal fade" id="addQuotationModal">
+        <div class="modal-dialog modal-lg">
 
-        <form method="POST" action="{{ route('admin.quotations.store', $lead->id) }}">
-            @csrf
+            <form method="POST" action="{{ route('admin.quotations.store', $lead->id) }}">
+                @csrf
 
-            <div class="modal-content">
+                <div class="modal-content">
 
-                <div class="modal-header ">
-                    <h5>Create Quotation</h5>
-                    <button class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+                    <div class="modal-header ">
+                        <h5>Create Quotation</h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
 
-                <div class="modal-body">
+                    <div class="modal-body">
 
-                    <div class="row mb-3">
+                        <div class="row mb-3">
 
-                        <div class="col-md-6">
-                            <label>Total Amount</label>
-                            <input type="number" name="total_amount" class="form-control" required>
+                            <div class="col-md-6">
+                                <label>Total Amount</label>
+                                <input type="number" name="total_amount" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Quotation Date</label>
+                                <input type="date" name="quotation_date" class="form-control" required>
+                            </div>
+
                         </div>
 
-                        <div class="col-md-6">
-                            <label>Quotation Date</label>
-                            <input type="date" name="quotation_date" class="form-control" required>
+
+
+                        <h6>Items</h6>
+
+                        <div id="itemsContainer">
+
+                            <div class="row item-row mb-2">
+
+                                <div class="col-md-5">
+                                    <input name="items[0][item_name]" placeholder="Item Name" class="form-control">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <input name="items[0][quantity]" placeholder="Qty" type="number" class="form-control">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <input name="items[0][description]" placeholder="Description" class="form-control">
+                                </div>
+
+                            </div>
+
                         </div>
+
+                        <button type="button" class="btn btn-sm btn-success" onclick="addItemRow()">
+                            + Add Item
+                        </button>
 
                     </div>
 
-
-
-                    <h6>Items</h6>
-
-                    <div id="itemsContainer">
-
-                        <div class="row item-row mb-2">
-
-                            <div class="col-md-5">
-                                <input name="items[0][item_name]" placeholder="Item Name" class="form-control">
-                            </div>
-
-                            <div class="col-md-3">
-                                <input name="items[0][quantity]" placeholder="Qty" type="number" class="form-control">
-                            </div>
-
-                            <div class="col-md-4">
-                                <input name="items[0][description]" placeholder="Description" class="form-control">
-                            </div>
-
-                        </div>
-
+                    <div class="modal-footer">
+                        <button class="btn btn-success">Save Quotation</button>
                     </div>
 
-                    <button type="button" class="btn btn-sm btn-success" onclick="addItemRow()">
-                        + Add Item
-                    </button>
-
                 </div>
 
-                <div class="modal-footer">
-                    <button class="btn btn-success">Save Quotation</button>
-                </div>
+            </form>
 
-            </div>
-
-        </form>
-
+        </div>
     </div>
-</div>
+@endcan
 
 
 <script>
