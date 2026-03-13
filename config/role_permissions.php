@@ -12,56 +12,52 @@ return [
     ],
 
     'leads' => [
-        'create', 'get-own', 'get-all', 'view', 'edit', 'delete', 'move-stage' 
+        'view',
+        'create',
+        'get-all',
     ],
 
     'site_visits' => [
         'schedule',
-        'complete'
+        'edit',
+        'get-all'
     ],
 
     'quotations' => [
         'view',
         'create',
-        'edit',
-        'approve',
-        'reject',
-        'delete'
+        'get-all'
     ],
 
     'document_management' => [
         'view',
-        'upload',
-        'verify',
-        'delete'
+        'create',
     ],
 
     'backend_management' => [
         'view',
-        'approve',
-        'reject'
+        'create',
     ],
 
     'procurement_management' => [
         'view',
-        'reserve',
-        'dispatch'
+        'create',
+        'get-all'   
     ],
 
     'installation_management' => [
         'view',
-        'assign',
-        'complete_installation'
+        'create',
     ],
 
     'verification_management' => [
         'view',
-        'verify_project'
+        'create',
     ],
 
     'project_completion' => [
         'view',
-        'complete_project'
+        'create',
     ],
 
     'users' => [

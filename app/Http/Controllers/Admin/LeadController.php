@@ -23,11 +23,11 @@ class LeadController extends Controller
     public function __construct()
     {
         $this->middleware('permission:leads view')->only(['index', 'show']);
-        $this->middleware('permission:leads create')->only(['create', 'store']);
-        $this->middleware('permission:leads edit')->only(['edit', 'update']);
-        $this->middleware('permission:leads move-stage')->only(['moveStage']);
+        $this->middleware('permission:leads create')->only(['create', 'store', 'edit', 'update', 'moveStage']);
         
-        $this->middleware('permission:site_visits schedule')->only(['siteVisit', 'storeVisit', 'updateVisit']);
+        $this->middleware('permission:site_visits schedule')->only(['siteVisit', 'storeVisit']);
+        $this->middleware('permission:site_visits edit')->only(['updateVisit']);
+        
         $this->middleware('permission:quotations view')->only(['quotation']);
         $this->middleware('permission:document_management view')->only(['document']);
         $this->middleware('permission:backend_management view')->only(['backend']);
@@ -259,11 +259,8 @@ class LeadController extends Controller
         $leads = Lead::with(['customer'])
             ->when(!Auth::user()->can('leads get-all'), function ($query) {
                 $query->where(function($q) {
-                    $q->where('created_by', Auth::id());
-                    
-                    if (Auth::user()->can('site_visits schedule')) {
-                        $q->orWhere('assigned_to', Auth::id());
-                    }
+                    $q->where('created_by', Auth::id())
+                      ->orWhere('assigned_to', Auth::id());
                 });
             })
             ->search($request->search)
@@ -283,13 +280,22 @@ class LeadController extends Controller
 
         $leads = Lead::with(['customer'])
             ->where('stage', $stage)
-            ->when(!Auth::user()->can('leads get-all'), function ($query) {
-                $query->where(function($q) {
-                    $q->where('created_by', Auth::id());
-                    
-                    if (Auth::user()->can('site_visits schedule')) {
-                        $q->orWhere('assigned_to', Auth::id());
-                    }
+            ->when(true, function ($query) use ($stage) {
+                if (Auth::user()->can('leads get-all')) {
+                    return $query;
+                }
+                
+                if ($stage === 'site_visit' && Auth::user()->can('site_visits get-all')) {
+                    return $query;
+                }
+                
+                if ($stage === 'quotation' && Auth::user()->can('quotations get-all')) {
+                    return $query;
+                }
+
+                return $query->where(function($q) {
+                    $q->where('created_by', Auth::id())
+                      ->orWhere('assigned_to', Auth::id());
                 });
             })
             ->search($request->search)

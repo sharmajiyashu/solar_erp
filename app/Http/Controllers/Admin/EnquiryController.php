@@ -14,14 +14,14 @@ use Illuminate\Support\Facades\DB;
 
 class EnquiryController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('permission:enquiries view')->only(['index', 'show']);
-    //     $this->middleware('permission:enquiries create')->only(['create', 'store']);
-    //     $this->middleware('permission:enquiries delete')->only(['destroy']);
-    //     $this->middleware('permission:enquiries mark_to_close')->only(['markToClose']);
-    //     $this->middleware('permission:enquiries close')->only(['close']);
-    // }
+    public function __construct()
+    {
+        $this->middleware('permission:enquiries view')->only(['index', 'show']);
+        $this->middleware('permission:enquiries create')->only(['create', 'store', 'edit', 'update']);
+        $this->middleware('permission:enquiries delete')->only(['destroy']);
+        $this->middleware('permission:enquiries mark_to_close')->only(['markToClose']);
+        $this->middleware('permission:enquiries close')->only(['close']);
+    }
 
     
     public function index(Request $request)

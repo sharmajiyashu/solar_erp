@@ -42,7 +42,7 @@
                 <td>{{ $visit->notes }}</td>
 
                 <td>
-                    @can('site_visits schedule')
+                    @can('site_visits edit')
                     <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                         data-bs-target="#editVisitModal{{ $visit->id }}">
                         Edit
