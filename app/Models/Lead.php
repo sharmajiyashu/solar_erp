@@ -14,7 +14,9 @@ class Lead extends Model
         'stage',
         'status',
         'project_stages',
-        'remarks'
+        'remarks',
+        'first_payment_received',
+        'is_document_done'
     ];
 
     public function scopeSearch($query, $search)
@@ -108,8 +110,8 @@ class Lead extends Model
     public static $workflowStages = [
         'site_visit',
         'quotation',
-        'bank',
-        'discom',
+        'document',
+        'backend',
         'dispatch',
         'installation',
         'verification',

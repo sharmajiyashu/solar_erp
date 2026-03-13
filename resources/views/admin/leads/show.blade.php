@@ -83,7 +83,8 @@
                         $stageTabMap = [
                             'site_visit'   => ['tab' => 'visitTab',           'permission' => 'site_visits view'],
                             'quotation'    => ['tab' => 'quotationTab',       'permission' => 'quotations view'],
-                            'bank'         => ['tab' => 'bankTab',            'permission' => 'bank_documents view'],
+                            'document'     => ['tab' => 'documentTab',        'permission' => 'document_management view'],
+                            'backend'      => ['tab' => 'backendTab',         'permission' => 'leads view'],
                             'dispatch'     => ['tab' => 'dispatchDetailTab',  'permission' => 'materials view'],
                             'installation' => ['tab' => 'installationTab',    'permission' => 'technicians view'],
                             'verification' => ['tab' => 'verificationTab',    'permission' => 'verification view'],
@@ -135,11 +136,20 @@
                             </li>
                             @endcan
 
-                            @can('bank_documents view')
+                            @can('document_management view')
                             <li class="nav-item">
-                                <button class="nav-link {{ $activeTab == 'bankTab' ? 'active' : '' }}" data-bs-toggle="tab"
-                                    data-bs-target="#bankTab">
+                                <button class="nav-link {{ $activeTab == 'documentTab' ? 'active' : '' }}" data-bs-toggle="tab"
+                                    data-bs-target="#documentTab">
                                     Document
+                                </button>
+                            </li>
+                            @endcan
+
+                            @can('leads view')
+                            <li class="nav-item">
+                                <button class="nav-link {{ $activeTab == 'backendTab' ? 'active' : '' }}" data-bs-toggle="tab"
+                                    data-bs-target="#backendTab">
+                                    Backend Management
                                 </button>
                             </li>
                             @endcan
@@ -205,9 +215,15 @@
                             </div>
                             @endcan
 
-                            @can('bank_documents view')
-                            <div class="tab-pane fade {{ $activeTab == 'bankTab' ? 'show active' : '' }}" id="bankTab">
-                                @include('admin.leads.partials.bank')
+                            @can('document_management view')
+                            <div class="tab-pane fade {{ $activeTab == 'documentTab' ? 'show active' : '' }}" id="documentTab">
+                                @include('admin.leads.partials.document')
+                            </div>
+                            @endcan
+
+                            @can('leads view')
+                            <div class="tab-pane fade {{ $activeTab == 'backendTab' ? 'show active' : '' }}" id="backendTab">
+                                @include('admin.leads.partials.backend')
                             </div>
                             @endcan
 

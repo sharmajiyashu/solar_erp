@@ -1,9 +1,42 @@
 <div class="d-flex justify-content-between mb-2">
-    <h5>Bank Documents</h5>
+    <h5>Documents</h5>
 
-    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addBankDocumentModal">
-        + Upload Document
-    </button>
+    <div>
+        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addBankDocumentModal">
+            + Upload Document
+        </button>
+    </div>
+</div>
+
+<div class="card mb-3 border-primary">
+    <div class="card-body">
+        <h6 class="card-title text-primary">Stage Tracking</h6>
+        <form action="{{ route('admin.document-tracking.tracking', $lead->id) }}" method="POST">
+            @csrf
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <div class="form-check form-switch mt-1">
+                        <input class="form-check-input" type="checkbox" name="first_payment_received" id="first_payment_received" {{ $lead->first_payment_received ? 'checked' : '' }}>
+                        <label class="form-check-label" for="first_payment_received">First Payment Received</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-check form-switch mt-1">
+                        <input class="form-check-input" type="checkbox" name="is_document_done" id="is_document_done" {{ $lead->is_document_done ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_document_done">Document Done & Received</label>
+                    </div>
+                </div>
+                <div class="col-md-4 text-end">
+                    <button type="submit" class="btn btn-primary btn-sm">Update Status</button>
+                </div>
+            </div>
+            @if($lead->first_payment_received && $lead->is_document_done && $lead->stage == 'document')
+                <div class="mt-2 text-success small">
+                    <i class="fas fa-info-circle"></i> Both completed. Ready to move to Backend.
+                </div>
+            @endif
+        </form>
+    </div>
 </div>
 
 <table class="table table-bordered table-striped">
@@ -64,7 +97,7 @@
 
                                 <div class="modal-footer">
 
-                                    <form action="{{ route('admin.bank-documents.destroy', $doc->id) }}" method="POST">
+                                    <form action="{{ route('admin.document-tracking.destroy', $doc->id) }}" method="POST">
 
                                         @csrf
                                         @method('DELETE')
@@ -94,7 +127,7 @@
 
             <tr>
                 <td colspan="6" class="text-center">
-                    No Bank Documents Uploaded
+                    No Documents Uploaded
                 </td>
             </tr>
         @endforelse
@@ -110,7 +143,7 @@
 <div class="modal fade" id="addBankDocumentModal">
     <div class="modal-dialog">
 
-        <form action="{{ route('admin.bank-documents.store', $lead->id) }}" method="POST"
+        <form action="{{ route('admin.document-tracking.store', $lead->id) }}" method="POST"
             enctype="multipart/form-data">
 
             @csrf
@@ -118,7 +151,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5>Upload Bank Document</h5>
+                    <h5>Upload Document</h5>
                     <button class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 

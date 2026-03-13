@@ -29,6 +29,36 @@
 
             </div>
 
+            <!-- Tracking Checkboxes -->
+            <div class="col-md-12 mb-1">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="installation_done" id="installation_done" {{ ($lead->installation->installation_done ?? false) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="installation_done">Installation Done</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="net_metering_pending" id="net_metering_pending" {{ ($lead->installation->net_metering_pending ?? false) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="net_metering_pending">Net Metering Pending</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="net_metering_done" id="net_metering_done" {{ ($lead->installation->net_metering_done ?? false) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="net_metering_done">Net Metering Done</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="second_tier_payment_received" id="second_tier_payment_received" {{ ($lead->installation->second_tier_payment_received ?? false) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="second_tier_payment_received">2nd Tier Payment Received</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>

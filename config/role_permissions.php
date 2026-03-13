@@ -34,13 +34,13 @@ return [
         'reject'
     ],
 
-    'bank_documents' => [
+    'document_management' => [
         'upload',
         'view',
         'verify'
     ],
 
-    'bank_approval' => [
+    'backend_management' => [
         'approve',
         'reject'
     ],

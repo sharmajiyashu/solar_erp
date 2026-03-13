@@ -93,9 +93,9 @@
 
 
                         {{-- Bank Documents --}}
-                        @can('bank_documents view')
-                            <li class="{{ Request::routeIs('admin.leads.bank') ? 'active' : '' }}">
-                                <a class="d-flex align-items-center" href="{{ route('admin.leads.bank') }}">
+                        @can('document_management view')
+                            <li class="{{ Request::routeIs('admin.leads.document') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('admin.leads.document') }}">
                                     <i data-feather="circle"></i>
                                     <span class="menu-item text-truncate">Document</span>
                                 </a>
@@ -104,9 +104,9 @@
 
 
                         {{-- Backend / Discom --}}
-                        @can('bank_approval approve')
-                            <li class="{{ Request::routeIs('admin.leads.discom') ? 'active' : '' }}">
-                                <a class="d-flex align-items-center" href="{{ route('admin.leads.discom') }}">
+                        @can('backend_management approve')
+                            <li class="{{ Request::routeIs('admin.leads.backend') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('admin.leads.backend') }}">
                                     <i data-feather="circle"></i>
                                     <span class="menu-item text-truncate">Backend</span>
                                 </a>

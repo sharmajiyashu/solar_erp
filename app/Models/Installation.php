@@ -11,7 +11,11 @@ class Installation extends Model
         'user_id',
         'installation_date',
         'status',
-        'notes'
+        'notes',
+        'installation_done',
+        'net_metering_pending',
+        'net_metering_done',
+        'second_tier_payment_received'
     ];
 
     public function lead()

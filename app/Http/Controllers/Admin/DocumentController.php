@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BankDocument;
 use Illuminate\Http\Request;
 
-class BankController extends Controller
+class DocumentController extends Controller
 {
 
 
@@ -39,7 +39,7 @@ class BankController extends Controller
             'status' => 'pending',
         ]);
 
-        return back()->with('success', 'Bank Document Uploaded Successfully');
+        return back()->with('success', 'Document Uploaded Successfully');
     }
 
     public function destroy($id)
@@ -69,5 +69,34 @@ class BankController extends Controller
         ]);
 
         return back()->with('success', 'Status Updated');
+    }
+
+    public function updateLeadStatus(Request $request, $leadId)
+    {
+        $this->authorize('leads edit');
+        $lead = \App\Models\Lead::findOrFail($leadId);
+
+        $lead->update([
+            'first_payment_received' => $request->has('first_payment_received'),
+            'is_document_done' => $request->has('is_document_done'),
+        ]);
+
+        // Auto move to backend if both are checked
+        if ($lead->first_payment_received && $lead->is_document_done && $lead->stage == 'document') {
+            
+            $stages = $lead->project_stages;
+            $stages['document']['status'] = 'done';
+            $stages['document']['completed_at'] = now();
+
+            $lead->update([
+                'stage' => 'backend',
+                'status' => 'in_progress',
+                'project_stages' => $stages
+            ]);
+
+            return back()->with('success', 'Status updated and moved to Backend stage.');
+        }
+
+        return back()->with('success', 'Status updated successfully.');
     }
 }

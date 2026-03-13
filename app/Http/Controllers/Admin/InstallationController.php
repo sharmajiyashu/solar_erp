@@ -12,6 +12,7 @@ class InstallationController extends Controller
 {
     public function store(Request $request, $leadId)
     {
+        $this->authorize('technicians complete_installation');
         $request->validate([
             'installation_date' => 'nullable|date',
             'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf'
@@ -28,7 +29,11 @@ class InstallationController extends Controller
                 'user_id' => Auth::id(),
                 'installation_date' => $request->installation_date,
                 'status' => 'pending',
-                'notes' => $request->notes
+                'notes' => $request->notes,
+                'installation_done' => $request->has('installation_done'),
+                'net_metering_pending' => $request->has('net_metering_pending'),
+                'net_metering_done' => $request->has('net_metering_done'),
+                'second_tier_payment_received' => $request->has('second_tier_payment_received'),
             ]
 
         );

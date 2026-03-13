@@ -3,16 +3,18 @@
 use App\Http\Controllers\Admin\{
     AdminUserController,
     AttendanceController,
-    BankController,
-    DispatchDetailController,
-    EnquiryController,
-    HomeController,
-    InstallationController,
-    LeadController,
-    LoginController,
-    QuotationController,
     RoleController,
     VerificationController,
+    BackendController,
+    DocumentController,
+    HomeController,
+    LeadController,
+    EnquiryController,
+    QuotationController,
+    DispatchDetailController,
+    InstallationController,
+    SiteVisitController,
+    LoginController,
 };
 use App\Http\Controllers\AirpotCsvController;
 use Illuminate\Support\Facades\Route;
@@ -70,8 +72,8 @@ Route::middleware(['isAdmin'])
 
             Route::get('/site-visit', [LeadController::class, 'siteVisit'])->name('site_visit');
             Route::get('/quotation', [LeadController::class, 'quotation'])->name('quotation');
-            Route::get('/bank', [LeadController::class, 'bank'])->name('bank');
-            Route::get('/discom', [LeadController::class, 'discom'])->name('discom');
+            Route::get('/document', [LeadController::class, 'document'])->name('document');
+            Route::get('/backend', [LeadController::class, 'backend'])->name('backend');
             Route::get('/dispatch', [LeadController::class, 'dispatch'])->name('dispatch');
             Route::get('/installation', [LeadController::class, 'installation'])->name('installation');
             Route::get('/verification', [LeadController::class, 'verification'])->name('verification');
@@ -88,20 +90,13 @@ Route::middleware(['isAdmin'])
         Route::post('quotations/store/{id}', [QuotationController::class, 'store'])->name('quotations.store');
         Route::delete('/quotations/{id}', [QuotationController::class, 'destroy'])->name('quotations.destroy');
 
-        Route::post('/leads/{lead}/bank-documents', [BankController::class, 'store'])
-            ->name('bank-documents.store');
+        Route::post('/document-tracking/{lead}/store', [DocumentController::class, 'store'])->name('document-tracking.store');
+        Route::delete('/document-tracking/{id}/destroy', [DocumentController::class, 'destroy'])->name('document-tracking.destroy');
+        Route::post('/document-tracking/{id}/status', [DocumentController::class, 'changeStatus'])->name('document-tracking.status');
+        Route::post('/document-tracking/{lead}/tracking', [DocumentController::class, 'updateLeadStatus'])->name('document-tracking.tracking');
 
-        Route::delete(
-            '/bank-documents/{id}',
-            [BankController::class, 'destroy']
-        )
-            ->name('bank-documents.destroy');
-
-        Route::post(
-            '/bank-documents/{id}/status',
-            [BankController::class, 'changeStatus']
-        )
-            ->name('bank-documents.status');
+        Route::post('/backend-tracking/{lead}/tracking', [BackendController::class, 'updateTracking'])->name('backend-tracking.tracking');
+        Route::post('/backend-tracking/{lead}/move', [BackendController::class, 'moveToProcurement'])->name('backend-tracking.move');
 
         Route::post(
             '/dispatch-details/{lead}',

@@ -30,7 +30,6 @@ class LeadController extends Controller
 
     public function edit($id)
     {
-        $this->authorize('leads edit');
         $lead = Lead::find($id);
         return view('admin.leads.create', compact('lead'));
     }
@@ -44,7 +43,6 @@ class LeadController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->authorize('leads edit');
         $request->validate([
             'assigned_to' => 'required|exists:users,id',
             'visit_date' => 'required',
@@ -138,11 +136,11 @@ class LeadController extends Controller
                     'status' => 'pending',
                     'completed_at' => null
                 ],
-                'bank' => [
+                'document' => [
                     'status' => 'pending',
                     'completed_at' => null
                 ],
-                'discom' => [
+                'backend' => [
                     'status' => 'pending',
                     'completed_at' => null
                 ],
@@ -202,49 +200,41 @@ class LeadController extends Controller
 
     public function siteVisit(Request $request)
     {
-        $this->authorize('site_visits view');
         return $this->stageView('site_visit', $request);
     }
 
     public function quotation(Request $request)
     {
-        $this->authorize('quotations view');
         return $this->stageView('quotation', $request);
     }
 
-    public function bank(Request $request)
+    public function document(Request $request)
     {
-        $this->authorize('bank_documents view');
-        return $this->stageView('bank', $request);
+        return $this->stageView('document', $request);
     }
 
-    public function discom(Request $request)
+    public function backend(Request $request)
     {
-        $this->authorize('leads view');
-        return $this->stageView('discom', $request);
+        return $this->stageView('backend', $request);
     }
 
     public function dispatch(Request $request)
     {
-        $this->authorize('materials view');
         return $this->stageView('dispatch', $request);
     }
 
     public function installation(Request $request)
     {
-        $this->authorize('technicians view');
         return $this->stageView('installation', $request);
     }
 
     public function verification(Request $request)
     {
-        $this->authorize('verification view');
         return $this->stageView('verification', $request);
     }
 
     public function completed(Request $request)
     {
-        $this->authorize('project_completion view');
         return $this->stageView('completed', $request);
     }
 
@@ -257,7 +247,6 @@ class LeadController extends Controller
 
     public function index(Request $request)
     {
-        $this->authorize('leads view');
         $query_search = $request->input('search');
 
         $leads = Lead::with(['customer'])
@@ -277,7 +266,6 @@ class LeadController extends Controller
 
     private function stageView($stage, Request $request)
     {
-        $this->authorize('leads view');
         $query_search = $request->input('search');
 
         $leads = Lead::with(['customer'])
@@ -301,7 +289,6 @@ class LeadController extends Controller
 
     public function show($id)
     {
-        $this->authorize('leads view');
         $lead = Lead::with(['customer', 'assignedUser', 'creator'])
             ->findOrFail($id);
 
@@ -320,7 +307,6 @@ class LeadController extends Controller
 
     public function moveStage($id, $nextStage)
     {
-        $this->authorize('leads move-stage');
         $lead = Lead::findOrFail($id);
         $stages = $lead->project_stages;
 
@@ -341,7 +327,6 @@ class LeadController extends Controller
 
     public function storeVisit(Request $request, $lead_id)
     {
-        $this->authorize('leads edit');
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'visit_date' => 'required|date',
@@ -362,7 +347,6 @@ class LeadController extends Controller
 
     public function updateVisit(Request $request, $id)
     {
-        $this->authorize('leads edit');
         $request->validate([
             'visit_date' => 'required|date',
             'status' => 'required',

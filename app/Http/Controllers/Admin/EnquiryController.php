@@ -259,8 +259,8 @@ class EnquiryController extends Controller
         $projectStages = [
             'site_visit' => ['status' => 'pending', 'completed_at' => null],
             'quotation' => ['status' => 'pending', 'completed_at' => null],
-            'bank' => ['status' => 'pending', 'completed_at' => null],
-            'discom' => ['status' => 'pending', 'completed_at' => null],
+            'document' => ['status' => 'pending', 'completed_at' => null],
+            'backend' => ['status' => 'pending', 'completed_at' => null],
             'dispatch' => ['status' => 'pending', 'completed_at' => null],
             'installation' => ['status' => 'pending', 'completed_at' => null],
             'verification' => ['status' => 'pending', 'completed_at' => null],
