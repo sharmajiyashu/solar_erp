@@ -1,4 +1,4 @@
-@can('leads edit')
+@can('site_visits schedule')
 <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#addVisitModal">
     + Create Visit
 </button>
@@ -42,7 +42,7 @@
                 <td>{{ $visit->notes }}</td>
 
                 <td>
-                    @can('leads edit')
+                    @can('site_visits schedule')
                     <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                         data-bs-target="#editVisitModal{{ $visit->id }}">
                         Edit

@@ -71,7 +71,7 @@
 
 
                         {{-- Site Visit --}}
-                        @can('site_visits view')
+                        @can('site_visits schedule')
                             <li class="{{ Request::routeIs('admin.leads.site_visit') ? 'active' : '' }}">
                                 <a class="d-flex align-items-center" href="{{ route('admin.leads.site_visit') }}">
                                     <i data-feather="circle"></i>
@@ -104,7 +104,7 @@
 
 
                         {{-- Backend --}}
-                        @can('backend_management approve')
+                        @can('backend_management view')
                             <li class="{{ Request::routeIs('admin.leads.backend') ? 'active' : '' }}">
                                 <a class="d-flex align-items-center" href="{{ route('admin.leads.backend') }}">
                                     <i data-feather="circle"></i>
@@ -115,7 +115,7 @@
 
 
                         {{-- Procure / Procurement --}}
-                        @can('materials view')
+                        @can('procurement_management view')
                             <li class="{{ Request::routeIs('admin.leads.procurement') ? 'active' : '' }}">
                                 <a class="d-flex align-items-center" href="{{ route('admin.leads.procurement') }}">
                                     <i data-feather="circle"></i>
@@ -126,7 +126,7 @@
 
 
                         {{-- Installation --}}
-                        @can('technicians view')
+                        @can('installation_management view')
                             <li class="{{ Request::routeIs('admin.leads.installation') ? 'active' : '' }}">
                                 <a class="d-flex align-items-center" href="{{ route('admin.leads.installation') }}">
                                     <i data-feather="circle"></i>
@@ -137,7 +137,7 @@
 
 
                         {{-- Verification --}}
-                        @can('verification verify_project')
+                        @can('verification_management view')
                             <li class="{{ Request::routeIs('admin.leads.verification') ? 'active' : '' }}">
                                 <a class="d-flex align-items-center" href="{{ route('admin.leads.verification') }}">
                                     <i data-feather="circle"></i>

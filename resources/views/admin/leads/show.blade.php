@@ -81,17 +81,17 @@
 
                     @php
                         $stageTabMap = [
-                            'site_visit'   => ['tab' => 'visitTab',           'permission' => 'site_visits view'],
+                            'site_visit'   => ['tab' => 'visitTab',           'permission' => 'site_visits schedule'],
                             'quotation'    => ['tab' => 'quotationTab',       'permission' => 'quotations view'],
                             'document'     => ['tab' => 'documentTab',        'permission' => 'document_management view'],
-                            'backend'      => ['tab' => 'backendTab',         'permission' => 'leads view'],
-                            'procurement'  => ['tab' => 'dispatchDetailTab',  'permission' => 'materials view'],
-                            'installation' => ['tab' => 'installationTab',    'permission' => 'technicians view'],
-                            'verification' => ['tab' => 'verificationTab',    'permission' => 'verification view'],
+                            'backend'      => ['tab' => 'backendTab',         'permission' => 'backend_management view'],
+                            'procurement'  => ['tab' => 'dispatchDetailTab',  'permission' => 'procurement_management view'],
+                            'installation' => ['tab' => 'installationTab',    'permission' => 'installation_management view'],
+                            'verification' => ['tab' => 'verificationTab',    'permission' => 'verification_management view'],
                             'completed'    => ['tab' => 'projectStage',       'permission' => 'project_completion view'],
                         ];
 
-                        $activeTab = 'leadTab'; // Default back to lead details if current stage is not viewable
+                        $activeTab = 'leadTab'; // Default back to lead details
                         if (isset($stageTabMap[$lead->stage]) && Auth::user()->can($stageTabMap[$lead->stage]['permission'])) {
                             $activeTab = $stageTabMap[$lead->stage]['tab'];
                         }
@@ -118,7 +118,7 @@
                             </li>
                             @endcan
 
-                            @can('site_visits view')
+                            @can('site_visits schedule')
                             <li class="nav-item">
                                 <button class="nav-link {{ $activeTab == 'visitTab' ? 'active' : '' }}" data-bs-toggle="tab"
                                     data-bs-target="#visitTab">
@@ -145,7 +145,7 @@
                             </li>
                             @endcan
 
-                            @can('leads view')
+                            @can('backend_management view')
                             <li class="nav-item">
                                 <button class="nav-link {{ $activeTab == 'backendTab' ? 'active' : '' }}" data-bs-toggle="tab"
                                     data-bs-target="#backendTab">
@@ -154,7 +154,7 @@
                             </li>
                             @endcan
 
-                            @can('materials view')
+                            @can('procurement_management view')
                             <li class="nav-item">
                                 <button class="nav-link {{ $activeTab == 'dispatchDetailTab' ? 'active' : '' }}"
                                     data-bs-toggle="tab" data-bs-target="#dispatchDetailTab">
@@ -163,7 +163,7 @@
                             </li>
                             @endcan
 
-                            @can('technicians view')
+                            @can('installation_management view')
                             <li class="nav-item">
                                 <button class="nav-link {{ $activeTab == 'installationTab' ? 'active' : '' }}"
                                     data-bs-toggle="tab" data-bs-target="#installationTab">
@@ -172,7 +172,7 @@
                             </li>
                             @endcan
 
-                            @can('verification view')
+                            @can('verification_management view')
                             <li class="nav-item">
                                 <button class="nav-link {{ $activeTab == 'verificationTab' ? 'active' : '' }}"
                                     data-bs-toggle="tab" data-bs-target="#verificationTab">
@@ -202,7 +202,7 @@
                             </div>
                             @endcan
 
-                            @can('site_visits view')
+                            @can('site_visits schedule')
                             <div class="tab-pane fade {{ $activeTab == 'visitTab' ? 'show active' : '' }}" id="visitTab">
                                 @include('admin.leads.partials.visits')
                             </div>
@@ -221,27 +221,27 @@
                             </div>
                             @endcan
 
-                            @can('leads view')
+                            @can('backend_management view')
                             <div class="tab-pane fade {{ $activeTab == 'backendTab' ? 'show active' : '' }}" id="backendTab">
                                 @include('admin.leads.partials.backend')
                             </div>
                             @endcan
 
-                            @can('materials view')
+                            @can('procurement_management view')
                             <div class="tab-pane fade {{ $activeTab == 'dispatchDetailTab' ? 'show active' : '' }}"
                                 id="dispatchDetailTab">
                                 @include('admin.leads.partials.dispatchDetail')
                             </div>
                             @endcan
 
-                            @can('technicians view')
+                            @can('installation_management view')
                             <div class="tab-pane fade {{ $activeTab == 'installationTab' ? 'show active' : '' }}"
                                 id="installationTab">
                                 @include('admin.leads.partials.installation')
                             </div>
                             @endcan
 
-                            @can('verification view')
+                            @can('verification_management view')
                             <div class="tab-pane fade {{ $activeTab == 'verificationTab' ? 'show active' : '' }}"
                                 id="verificationTab">
                                 @include('admin.leads.partials.verification')

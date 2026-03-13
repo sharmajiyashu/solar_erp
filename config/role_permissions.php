@@ -10,7 +10,7 @@ return [
         'edit',
         'delete',
         'follow_up',
-        'update_status',
+        'update_status',    
         'convert_to_lead',
         'mark_to_close',
         'close'
@@ -22,48 +22,51 @@ return [
 
     'site_visits' => [
         'schedule',
-        'view',
         'complete'
     ],
 
     'quotations' => [
-        'create',
         'view',
+        'create',
         'edit',
         'approve',
-        'reject'
+        'reject',
+        'delete'
     ],
 
     'document_management' => [
-        'upload',
         'view',
-        'verify'
+        'upload',
+        'verify',
+        'delete'
     ],
 
     'backend_management' => [
+        'view',
         'approve',
         'reject'
     ],
 
-    'materials' => [
+    'procurement_management' => [
+        'view',
         'reserve',
-        'dispatch',
-        'view'
+        'dispatch'
     ],
 
-    'technicians' => [
-        'assign',
+    'installation_management' => [
         'view',
+        'assign',
         'complete_installation'
     ],
 
-    'verification' => [
-        'view', 'verify_project'
+    'verification_management' => [
+        'view',
+        'verify_project'
     ],
 
     'project_completion' => [
-        'complete_project',
-        'view'
+        'view',
+        'complete_project'
     ],
 
     'users' => [
