@@ -30,6 +30,9 @@ class BackendController extends Controller
         }
 
         $stages = $lead->project_stages;
+        if (is_string($stages)) {
+            $stages = json_decode($stages, true);
+        }
         $stages['backend']['status'] = 'done';
         $stages['backend']['completed_at'] = now();
 

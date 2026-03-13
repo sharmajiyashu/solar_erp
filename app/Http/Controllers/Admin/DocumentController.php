@@ -85,6 +85,9 @@ class DocumentController extends Controller
         if ($lead->first_payment_received && $lead->is_document_done && $lead->stage == 'document') {
             
             $stages = $lead->project_stages;
+            if (is_string($stages)) {
+                $stages = json_decode($stages, true);
+            }
             $stages['document']['status'] = 'done';
             $stages['document']['completed_at'] = now();
 

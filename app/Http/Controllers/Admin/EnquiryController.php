@@ -274,7 +274,7 @@ class EnquiryController extends Controller
             'assigned_to' => Auth::id(),
             'stage' => 'site_visit',
             'status' => 'pending',
-            'project_stages' => json_encode($projectStages),
+            'project_stages' => $projectStages,
             'remarks' => '',
             'created_by' => Auth::id(),
         ]);

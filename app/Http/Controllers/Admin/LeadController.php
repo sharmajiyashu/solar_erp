@@ -309,6 +309,9 @@ class LeadController extends Controller
     {
         $lead = Lead::findOrFail($id);
         $stages = $lead->project_stages;
+        if (is_string($stages)) {
+            $stages = json_decode($stages, true);
+        }
 
         // Mark current stage as done
         $stages[$lead->stage]['status'] = 'done';
