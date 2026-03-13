@@ -33,6 +33,9 @@ class EnquiryController extends Controller
                 });
             })
 
+            ->when($change_status === null, function ($query) {
+                $query->where('status', '!=', 'converted_to_lead');
+            })
             ->when($change_status !== null, function ($query) use ($change_status) {
                 $query->where('status', $change_status);
             })
@@ -76,6 +79,10 @@ class EnquiryController extends Controller
             'price_quote'         => 'required',
             'status' => 'required',
             'project_size' => 'required',
+            'alternate_mobile' => 'nullable|string',
+            'email' => 'nullable|email',
+            'state' => 'nullable|string',
+            'pincode' => 'nullable|string',
         ]);
 
         $validated['enquiry_no'] = 'ENQ-' . now()->timestamp;
@@ -84,7 +91,7 @@ class EnquiryController extends Controller
         $enquiry = Enquiry::create($validated);
         if ($enquiry->status == 'converted_to_lead') {
             $leadId = $this->leadGenerate($enquiry->id);
-            return redirect()->route('admin.leads.edit', $leadId)
+            return redirect()->route('admin.leads.show', $leadId)
                 ->with('success', 'Enquiry converted to Lead');
         }
 
@@ -117,6 +124,8 @@ class EnquiryController extends Controller
             'email'         => 'nullable|email',
             'city'          => 'nullable|string',
             'state'         => 'nullable|string',
+            'pincode'       => 'nullable|string',
+            'alternate_mobile' => 'nullable|string',
             'status'        => 'required'
         ]);
 
@@ -124,7 +133,7 @@ class EnquiryController extends Controller
 
         if ($request->status == 'converted_to_lead') {
             $leadId = $this->leadGenerate($id);
-            return redirect()->route('admin.leads.edit', $leadId)
+            return redirect()->route('admin.leads.show', $leadId)
                 ->with('success', 'Enquiry converted to Lead');
         }
 
@@ -189,8 +198,13 @@ class EnquiryController extends Controller
     }
 
 
-    public function convertToLead($id)
+    public function convertToLead(Request $request, $id)
     {
+        $request->validate([
+            'assigned_to' => 'required|exists:users,id',
+            'visit_date' => 'required|date',
+        ]);
+
         DB::beginTransaction();
 
         try {
@@ -205,7 +219,7 @@ class EnquiryController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.leads.edit', $leadId)
+            return redirect()->route('admin.leads.show', $leadId)
                 ->with('success', 'Enquiry converted to Lead');
         } catch (\Exception $e) {
 
@@ -218,7 +232,7 @@ class EnquiryController extends Controller
 
 
 
-    public function leadGenerate($enquiry_id)
+    public function leadGenerate($enquiry_id, $assigned_to = null, $visit_date = null)
     {
         $leadCheck = Lead::where('enquiry_id', $enquiry_id)->first();
 
@@ -239,6 +253,8 @@ class EnquiryController extends Controller
                 'name' => $enquiry->customer_name,
                 'address' => $enquiry->address,
                 'city' => $enquiry->city,
+                'state' => $enquiry->state,
+                'pincode' => $enquiry->pincode,
                 'created_by' => Auth::id()
             ]
         );
@@ -271,12 +287,20 @@ class EnquiryController extends Controller
             'enquiry_id' => $enquiry_id,
             'lead_no' => $leadNo,
             'customer_id' => $customer->id, // valid id
-            'assigned_to' => Auth::id(),
+            'assigned_to' => $assigned_to ?? Auth::id(),
             'stage' => 'site_visit',
             'status' => 'pending',
             'project_stages' => $projectStages,
-            'remarks' => '',
+            'remarks' => $enquiry->remarks ?? '',
             'created_by' => Auth::id(),
+        ]);
+
+        SiteVisit::create([
+            'lead_id' => $lead->id,
+            'user_id' => $assigned_to ?? Auth::id(),
+            'visit_date' => $visit_date ?? now(),
+            'status' => 'pending',
+            'notes' => $enquiry->remarks ?? ''
         ]);
 
         return $lead->id;

@@ -67,13 +67,10 @@
                                         <thead class="table-dark">
                                             <tr>
                                                 <th>#</th>
-                                                @can('enquiries get-all')
-                                                    <th>Customer</th>
-                                                @endcan
+                                                <th>Customer Details</th>
+                                                <th>City / Address</th>
                                                 <th>Status</th>
                                                 <th>Next Followup</th>
-                                                <th>Created By</th>
-                                                <th>Created At</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -86,19 +83,21 @@
                                                 <tr>
                                                     <td>{{ $i }}</td>
 
-                                                    @can('enquiries get-all')
-                                                        <td>
-                                                            <div class="fw-bolder">
-                                                                {{ $item->customer_name }}
-                                                            </div>
-                                                            <div class="text-muted">
-                                                                {{ $item->mobile }}
-                                                            </div>
-                                                            <div class="text-muted">
-                                                                {{ $item->enquiry_no }}
-                                                            </div>
-                                                        </td>
-                                                    @endcan
+                                                    <td>
+                                                        <div class="fw-bolder">{{ $item->customer_name }}</div>
+                                                        <div class="small">M: {{ $item->mobile }}</div>
+                                                        @if($item->alternate_mobile)
+                                                            <div class="small text-muted">Alt: {{ $item->alternate_mobile }}</div>
+                                                        @endif
+                                                        <div class="small text-primary">{{ $item->enquiry_no }}</div>
+                                                    </td>
+
+                                                    <td>
+                                                        <div>{{ $item->city ?? '-' }}</div>
+                                                        <div class="small text-muted" title="{{ $item->address }}">
+                                                            {{ Str::limit($item->address, 30) }}
+                                                        </div>
+                                                    </td>
 
                                                     {{-- STATUS --}}
                                                     <td>
@@ -167,8 +166,8 @@
                                                                 {{-- CONVERT --}}
                                                                 @can('enquiries convert_to_lead')
                                                                     @if ($item->status != 'converted_to_lead')
-                                                                        <a class="dropdown-item"
-                                                                            href="{{ route('admin.enquiries.convert', $item->id) }}">
+                                                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" 
+                                                                           data-bs-target="#convertModal{{ $item->id }}">
                                                                             Convert to Lead
                                                                         </a>
                                                                     @endif
@@ -248,6 +247,9 @@
                                                 @endcan
 
                                                 @php $i++; @endphp
+
+                                                {{-- CONVERT MODAL --}}
+                                                @include('admin.enquiries.partials.convert_modal', ['item' => $item])
                                             @endforeach
                                         </tbody>
                                     </table>

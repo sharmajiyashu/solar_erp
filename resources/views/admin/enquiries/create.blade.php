@@ -78,13 +78,32 @@
                                         </div>
 
                                         <!-- Mobile -->
-                                        <div class="col-md-6 mb-1">
+                                        <div class="col-md-4 mb-1">
                                             <label class="form-label">Mobile</label>
                                             <input type="text" name="mobile" class="form-control"
                                                 placeholder="Enter mobile number"
                                                 value="{{ old('mobile', $enquiry->mobile ?? '') }}">
                                             <span class="text-danger validation-class" id="mobile-submit_errors">
+                                            </span>
+                                        </div>
 
+                                        <!-- Alternate Mobile -->
+                                        <div class="col-md-4 mb-1">
+                                            <label class="form-label">Alternate Mobile</label>
+                                            <input type="text" name="alternate_mobile" class="form-control"
+                                                placeholder="Enter alternate mobile"
+                                                value="{{ old('alternate_mobile', $enquiry->alternate_mobile ?? '') }}">
+                                            <span class="text-danger validation-class" id="alternate_mobile-submit_errors">
+                                            </span>
+                                        </div>
+
+                                        <!-- Email -->
+                                        <div class="col-md-4 mb-1">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" name="email" class="form-control"
+                                                placeholder="Enter email address"
+                                                value="{{ old('email', $enquiry->email ?? '') }}">
+                                            <span class="text-danger validation-class" id="email-submit_errors">
                                             </span>
                                         </div>
 
@@ -188,7 +207,24 @@
                                             <input type="text" name="city" class="form-control"
                                                 placeholder="Enter city" value="{{ old('city', $enquiry->city ?? '') }}">
                                             <span class="text-danger validation-class" id="city-submit_errors">
+                                            </span>
+                                        </div>
 
+                                        <!-- State -->
+                                        <div class="col-md-4 mb-1">
+                                            <label class="form-label">State</label>
+                                            <input type="text" name="state" class="form-control"
+                                                placeholder="Enter state" value="{{ old('state', $enquiry->state ?? '') }}">
+                                            <span class="text-danger validation-class" id="state-submit_errors">
+                                            </span>
+                                        </div>
+
+                                        <!-- Pincode -->
+                                        <div class="col-md-4 mb-1">
+                                            <label class="form-label">Pincode</label>
+                                            <input type="text" name="pincode" class="form-control"
+                                                placeholder="Enter pincode" value="{{ old('pincode', $enquiry->pincode ?? '') }}">
+                                            <span class="text-danger validation-class" id="pincode-submit_errors">
                                             </span>
                                         </div>
 

@@ -10,7 +10,6 @@ class BackendController extends Controller
 {
     public function updateTracking(Request $request, $leadId)
     {
-        $this->authorize('leads edit');
         $lead = Lead::findOrFail($leadId);
 
         $lead->update([
@@ -22,7 +21,6 @@ class BackendController extends Controller
 
     public function moveToProcurement($leadId)
     {
-        $this->authorize('leads move-stage');
         $lead = Lead::findOrFail($leadId);
 
         if (!$lead->first_payment_received) {

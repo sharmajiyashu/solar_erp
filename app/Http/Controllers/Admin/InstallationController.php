@@ -12,7 +12,6 @@ class InstallationController extends Controller
 {
     public function store(Request $request, $leadId)
     {
-        $this->authorize('technicians complete_installation');
         $request->validate([
             'installation_date' => 'nullable|date',
             'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf'

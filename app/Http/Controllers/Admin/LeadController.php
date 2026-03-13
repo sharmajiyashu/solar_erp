@@ -36,7 +36,6 @@ class LeadController extends Controller
 
     public function create()
     {
-        $this->authorize('leads create');
         return view('admin.leads.create');
     }
 
@@ -65,7 +64,6 @@ class LeadController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorize('leads create');
         $request->validate([
 
             // Customer Details

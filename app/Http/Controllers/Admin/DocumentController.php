@@ -73,7 +73,6 @@ class DocumentController extends Controller
 
     public function updateLeadStatus(Request $request, $leadId)
     {
-        $this->authorize('leads edit');
         $lead = \App\Models\Lead::findOrFail($leadId);
 
         $lead->update([

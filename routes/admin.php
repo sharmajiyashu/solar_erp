@@ -40,7 +40,7 @@ Route::middleware(['isAdmin'])
     ->group(function () {
 
         Route::resource('enquiries', EnquiryController::class);
-        Route::get('enquiries/{id}/convert', [EnquiryController::class, 'convertToLead'])
+        Route::post('enquiries/{id}/convert', [EnquiryController::class, 'convertToLead'])
             ->name('enquiries.convert');
         Route::post(
             'enquiries/{id}/followup',

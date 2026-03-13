@@ -119,10 +119,10 @@
 
                             @can('enquiries convert_to_lead')
                                 @if ($enquiry->status != 'converted_to_lead')
-                                    <a href="{{ route('admin.enquiries.convert', $enquiry->id) }}"
-                                        class="btn btn-success btn-sm">
+                                    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" 
+                                            data-bs-target="#convertModal{{ $enquiry->id }}">
                                         Convert To Lead
-                                    </a>
+                                    </button>
                                 @endif
                             @endcan
 
@@ -272,6 +272,10 @@
                     </div>
 
                 </div>
+
+                {{-- CONVERT MODAL --}}
+                @include('admin.enquiries.partials.convert_modal', ['item' => $enquiry, 'users' => $users])
+
             </div>
         </div>
     @endsection
