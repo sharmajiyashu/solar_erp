@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('leads_and_installations', function (Blueprint $table) {
+        Schema::table('leads', function (Blueprint $table) {
             $table->timestamp('lead_created_at')->nullable();
             $table->timestamp('site_visit_created_at')->nullable();
             $table->timestamp('quotation_created_at')->nullable();
@@ -28,7 +28,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('leads_and_installations', function (Blueprint $table) {
+        Schema::table('leads', function (Blueprint $table) {
             $table->dropColumn([
                 'lead_created_at',
                 'site_visit_created_at',

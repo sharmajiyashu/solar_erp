@@ -22,32 +22,32 @@ class UserRolePermissionSeeder extends Seeder
         // reset permission cache
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $super_admin_name = 'Super-Admin';
+        $super_admin_role_name = 'Super-Admin';
 
         // Create or update role
         $superAdminRole = Role::firstOrCreate([
-            'name' => $super_admin_name,
+            'name' => $super_admin_role_name,
             'guard_name' => 'web'
         ]);
 
-        $permissions = config('role_permissions');
+        $permissionsByModule = config('role_permissions');
 
-        foreach ($permissions as $module => $actions) {
+        foreach ($permissionsByModule as $module => $actions) {
             foreach ($actions as $action) {
-
                 $permission_name = $module . ' ' . $action;
-
-                Permission::findOrCreate($permission_name, 'web');
+                // Use firstOrCreate to ensure it's in the DB
+                Permission::firstOrCreate(['name' => $permission_name, 'guard_name' => 'web']);
             }
         }
 
-        // get all permissions
-        $allPermissionNames = Permission::pluck('name')->toArray();
+        // Clear cache again before syncing
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // assign permissions to role
+        // Assign all permissions to Super-Admin
+        $allPermissionNames = Permission::where('guard_name', 'web')->pluck('name')->toArray();
         $superAdminRole->syncPermissions($allPermissionNames);
 
-        // create super admin user
+        // Create super admin user
         $superAdminUser = User::firstOrCreate(
             ['email' => 'admin@gmail.com'],
             [
@@ -57,7 +57,7 @@ class UserRolePermissionSeeder extends Seeder
             ]
         );
 
-        // assign role
+        // Assign role
         $superAdminUser->assignRole($superAdminRole);
     }
 }
