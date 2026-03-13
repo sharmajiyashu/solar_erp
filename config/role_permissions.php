@@ -2,6 +2,11 @@
 
 return [
 
+    'dashboard' => [
+        'view',
+        'get-all',
+    ],
+
     'enquiries' => [
         'create',
         'view',

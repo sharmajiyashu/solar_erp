@@ -32,6 +32,7 @@ class PermissionSeeder extends Seeder
         // Assign basic permissions to all roles
         $allRoles = Role::all();
         foreach ($allRoles as $r) {
+            $r->givePermissionTo('dashboard view');
             $r->givePermissionTo('enquiries create');
             $r->givePermissionTo('leads view');
             $r->givePermissionTo('leads create');
