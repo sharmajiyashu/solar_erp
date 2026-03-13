@@ -7,8 +7,7 @@
 
 
                 <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
-                    <h2 style="" class="brand-text">{{ env('APP_NAME') }}</h2>
-
+                    <img src="{{ url('public/logo.jpg') }}" alt="Logo" style="max-height: 50px; width: auto;">
                 </a>
             </li>
             <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i
