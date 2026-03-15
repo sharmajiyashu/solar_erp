@@ -46,3 +46,7 @@
 
     </tbody>
 </table>
+
+<div class="mt-4">
+    @include('admin.leads.partials.completed_form')
+</div>

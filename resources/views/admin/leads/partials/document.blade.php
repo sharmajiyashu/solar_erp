@@ -2,15 +2,18 @@
     <h5>Documents</h5>
 
     @can('document_management create')
+        @if(!($is_past_stage ?? false))
         <div>
             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addDocumentModal">
                 + Upload Document
             </button>
         </div>
+        @endif
     @endcan
 </div>
 
 @can('document_management create')
+    @if(!($is_past_stage ?? false))
     <div class="card mb-3 border-primary">
         <div class="card-body">
             <h6 class="card-title text-primary">Stage Tracking</h6>
@@ -20,7 +23,7 @@
                     <div class="col-md-4">
                         <div class="form-check form-switch mt-1">
                             <input class="form-check-input" type="checkbox" name="first_payment_received" id="first_payment_received" {{ $lead->first_payment_received ? 'checked' : '' }}>
-                            <label class="form-check-label" for="first_payment_received">First Payment Received</label>
+                            <label class="form-check-label" for="first_payment_received">Token Money Received</label>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -41,13 +44,28 @@
             </form>
         </div>
     </div>
+    @else
+        <div class="card mb-3 border-primary">
+            <div class="card-body">
+                <h6 class="card-title text-primary">Stage Tracking (View Only)</h6>
+                <div class="row align-items-center">
+                    <div class="col-md-4">
+                        <p>Token Money: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p>Document Status: <strong>{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @else
     <div class="card mb-3 border-primary">
         <div class="card-body">
             <h6 class="card-title text-primary">Stage Tracking</h6>
             <div class="row align-items-center">
                 <div class="col-md-4">
-                    <p>First Payment: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
+                    <p>Token Money: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
                 </div>
                 <div class="col-md-4">
                     <p>Document Status: <strong>{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</strong></p>
@@ -219,3 +237,10 @@
         </div>
     </div>
 @endcan
+@if($lead->stage == 'document' && $lead->first_payment_received && $lead->is_document_done)
+    <div class="mt-4 text-end">
+        <a href="{{ route('admin.leads.move_stage', [$lead->id, 'backend']) }}" class="btn btn-lg btn-primary">
+            Move to Backend
+        </a>
+    </div>
+@endif

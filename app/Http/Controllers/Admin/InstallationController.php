@@ -30,9 +30,7 @@ class InstallationController extends Controller
                 'status' => 'pending',
                 'notes' => $request->notes,
                 'installation_done' => $request->has('installation_done'),
-                'net_metering_pending' => $request->has('net_metering_pending'),
                 'net_metering_done' => $request->has('net_metering_done'),
-                'second_tier_payment_received' => $request->has('second_tier_payment_received'),
             ]
 
         );

@@ -151,6 +151,16 @@
 
 </table>
 
+@if ($lead->stage == 'site_visit' && $lead->visits()->where('status', 'completed')->exists())
+    <div class="mt-3 text-end">
+        @can('site_visits schedule')
+            <a href="{{ route('admin.leads.move_stage', [$lead->id, 'quotation']) }}" class="btn btn-primary">
+                Move To Quotation
+            </a>
+        @endcan
+    </div>
+@endif
+
 
 
 

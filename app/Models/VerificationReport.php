@@ -9,8 +9,10 @@ class VerificationReport extends Model
     protected $fillable = [
         'lead_id',
         'verified_by',
+        'verified_by_manual',
         'verification_date',
         'status',
+        'second_tier_payment_received',
         'remarks'
     ];
 

@@ -37,11 +37,11 @@ class AttendanceController extends Controller
 
             [
                 'user_id' => Auth::id(),
-                'date' => now()->toDateString()
+                'date' => Carbon::now('Asia/Kolkata')->toDateString()
             ],
 
             [
-                'punch_in' => now()->format('H:i:s'),
+                'punch_in' => Carbon::now('Asia/Kolkata')->format('H:i:s'),
                 'punch_in_photo' => 'uploads/punch_photos/' . $imageName
             ]
 
@@ -54,9 +54,9 @@ class AttendanceController extends Controller
     {
 
         Attendance::where('user_id', Auth::id())
-            ->whereDate('date', now())
+            ->whereDate('date', Carbon::now('Asia/Kolkata'))
             ->update([
-                'punch_out' => now()->format('H:i:s')
+                'punch_out' => Carbon::now('Asia/Kolkata')->format('H:i:s')
             ]);
 
         return back()->with('success', 'Punch Out Successful');

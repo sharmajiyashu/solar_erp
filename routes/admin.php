@@ -81,6 +81,8 @@ Route::middleware(['isAdmin'])
             Route::get('/completed', [LeadController::class, 'completed'])->name('completed');
 
             Route::get('/{id}/{stage}/move-stage', [LeadController::class, 'moveStage'])->name('move_stage');
+            Route::delete('/{id}', [LeadController::class, 'destroy'])->name('destroy');
+            Route::post('/{id}/own', [LeadController::class, 'ownLead'])->name('own');
 
             Route::post('/{lead}/visit', [LeadController::class, 'storeVisit'])
                 ->name('storeVisit');

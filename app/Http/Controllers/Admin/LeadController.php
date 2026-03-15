@@ -349,7 +349,7 @@ class LeadController extends Controller
         $lead->update([
             'project_stages' => $stages,
             'stage' => $nextStage,
-            'status' => 'in_progress'
+            'status' => 'pending'
         ]);
 
         return back()->with('success', 'Lead moved to next stage successfully.');
@@ -393,5 +393,21 @@ class LeadController extends Controller
         ]);
 
         return back()->with('success', 'Visit Updated Successfully');
+    }
+
+    public function destroy($id)
+    {
+        $lead = Lead::findOrFail($id);
+        $lead->delete();
+        return back()->with('success', 'Lead Deleted Successfully');
+    }
+
+    public function ownLead($id)
+    {
+        $lead = Lead::findOrFail($id);
+        $lead->update([
+            'assigned_to' => Auth::id()
+        ]);
+        return back()->with('success', 'Lead Owned Successfully');
     }
 }

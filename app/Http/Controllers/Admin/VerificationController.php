@@ -11,7 +11,6 @@ class VerificationController extends Controller
     public function store(Request $request, $leadId)
     {
         $request->validate([
-            'verified_by' => 'required',
             'status' => 'required'
         ]);
 
@@ -23,8 +22,10 @@ class VerificationController extends Controller
 
             [
                 'verified_by' => $request->verified_by,
+                'verified_by_manual' => $request->verified_by_manual,
                 'verification_date' => $request->verification_date,
                 'status' => $request->status,
+                'second_tier_payment_received' => $request->has('second_tier_payment_received'),
                 'remarks' => $request->remarks
             ]
 

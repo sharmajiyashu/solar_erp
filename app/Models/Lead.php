@@ -16,7 +16,9 @@ class Lead extends Model
         'project_stages',
         'remarks',
         'first_payment_received',
-        'is_document_done'
+        'is_document_done',
+        'discom_pms_portal_login_done',
+        'bank_login_done'
     ];
 
     public function scopeSearch($query, $search)

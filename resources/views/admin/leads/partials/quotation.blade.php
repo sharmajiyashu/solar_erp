@@ -234,3 +234,11 @@
 
     }
 </script>
+
+@if ($lead->stage == 'quotation' && $quotation)
+    <div class="mt-4 text-end">
+        <a href="{{ route('admin.leads.move_stage', [$lead->id, 'document']) }}" class="btn btn-lg btn-primary">
+            Move to Document
+        </a>
+    </div>
+@endif

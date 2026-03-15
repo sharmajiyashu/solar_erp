@@ -46,7 +46,7 @@
                             <td>
                                 @if ($lead->stage != 'completed')
                                     @php
-                                        $stages = [
+                                        $stages_list = [
                                             'site_visit',
                                             'quotation',
                                             'document',
@@ -56,21 +56,40 @@
                                             'verification',
                                             'completed',
                                         ];
-                                        $currentIndex = array_search($lead->stage, $stages);
-                                        $nextStage = $stages[$currentIndex + 1] ?? null;
+                                        $currentStageIndex = array_search($lead->stage, $stages_list);
+                                        $nextStage = $stages_list[$currentStageIndex + 1] ?? null;
                                     @endphp
 
-
                                     @if ($nextStage)
-                                        @can('leads move-stage')
+                                        @php
+                                            $canMove = true;
+                                            $permission = 'leads create';
+                                            if ($lead->stage == 'site_visit' && $nextStage == 'quotation') {
+                                                $canMove = $lead->visits()->where('status', 'completed')->exists();
+                                                $permission = 'site_visits schedule';
+                                            }
+                                        @endphp
+
+                                        @php
+                                            $canMove = true;
+                                            if ($lead->stage == 'site_visit' && $nextStage == 'quotation') {
+                                                $canMove = $lead->visits()->where('status', 'completed')->exists();
+                                            }
+                                        @endphp
+
+                                        @if ($canMove)
                                             <div>
-                                                <a class=""
+                                                <a class="btn btn-sm btn-primary"
                                                     href="{{ route('admin.leads.move_stage', [$lead->id, $nextStage]) }}">
                                                     Move To
                                                     {{ ucfirst(str_replace('_', ' ', $nextStage)) }}
                                                 </a>
                                             </div>
-                                        @endcan
+                                        @else
+                                            <div class="text-danger small">
+                                                <i class="fas fa-exclamation-triangle"></i> Complete visit to move to Quotation
+                                            </div>
+                                        @endif
                                     @endif
                                 @endif
                             </td>
@@ -95,6 +114,18 @@
                         if (isset($stageTabMap[$lead->stage]) && Auth::user()->can($stageTabMap[$lead->stage]['permission'])) {
                             $activeTab = $stageTabMap[$lead->stage]['tab'];
                         }
+
+                        $stages_list = [
+                            'site_visit',
+                            'quotation',
+                            'document',
+                            'backend',
+                            'procurement',
+                            'installation',
+                            'verification',
+                            'completed',
+                        ];
+                        $leadStageIndex = array_search($lead->stage, $stages_list);
                     @endphp
 
                     <div class="card-header">
@@ -217,12 +248,14 @@
 
                             @can('document_management view')
                             <div class="tab-pane fade {{ $activeTab == 'documentTab' ? 'show active' : '' }}" id="documentTab">
+                                @php $is_past_stage = $leadStageIndex > array_search('document', $stages_list); @endphp
                                 @include('admin.leads.partials.document')
                             </div>
                             @endcan
 
                             @can('backend_management view')
                             <div class="tab-pane fade {{ $activeTab == 'backendTab' ? 'show active' : '' }}" id="backendTab">
+                                @php $is_past_stage = $leadStageIndex > array_search('backend', $stages_list); @endphp
                                 @include('admin.leads.partials.backend')
                             </div>
                             @endcan
@@ -230,6 +263,7 @@
                             @can('procurement_management view')
                             <div class="tab-pane fade {{ $activeTab == 'dispatchDetailTab' ? 'show active' : '' }}"
                                 id="dispatchDetailTab">
+                                @php $is_past_stage = $leadStageIndex > array_search('procurement', $stages_list); @endphp
                                 @include('admin.leads.partials.dispatchDetail')
                             </div>
                             @endcan
@@ -237,6 +271,7 @@
                             @can('installation_management view')
                             <div class="tab-pane fade {{ $activeTab == 'installationTab' ? 'show active' : '' }}"
                                 id="installationTab">
+                                @php $is_past_stage = $leadStageIndex > array_search('installation', $stages_list); @endphp
                                 @include('admin.leads.partials.installation')
                             </div>
                             @endcan
@@ -244,6 +279,7 @@
                             @can('verification_management view')
                             <div class="tab-pane fade {{ $activeTab == 'verificationTab' ? 'show active' : '' }}"
                                 id="verificationTab">
+                                @php $is_past_stage = $leadStageIndex > array_search('verification', $stages_list); @endphp
                                 @include('admin.leads.partials.verification')
                             </div>
                             @endcan

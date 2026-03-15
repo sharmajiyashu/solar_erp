@@ -101,6 +101,23 @@
                                 @endif
                             @endif
 
+                            <a class="dropdown-item" href="javascript:void(0);" 
+                               onclick="event.preventDefault(); if(confirm('Are you sure you want to own this lead?')) document.getElementById('own-form-{{ $item->id }}').submit();">
+                                Own Lead
+                            </a>
+                            <form id="own-form-{{ $item->id }}" action="{{ route('admin.leads.own', $item->id) }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+
+                            <a class="dropdown-item text-danger" href="javascript:void(0);" 
+                               onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this lead?')) document.getElementById('delete-form-{{ $item->id }}').submit();">
+                                Delete
+                            </a>
+                            <form id="delete-form-{{ $item->id }}" action="{{ route('admin.leads.destroy', $item->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+
                         </div>
                     </div>
                 </td>

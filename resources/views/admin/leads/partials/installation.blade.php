@@ -1,4 +1,5 @@
 @can('installation_management create')
+    @if(!($is_past_stage ?? false))
     <form action="{{ route('admin.installation.store', $lead->id) }}" method="POST" enctype="multipart/form-data">
 
         @csrf
@@ -33,28 +34,16 @@
                 <!-- Tracking Checkboxes -->
                 <div class="col-md-12 mb-1">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" name="installation_done" id="installation_done" {{ ($lead->installation->installation_done ?? false) ? 'checked' : '' }}>
                                 <label class="form-check-label" for="installation_done">Installation Done</label>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" name="net_metering_pending" id="net_metering_pending" {{ ($lead->installation->net_metering_pending ?? false) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="net_metering_pending">Net Metering Pending</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" name="net_metering_done" id="net_metering_done" {{ ($lead->installation->net_metering_done ?? false) ? 'checked' : '' }}>
                                 <label class="form-check-label" for="net_metering_done">Net Metering Done</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" name="second_tier_payment_received" id="second_tier_payment_received" {{ ($lead->installation->second_tier_payment_received ?? false) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="second_tier_payment_received">2nd Tier Payment Received</label>
                             </div>
                         </div>
                     </div>
@@ -77,6 +66,28 @@
         </div>
 
     </form>
+    @else
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6 mb-1">
+                    <p>Installation Date: <strong>{{ $lead->installation->installation_date ?? 'N/A' }}</strong></p>
+                </div>
+                <div class="col-md-12 mb-1">
+                    <p>Notes: {{ $lead->installation->notes ?? 'N/A' }}</p>
+                </div>
+                <div class="col-md-12 mb-1">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Installation Done: <strong>{{ ($lead->installation->installation_done ?? false) ? 'Yes' : 'No' }}</strong></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Net Metering Done: <strong>{{ ($lead->installation->net_metering_done ?? false) ? 'Yes' : 'No' }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @else
     <div class="modal-body">
         <div class="row">
@@ -90,17 +101,11 @@
             </div>
             <div class="col-md-12 mb-1">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <p>Installation Done: <strong>{{ ($lead->installation->installation_done ?? false) ? 'Yes' : 'No' }}</strong></p>
                     </div>
-                    <div class="col-md-3">
-                        <p>Net Metering Pending: <strong>{{ ($lead->installation->net_metering_pending ?? false) ? 'Yes' : 'No' }}</strong></p>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <p>Net Metering Done: <strong>{{ ($lead->installation->net_metering_done ?? false) ? 'Yes' : 'No' }}</strong></p>
-                    </div>
-                    <div class="col-md-3">
-                        <p>2nd Tier Payment: <strong>{{ ($lead->installation->second_tier_payment_received ?? false) ? 'Received' : 'Pending' }}</strong></p>
                     </div>
                 </div>
             </div>
@@ -207,4 +212,11 @@
 
     </div>
 
+@endif
+@if($lead->stage == 'installation' && ($lead->installation->installation_done ?? false))
+    <div class="mt-4 text-end">
+        <a href="{{ route('admin.leads.move_stage', [$lead->id, 'verification']) }}" class="btn btn-lg btn-info">
+            Move to Verification
+        </a>
+    </div>
 @endif
