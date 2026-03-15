@@ -31,7 +31,12 @@
 
         <div class="col-md-6 mb-2">
             <label>Project Handover By</label>
-            <input type="text" name="handover_by" class="form-control" value="{{ $lead->handover_by }}">
+            <select name="handover_by" class="form-control">
+                <option value="">Select User</option>
+                @foreach (App\Models\User::all() as $user)
+                    <option value="{{ $user->id }}" {{ $lead->handover_by == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                @endforeach
+            </select>
         </div>
 
         <!-- Upload Photos -->

@@ -96,6 +96,29 @@
                     </div>
                 </div>
 
+                <!-- Stage Count Summary -->
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-header border-bottom">
+                                <h4 class="card-title">Lead Stage Summary</h4>
+                            </div>
+                            <div class="card-body py-2">
+                                <div class="row text-center">
+                                    @foreach($formattedStageStats as $stage => $count)
+                                        <div class="col-lg-3 col-md-4 col-6 mb-1">
+                                            <div class="p-1 border rounded shadow-sm bg-light">
+                                                <h5 class="mb-0 text-primary">{{ $count }}</h5>
+                                                <small class="text-uppercase font-weight-bold" style="font-size: 0.7rem;">{{ str_replace('_', ' ', $stage) }}</small>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Charts Section -->
                 <div class="row match-height">
                     <!-- Lead Stage Breakdown -->
@@ -146,28 +169,7 @@
                     </div>
                 </div>
 
-                <!-- Stage Count Summary -->
-                <div class="row mb-2">
-                    <div class="col-12">
-                        <div class="card shadow-sm">
-                            <div class="card-header border-bottom">
-                                <h4 class="card-title">Lead Stage Summary</h4>
-                            </div>
-                            <div class="card-body py-2">
-                                <div class="row text-center">
-                                    @foreach($formattedStageStats as $stage => $count)
-                                        <div class="col-lg-3 col-md-4 col-6 mb-1">
-                                            <div class="p-1 border rounded shadow-sm bg-light">
-                                                <h5 class="mb-0 text-primary">{{ $count }}</h5>
-                                                <small class="text-uppercase font-weight-bold" style="font-size: 0.7rem;">{{ str_replace('_', ' ', $stage) }}</small>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
 
                 <!-- Today's Followup Table -->
                 <div class="row">

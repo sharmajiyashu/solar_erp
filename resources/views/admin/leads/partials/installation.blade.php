@@ -1,5 +1,4 @@
 @can('installation_management create')
-    @if(!($is_past_stage ?? false))
     <form action="{{ route('admin.installation.store', $lead->id) }}" method="POST" enctype="multipart/form-data">
 
         @csrf
@@ -66,28 +65,6 @@
         </div>
 
     </form>
-    @else
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-md-6 mb-1">
-                    <p>Installation Date: <strong>{{ $lead->installation->installation_date ?? 'N/A' }}</strong></p>
-                </div>
-                <div class="col-md-12 mb-1">
-                    <p>Notes: {{ $lead->installation->notes ?? 'N/A' }}</p>
-                </div>
-                <div class="col-md-12 mb-1">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p>Installation Done: <strong>{{ ($lead->installation->installation_done ?? false) ? 'Yes' : 'No' }}</strong></p>
-                        </div>
-                        <div class="col-md-6">
-                            <p>Net Metering Done: <strong>{{ ($lead->installation->net_metering_done ?? false) ? 'Yes' : 'No' }}</strong></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
 @else
     <div class="modal-body">
         <div class="row">

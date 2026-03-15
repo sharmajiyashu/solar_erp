@@ -1,5 +1,4 @@
 @can('verification_management create')
-    @if(!($is_past_stage ?? false))
     <form action="{{ route('admin.verification.store', $lead->id) }}" method="POST">
 
         @csrf
@@ -67,32 +66,6 @@
         </div>
 
     </form>
-    @else
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-md-6 mb-2">
-                    <label>Verified By</label>
-                    <p><strong>{{ optional($lead->verificationReport)->verified_by_manual ?: (optional($lead->verificationReport)->verifiedUser->name ?? 'N/A') }}</strong></p>
-                </div>
-                <div class="col-md-6 mb-2">
-                    <label>Verification Date</label>
-                    <p><strong>{{ optional($lead->verificationReport)->verification_date ?? 'N/A' }}</strong></p>
-                </div>
-                <div class="col-md-12 mb-2">
-                    <label class="d-block mb-1">Verification Tracking</label>
-                    <div class="d-flex flex-wrap gap-3">
-                        <p class="mb-0">Docs for 2nd Tranch: <strong>{{ optional($lead->verificationReport)->is_docs_proceed_for_2nd_tranch ? 'Done' : 'Pending' }}</strong></p>
-                        <p class="mb-0">2nd Tranch: <strong>{{ optional($lead->verificationReport)->second_tier_payment_received ? 'Received' : 'Pending' }}</strong></p>
-                        <p class="mb-0">Verification: <strong>{{ optional($lead->verificationReport)->is_verified ? 'Verified' : 'Pending' }}</strong></p>
-                    </div>
-                </div>
-                <div class="col-md-12 mb-2">
-                    <label>Remarks</label>
-                    <p>{{ optional($lead->verificationReport)->remarks ?? 'N/A' }}</p>
-                </div>
-            </div>
-        </div>
-    @endif
 @else
     <div class="modal-body">
         <div class="row">

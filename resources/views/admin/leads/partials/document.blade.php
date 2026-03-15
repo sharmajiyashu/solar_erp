@@ -2,13 +2,11 @@
     <h5>Documents</h5>
 
     @can('document_management create')
-        @if(!($is_past_stage ?? false))
         <div>
             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addDocumentModal">
                 + Upload Document
             </button>
         </div>
-        @endif
     @endcan
 </div>
 

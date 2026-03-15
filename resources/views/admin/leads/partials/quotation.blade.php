@@ -78,11 +78,10 @@
 
 
 @if ($quotation)
-    <!-- DELETE BUTTON -->
-    @can('quotations delete')
-        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQuotationModal">
-            Delete Quotation
-        </button>
+
+<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQuotationModal">
+    Delete Quotation
+</button>
 
 
 
@@ -122,7 +121,6 @@
                 </div>
             </div>
         </div>
-    @endcan
 @else
     <!-- CREATE BUTTON -->
     @can('quotations create')
