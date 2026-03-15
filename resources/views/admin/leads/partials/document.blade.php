@@ -238,9 +238,11 @@
     </div>
 @endcan
 @if($lead->stage == 'document' && $lead->first_payment_received && $lead->is_document_done)
+  @can('document_management create')
     <div class="mt-4 text-end">
         <a href="{{ route('admin.leads.move_stage', [$lead->id, 'backend']) }}" class="btn btn-lg btn-primary">
             Move to Backend
         </a>
     </div>
+  @endcan
 @endif

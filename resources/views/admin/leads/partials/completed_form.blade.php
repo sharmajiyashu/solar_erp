@@ -2,6 +2,7 @@
     <h5>Project Completion</h5>
 </div>
 
+@can('project_completion create')
 <form action="{{ route('admin.leads.update', $lead->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
@@ -45,3 +46,4 @@
         </div>
     </div>
 </form>
+@endcan

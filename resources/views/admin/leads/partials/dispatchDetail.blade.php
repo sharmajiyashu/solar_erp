@@ -130,9 +130,11 @@
     </div>
 @endcan
 @if($lead->stage == 'procurement' && $lead->dispatchDetail)
-    <div class="mt-4 text-end">
-        <a href="{{ route('admin.leads.move_stage', [$lead->id, 'installation']) }}" class="btn btn-lg btn-success">
-            Move to Installation
-        </a>
-    </div>
+    @can('procurement_management create')
+        <div class="mt-4 text-end">
+            <a href="{{ route('admin.leads.move_stage', [$lead->id, 'installation']) }}" class="btn btn-lg btn-success">
+                Move to Installation
+            </a>
+        </div>
+    @endcan
 @endif

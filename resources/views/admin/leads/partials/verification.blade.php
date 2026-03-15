@@ -131,9 +131,11 @@
     </div>
 @endcan
 @if($lead->stage == 'verification' && ($lead->verificationReport->status ?? '') == 'verified')
-    <div class="mt-4 text-end">
-        <a href="{{ route('admin.leads.move_stage', [$lead->id, 'completed']) }}" class="btn btn-lg btn-success">
-            Move to Completed
-        </a>
-    </div>
+    @can('verification_management create')
+        <div class="mt-4 text-end">
+            <a href="{{ route('admin.leads.move_stage', [$lead->id, 'completed']) }}" class="btn btn-lg btn-success">
+                Move to Completed
+            </a>
+        </div>
+    @endcan
 @endif

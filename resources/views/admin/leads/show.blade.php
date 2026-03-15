@@ -41,61 +41,6 @@
                             </td>
                         </tr>
 
-                        <tr>
-                            <th>Change Stage</th>
-                            <td>
-                                @if ($lead->stage != 'completed')
-                                    @php
-                                        $stages_list = [
-                                            'site_visit',
-                                            'quotation',
-                                            'document',
-                                            'backend',
-                                            'procurement',
-                                            'installation',
-                                            'verification',
-                                            'completed',
-                                        ];
-                                        $currentStageIndex = array_search($lead->stage, $stages_list);
-                                        $nextStage = $stages_list[$currentStageIndex + 1] ?? null;
-                                    @endphp
-
-                                    @if ($nextStage)
-                                        @php
-                                            $canMove = true;
-                                            $permission = 'leads create';
-                                            if ($lead->stage == 'site_visit' && $nextStage == 'quotation') {
-                                                $canMove = $lead->visits()->where('status', 'completed')->exists();
-                                                $permission = 'site_visits schedule';
-                                            }
-                                        @endphp
-
-                                        @php
-                                            $canMove = true;
-                                            if ($lead->stage == 'site_visit' && $nextStage == 'quotation') {
-                                                $canMove = $lead->visits()->where('status', 'completed')->exists();
-                                            }
-                                        @endphp
-
-                                        @if ($canMove)
-                                            <div>
-                                                <a class="btn btn-sm btn-primary"
-                                                    href="{{ route('admin.leads.move_stage', [$lead->id, $nextStage]) }}">
-                                                    Move To
-                                                    {{ ucfirst(str_replace('_', ' ', $nextStage)) }}
-                                                </a>
-                                            </div>
-                                        @else
-                                            <div class="text-danger small">
-                                                <i class="fas fa-exclamation-triangle"></i> Complete visit to move to Quotation
-                                            </div>
-                                        @endif
-                                    @endif
-                                @endif
-                            </td>
-                        </tr>
-
-
                     </table>
 
                     @php

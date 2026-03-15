@@ -214,9 +214,11 @@
 
 @endif
 @if($lead->stage == 'installation' && ($lead->installation->installation_done ?? false))
-    <div class="mt-4 text-end">
-        <a href="{{ route('admin.leads.move_stage', [$lead->id, 'verification']) }}" class="btn btn-lg btn-info">
-            Move to Verification
-        </a>
-    </div>
+    @can('installation_management create')
+        <div class="mt-4 text-end">
+            <a href="{{ route('admin.leads.move_stage', [$lead->id, 'verification']) }}" class="btn btn-lg btn-info">
+                Move to Verification
+            </a>
+        </div>
+    @endcan
 @endif

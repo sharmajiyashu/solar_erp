@@ -51,15 +51,73 @@ class LeadController extends Controller
 
     public function update(Request $request, $id)
     {
+        if ($request->has('is_completion')) {
+            $lead = Lead::findOrFail($id);
+
+            DB::beginTransaction();
+
+            try {
+                // Update remarks if provided
+                if ($request->has('remarks')) {
+                    $lead->update(['remarks' => $request->remarks]);
+                }
+
+                // Handle handover and final status
+                if ($request->has('handover_done')) {
+                    $stages = $lead->project_stages;
+                    if (is_string($stages)) {
+                        $stages = json_decode($stages, true);
+                    }
+
+                    $stages['completed']['status'] = 'done';
+                    $stages['completed']['completed_at'] = now();
+
+                    $lead->update([
+                        'status' => 'completed',
+                        'project_stages' => $stages
+                    ]);
+                }
+
+                // Photo upload
+                if ($request->hasFile('completion_photos')) {
+                    foreach ($request->file('completion_photos') as $file) {
+                        $destinationPath = public_path('uploads/completions');
+                        if (!file_exists($destinationPath)) {
+                            mkdir($destinationPath, 0755, true);
+                        }
+
+                        $fileName = time() . '_' . $file->getClientOriginalName();
+                        $file->move($destinationPath, $fileName);
+
+                        // Save in documents table as completion photos
+                        $lead->documents()->create([
+                            'document_type' => 'Completion Photo',
+                            'file_path' => 'uploads/completions/' . $fileName,
+                            'status' => 'verified'
+                        ]);
+                    }
+                }
+
+                DB::commit();
+                return back()->with('success', 'Project completion details updated successfully.');
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return back()->with('error', 'Something went wrong: ' . $e->getMessage());
+            }
+        }
+
+        // Original logic for lead update (Site Visit assignment)
         $request->validate([
             'assigned_to' => 'required|exists:users,id',
             'visit_date' => 'required',
             'remarks'     => 'required|string',
         ]);
 
-        lead::where('id',$id)->update([
+        Lead::where('id', $id)->update([
             'remarks' => $request->remarks,
         ]);
+
         SiteVisit::create([
             'lead_id' => $id,
             'user_id' => $request->assigned_to,
@@ -67,7 +125,12 @@ class LeadController extends Controller
             'status' => 'pending',
             'notes' => null
         ]);
-        return route('admin.leads.show', $id);
+
+        if ($request->ajax()) {
+            return route('admin.leads.show', $id);
+        }
+
+        return redirect()->route('admin.leads.show', $id)->with('success', 'Lead updated successfully');
     }
 
 
