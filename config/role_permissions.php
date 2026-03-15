@@ -20,6 +20,8 @@ return [
         'view',
         'create',
         'get-all',
+        'cancel',
+        'delete',
     ],
 
     'site_visits' => [

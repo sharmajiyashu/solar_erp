@@ -20,7 +20,9 @@ class Lead extends Model
         'is_document_done',
         'discom_pms_portal_login_done',
         'bank_login_done',
-        'handover_by'
+        'handover_by',
+        'cancellation_reason',
+        'cancelled_at'
     ];
 
     public function scopeSearch($query, $search)

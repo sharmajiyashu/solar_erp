@@ -35,6 +35,9 @@ class LeadController extends Controller
         $this->middleware('permission:installation_management view')->only(['installation']);
         $this->middleware('permission:verification_management view')->only(['verification']);
         $this->middleware('permission:project_completion view')->only(['completed']);
+
+        $this->middleware('permission:leads cancel')->only(['cancel']);
+        $this->middleware('permission:leads delete')->only(['destroy']);
     }
 
     public function edit($id)
@@ -468,6 +471,22 @@ class LeadController extends Controller
         $lead = Lead::findOrFail($id);
         $lead->delete();
         return back()->with('success', 'Lead Deleted Successfully');
+    }
+
+    public function cancel(Request $request, $id)
+    {
+        $request->validate([
+            'cancellation_reason' => 'required|string|max:500'
+        ]);
+
+        $lead = Lead::findOrFail($id);
+        $lead->update([
+            'status' => 'cancelled',
+            'cancellation_reason' => $request->cancellation_reason,
+            'cancelled_at' => now()
+        ]);
+
+        return back()->with('success', 'Lead Cancelled Successfully');
     }
 
     public function ownLead($id)
