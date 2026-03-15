@@ -213,23 +213,34 @@
     </div>
 
 @endif
-@if($lead->stage == 'installation')
-    @can('installation_management create')
-        <div class="card border-info mt-4">
-            <div class="card-body text-center">
-                <p>Once the installation is marked as done, you can move the lead to the Verification stage.</p>
-                
-                <a href="{{ route('admin.leads.move_stage', [$lead->id, 'verification']) }}" 
-                   class="btn btn-lg btn-info {{ !($lead->installation->installation_done ?? false) ? 'disabled' : '' }}">
-                    Move to Verification
-                </a>
-                
-                @if(!($lead->installation->installation_done ?? false))
-                    <div class="mt-2 text-danger small">
-                        <i class="fas fa-exclamation-triangle"></i> Please mark installation as done to enable this button.
-                    </div>
-                @endif
+    <div class="card border-info mt-4">
+        <div class="card-body text-center">
+            <h6 class="text-info mb-3">Verification Stage Transition</h6>
+            <p>The lead will <strong>automatically</strong> move to the Verification stage once the following requirements are met:</p>
+            
+            <div class="d-flex justify-content-center gap-3 mb-3">
+                <div>
+                    <span class="badge {{ ($lead->installation->installation_done ?? false) ? 'bg-success' : 'bg-danger' }}">
+                        <i class="fas {{ ($lead->installation->installation_done ?? false) ? 'fa-check-circle' : 'fa-times-circle' }}"></i> 
+                        Installation Done
+                    </span>
+                </div>
+                <div>
+                    <span class="badge {{ ($lead->installation->net_metering_done ?? false) ? 'bg-success' : 'bg-danger' }}">
+                        <i class="fas {{ ($lead->installation->net_metering_done ?? false) ? 'fa-check-circle' : 'fa-times-circle' }}"></i> 
+                        Net Metering Done
+                    </span>
+                </div>
             </div>
+
+            @if(!($lead->installation->installation_done ?? false) || !($lead->installation->net_metering_done ?? false))
+                <div class="mt-2 text-danger small">
+                    <i class="fas fa-exclamation-triangle"></i> Please complete both Installation and Net Metering status above to proceed.
+                </div>
+            @else
+                <div class="mt-2 text-success small">
+                    <i class="fas fa-check-double"></i> All requirements met. Lead is being moved to Verification.
+                </div>
+            @endif
         </div>
-    @endcan
-@endif
+    </div>

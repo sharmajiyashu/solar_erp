@@ -20,19 +20,25 @@
             <form action="{{ route('admin.document-tracking.tracking', $lead->id) }}" method="POST">
                 @csrf
                 <div class="row align-items-center">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-check form-switch mt-1">
                             <input class="form-check-input" type="checkbox" name="first_payment_received" id="first_payment_received" {{ $lead->first_payment_received ? 'checked' : '' }}>
-                            <label class="form-check-label" for="first_payment_received">First Transaction Received</label>
+                            <label class="form-check-label" for="first_payment_received">Token Amount Received</label>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text">₹</span>
+                            <input type="number" step="0.01" name="token_amount" class="form-control" placeholder="Token Amount" value="{{ $lead->token_amount }}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-check form-switch mt-1">
                             <input class="form-check-input" type="checkbox" name="is_document_done" id="is_document_done" {{ $lead->is_document_done ? 'checked' : '' }}>
                             <label class="form-check-label" for="is_document_done">Document Done & Received</label>
                         </div>
                     </div>
-                    <div class="col-md-4 text-end">
+                    <div class="col-md-3 text-end">
                         <button type="submit" class="btn btn-primary btn-sm">Update Status</button>
                     </div>
                 </div>
@@ -45,7 +51,7 @@
                 <h6 class="card-title text-primary">Stage Tracking (View Only)</h6>
                 <div class="row align-items-center">
                     <div class="col-md-4">
-                        <p>First Transaction: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
+                        <p>Token Amount: <strong>{{ $lead->first_payment_received ? 'Received (₹'.$lead->token_amount.')' : 'Pending' }}</strong></p>
                     </div>
                     <div class="col-md-4">
                         <p>Document Status: <strong>{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</strong></p>
@@ -60,7 +66,7 @@
             <h6 class="card-title text-primary">Stage Tracking</h6>
             <div class="row align-items-center">
                 <div class="col-md-4">
-                    <p>First Transaction: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
+                    <p>Token Amount: <strong>{{ $lead->first_payment_received ? 'Received (₹'.$lead->token_amount.')' : 'Pending' }}</strong></p>
                 </div>
                 <div class="col-md-4">
                     <p>Document Status: <strong>{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</strong></p>
@@ -243,7 +249,7 @@
                     <div>
                         <span class="badge {{ $lead->first_payment_received ? 'bg-success' : 'bg-danger' }}">
                             <i class="fas {{ $lead->first_payment_received ? 'fa-check-circle' : 'fa-times-circle' }}"></i> 
-                            First Transaction
+                            Token Amount Received {{ $lead->token_amount ? '(₹'.$lead->token_amount.')' : '' }}
                         </span>
                     </div>
                     <div>

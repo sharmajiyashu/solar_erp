@@ -57,6 +57,26 @@ class InstallationController extends Controller
             }
         }
 
+        if ($installation->installation_done && $installation->net_metering_done) {
+            $lead = \App\Models\Lead::find($leadId);
+            if ($lead && $lead->stage == 'installation') {
+                $stages = $lead->project_stages;
+                if (is_string($stages)) {
+                    $stages = json_decode($stages, true);
+                }
+                $stages['installation']['status'] = 'done';
+                $stages['installation']['completed_at'] = now();
+
+                $lead->update([
+                    'stage' => 'verification',
+                    'status' => 'pending',
+                    'project_stages' => $stages
+                ]);
+
+                return back()->with('success', 'Installation Details Saved and Lead moved to Verification stage.');
+            }
+        }
+
         return back()->with('success', 'Installation Details Saved');
     }
 

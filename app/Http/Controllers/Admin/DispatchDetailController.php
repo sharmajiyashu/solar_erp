@@ -16,7 +16,6 @@ class DispatchDetailController extends Controller
             'driver_contact' => 'nullable',
             'dispatch_date' => 'nullable|date',
             'challan_book' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
-            'status' => 'required'
         ]);
 
         $data = [
@@ -24,8 +23,8 @@ class DispatchDetailController extends Controller
             'vehicle_number' => $request->vehicle_number,
             'driver_contact' => $request->driver_contact,
             'dispatch_date' => $request->dispatch_date,
-            'status' => $request->status
         ];
+        
 
         // FILE UPLOAD
         if ($request->hasFile('challan_book')) {

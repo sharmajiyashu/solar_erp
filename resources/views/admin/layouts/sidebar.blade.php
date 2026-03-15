@@ -58,15 +58,12 @@
                         @endcan --}}
 
 
-                        {{-- Lead Listing --}}
-                        @canany(['leads get-own', 'leads get-all'])
                             <li class="{{ Request::routeIs('admin.leads.index') ? 'active' : '' }}">
                                 <a class="d-flex align-items-center" href="{{ route('admin.leads.index') }}">
                                     <i data-feather="circle"></i>
                                     <span class="menu-item">Lead Listing</span>
                                 </a>
                             </li>
-                        @endcanany
 
 
                         {{-- Site Visit --}}

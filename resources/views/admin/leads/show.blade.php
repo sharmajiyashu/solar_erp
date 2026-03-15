@@ -76,14 +76,12 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs" id="leadTabs">
 
-                            @can('project_completion view')
                             <li class="nav-item">
                                 <button class="nav-link {{ $activeTab == 'projectStage' ? 'active' : '' }}"
                                     data-bs-toggle="tab" data-bs-target="#projectStage">
                                     Stage
                                 </button>
                             </li>
-                            @endcan
 
                             @can('leads view')
                             <li class="nav-item">
@@ -173,12 +171,10 @@
 
                         <div class="tab-content">
 
-                            @can('project_completion view')
                             <div class="tab-pane fade {{ $activeTab == 'projectStage' ? 'show active' : '' }}"
                                 id="projectStage">
                                 @include('admin.leads.partials.projectStage')
                             </div>
-                            @endcan
 
                             @can('leads view')
                             <div class="tab-pane fade {{ $activeTab == 'leadTab' ? 'show active' : '' }}" id="leadTab">

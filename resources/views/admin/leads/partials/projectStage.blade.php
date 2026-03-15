@@ -38,6 +38,14 @@
                         $stageData['status'] = 'done';
                     }
                 }
+
+                // Sync Installation Stage
+                if ($stageKey == 'installation') {
+                    $inst = $lead->installation;
+                    if ($inst && $inst->installation_done && $inst->net_metering_done) {
+                        $stageData['status'] = 'done';
+                    }
+                }
             @endphp
 
             <tr>
@@ -48,6 +56,12 @@
                         <div class="mt-1">
                             <span class="badge {{ $lead->first_payment_received ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">First Transaction</span>
                             <span class="badge {{ $lead->is_document_done ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Documents</span>
+                        </div>
+                    @elseif($stageKey == 'installation')
+                        @php $inst = $lead->installation; @endphp
+                        <div class="mt-1">
+                            <span class="badge {{ optional($inst)->installation_done ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Installation Done</span>
+                            <span class="badge {{ optional($inst)->net_metering_done ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Net Metering Done</span>
                         </div>
                     @elseif($stageKey == 'verification')
                         @php $vr = $lead->verificationReport; @endphp

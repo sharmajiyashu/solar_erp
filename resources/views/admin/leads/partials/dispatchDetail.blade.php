@@ -48,34 +48,6 @@
 
                 </div>
 
-                <!-- Status -->
-                <div class="col-md-6 mb-1">
-                    <label>Status</label>
-
-                    <select name="status" class="form-control">
-
-                        <option value="packed" {{ optional($lead->dispatchDetail)->status == 'packed' ? 'selected' : '' }}>
-                            Packed
-                        </option>
-
-                        <option value="dispatched"
-                            {{ optional($lead->dispatchDetail)->status == 'dispatched' ? 'selected' : '' }}>
-                            Procured
-                        </option>
-
-                        <option value="delivered"
-                            {{ optional($lead->dispatchDetail)->status == 'delivered' ? 'selected' : '' }}>
-                            Delivered
-                        </option>
-
-                        <option value="cancelled"
-                            {{ optional($lead->dispatchDetail)->status == 'cancelled' ? 'selected' : '' }}>
-                            Cancelled
-                        </option>
-
-                    </select>
-
-                </div>
 
             </div>
 
@@ -110,10 +82,6 @@
             <div class="col-md-6 mb-1">
                 <label>Procurement Date</label>
                 <p><strong>{{ $lead->dispatchDetail->dispatch_date ?? 'N/A' }}</strong></p>
-            </div>
-            <div class="col-md-6 mb-1">
-                <label>Status</label>
-                <p><strong>{{ ucfirst($lead->dispatchDetail->status ?? 'N/A') }}</strong></p>
             </div>
             <div class="col-md-6 mb-1">
                 <label>Challan Book</label>

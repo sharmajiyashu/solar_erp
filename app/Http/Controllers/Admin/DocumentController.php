@@ -77,6 +77,7 @@ class DocumentController extends Controller
 
         $lead->update([
             'first_payment_received' => $request->has('first_payment_received'),
+            'token_amount' => $request->token_amount,
             'is_document_done' => $request->has('is_document_done'),
         ]);
 

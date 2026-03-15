@@ -322,8 +322,7 @@ class LeadController extends Controller
         $leads = Lead::with(['customer'])
             ->when(!Auth::user()->can('leads get-all'), function ($query) {
                 $query->where(function($q) {
-                    $q->where('created_by', Auth::id())
-                      ->orWhere('assigned_to', Auth::id());
+                    $q->where('created_by', Auth::id());
                 });
             })
             ->search($request->search)
@@ -356,9 +355,14 @@ class LeadController extends Controller
                     return $query;
                 }
 
-                return $query->where(function($q) {
-                    $q->where('created_by', Auth::id())
-                      ->orWhere('assigned_to', Auth::id());
+                return $query->where(function($q) use ($stage) {
+                    $q->where('created_by', Auth::id());
+
+                    if (in_array($stage, ['site_visit', 'quotation'])) {
+                        $q->orWhereHas('visits', function($sub) {
+                            $sub->where('user_id', Auth::id());
+                        });
+                    }
                 });
             })
             ->search($request->search)
