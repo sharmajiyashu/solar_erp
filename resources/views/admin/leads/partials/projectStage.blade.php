@@ -23,10 +23,41 @@
                     'status' => 'pending',
                     'completed_at' => null,
                 ];
+
+                // Sync Document Stage with First Transaction status
+                if ($stageKey == 'document') {
+                    if ($lead->first_payment_received && $lead->is_document_done) {
+                        $stageData['status'] = 'done';
+                    }
+                }
+
+                // Sync Verification Stage with 2nd Tranch and Verification status
+                if ($stageKey == 'verification') {
+                    $report = $lead->verificationReport;
+                    if ($report && $report->is_docs_proceed_for_2nd_tranch && $report->second_tier_payment_received && $report->is_verified) {
+                        $stageData['status'] = 'done';
+                    }
+                }
             @endphp
 
             <tr>
-                <td>{{ ucfirst(str_replace('_', ' ', $stageKey)) }}</td>
+                <td>
+                    {{ ucfirst(str_replace('_', ' ', $stageKey)) }}
+                    
+                    @if($stageKey == 'document')
+                        <div class="mt-1">
+                            <span class="badge {{ $lead->first_payment_received ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">First Transaction</span>
+                            <span class="badge {{ $lead->is_document_done ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Documents</span>
+                        </div>
+                    @elseif($stageKey == 'verification')
+                        @php $vr = $lead->verificationReport; @endphp
+                        <div class="mt-1">
+                            <span class="badge {{ optional($vr)->is_docs_proceed_for_2nd_tranch ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Docs for 2nd Tranch</span>
+                            <span class="badge {{ optional($vr)->second_tier_payment_received ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">2nd Tranch Received</span>
+                            <span class="badge {{ optional($vr)->is_verified ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Verified</span>
+                        </div>
+                    @endif
+                </td>
 
                 <td>
                     @if ($stageData['status'] == 'done')
@@ -46,27 +77,3 @@
 
     </tbody>
 </table>
-
-<div class="mt-4">
-    @include('admin.leads.partials.completed_form')
-</div>
-
-@if($lead->documents()->where('document_type', 'Completion Photo')->exists())
-    <div class="mt-4 border-top pt-3">
-        <h5 class="mb-3">Project Completion Photos</h5>
-        <div class="row">
-            @foreach($lead->documents()->where('document_type', 'Completion Photo')->get() as $photo)
-                <div class="col-md-3 mb-3">
-                    <div class="card shadow-sm">
-                        <a href="{{ url('public/' . $photo->file_path) }}" target="_blank">
-                            <img src="{{ url('public/' . $photo->file_path) }}" class="card-img-top img-thumbnail" style="height: 150px; object-fit: cover;" alt="Completion Photo">
-                        </a>
-                        <div class="card-body p-1 text-center">
-                            <small class="text-muted">{{ $photo->created_at->format('d-m-Y') }}</small>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
-@endif

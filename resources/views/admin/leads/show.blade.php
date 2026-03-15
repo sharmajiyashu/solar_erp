@@ -52,7 +52,7 @@
                             'procurement'  => ['tab' => 'dispatchDetailTab',  'permission' => 'procurement_management view'],
                             'installation' => ['tab' => 'installationTab',    'permission' => 'installation_management view'],
                             'verification' => ['tab' => 'verificationTab',    'permission' => 'verification_management view'],
-                            'completed'    => ['tab' => 'projectStage',       'permission' => 'project_completion view'],
+                            'completed'    => ['tab' => 'completedTab',       'permission' => 'project_completion view'],
                         ];
 
                         $activeTab = 'leadTab'; // Default back to lead details
@@ -157,6 +157,15 @@
                             </li>
                             @endcan
 
+                            @can('project_completion view')
+                            <li class="nav-item">
+                                <button class="nav-link {{ $activeTab == 'completedTab' ? 'active' : '' }}"
+                                    data-bs-toggle="tab" data-bs-target="#completedTab">
+                                    Project Completion
+                                </button>
+                            </li>
+                            @endcan
+
                         </ul>
                     </div>
 
@@ -226,6 +235,14 @@
                                 id="verificationTab">
                                 @php $is_past_stage = $leadStageIndex > array_search('verification', $stages_list); @endphp
                                 @include('admin.leads.partials.verification')
+                            </div>
+                            @endcan
+
+                            @can('project_completion view')
+                            <div class="tab-pane fade {{ $activeTab == 'completedTab' ? 'show active' : '' }}"
+                                id="completedTab">
+                                @include('admin.leads.partials.completed_form')
+                                @include('admin.leads.partials.completion_photos')
                             </div>
                             @endcan
 
