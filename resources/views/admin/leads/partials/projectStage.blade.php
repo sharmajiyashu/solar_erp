@@ -54,7 +54,7 @@
                     
                     @if($stageKey == 'document')
                         <div class="mt-1">
-                            <span class="badge {{ $lead->first_payment_received ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">First Transaction</span>
+                            <span class="badge {{ $lead->first_payment_received ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Token Amount Received</span>
                             <span class="badge {{ $lead->is_document_done ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Documents</span>
                         </div>
                     @elseif($stageKey == 'installation')

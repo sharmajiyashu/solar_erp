@@ -12,19 +12,6 @@
                 <div class="col-md-6 mb-2">
                     <label>Verified By</label>
                     <input type="text" name="verified_by_manual" class="form-control" value="{{ optional($lead->verificationReport)->verified_by_manual }}">
-                    
-                    <div class="mt-1">
-                        <label class="small text-muted">Or Select Internal User (Optional)</label>
-                        <select name="verified_by" class="form-control">
-                            <option value="">Select User</option>
-                            @foreach (App\Models\User::all() as $user)
-                                <option value="{{ $user->id }}"
-                                    {{ optional($lead->verificationReport)->verified_by == $user->id ? 'selected' : '' }}>
-                                    {{ $user->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
                 </div>
 
                 <!-- Verification Date -->

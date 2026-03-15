@@ -74,7 +74,8 @@ class LeadController extends Controller
 
                     $lead->update([
                         'status' => 'completed',
-                        'project_stages' => $stages
+                        'project_stages' => $stages,
+                        'handover_by' => $request->handover_by
                     ]);
                 }
 

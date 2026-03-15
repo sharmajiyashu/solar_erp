@@ -29,6 +29,11 @@
             </div>
         </div>
 
+        <div class="col-md-6 mb-2">
+            <label>Project Handover By</label>
+            <input type="text" name="handover_by" class="form-control" value="{{ $lead->handover_by }}">
+        </div>
+
         <!-- Upload Photos -->
         <div class="col-md-6 mb-2">
             <label>Upload Final Photos</label>

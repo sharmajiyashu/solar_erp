@@ -19,7 +19,8 @@ class Lead extends Model
         'token_amount',
         'is_document_done',
         'discom_pms_portal_login_done',
-        'bank_login_done'
+        'bank_login_done',
+        'handover_by'
     ];
 
     public function scopeSearch($query, $search)
