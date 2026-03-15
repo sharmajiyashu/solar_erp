@@ -123,4 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'website_mobile' => env('WEBSITE_MOBILE', '+012 345 6789'),
+    'website_map_url' => env('WEBSITE_MAP_URL', '-')
 ];

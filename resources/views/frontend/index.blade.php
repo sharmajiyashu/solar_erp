@@ -350,21 +350,21 @@
                     <div class="bg-light text-center p-4">
                         <i class="fa fa-phone-alt fa-2x text-primary mb-3"></i>
                         <h5>Phone Number</h5>
-                        <p>+012 345 6789</p>
+                        <p>{{ config('app.website_mobile') }}</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="bg-light text-center p-4">
                         <i class="fa fa-envelope-open fa-2x text-primary mb-3"></i>
                         <h5>Email Address</h5>
-                        <p>info@example.com</p>
+                        <p>arkshaktipowersolutions@gmail.com</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="bg-light text-center p-4">
                         <i class="fa fa-map-marker-alt fa-2x text-primary mb-3"></i>
                         <h5>Office Address</h5>
-                        <p>123 Street, New York, USA</p>
+                        <p>Pushp Enclave Pratap nagar Main Tonk Road Jaipur, Jaipur, RJ 302033</p>
                     </div>
                 </div>
             </div>
