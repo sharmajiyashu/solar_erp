@@ -235,12 +235,21 @@
     }
 </script>
 
-@if ($lead->stage == 'quotation' && $quotation)
-  @can('quotations create')
-    <div class="mt-4 text-end">
-        <a href="{{ route('admin.leads.move_stage', [$lead->id, 'document']) }}" class="btn btn-lg btn-primary">
-            Move to Document
-        </a>
-    </div>
+@if ($lead->stage == 'quotation')
+    @can('quotations create')
+        <div class="card border-primary mt-4">
+            <div class="card-body text-center">
+                <p>Once the quotation is created, you can move the lead to the Document stage.</p>
+                <a href="{{ route('admin.leads.move_stage', [$lead->id, 'document']) }}" 
+                   class="btn btn-lg btn-primary {{ !$quotation ? 'disabled' : '' }}">
+                    Move to Document
+                </a>
+                @if(!$quotation)
+                    <div class="mt-2 text-danger small">
+                        <i class="fas fa-exclamation-triangle"></i> Please create a quotation to enable this button.
+                    </div>
+                @endif
+            </div>
+        </div>
     @endcan
 @endif

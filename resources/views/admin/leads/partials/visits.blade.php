@@ -151,14 +151,26 @@
 
 </table>
 
-@if ($lead->stage == 'site_visit' && $lead->visits()->where('status', 'completed')->exists())
-    <div class="mt-3 text-end">
-        @can('site_visits schedule')
-            <a href="{{ route('admin.leads.move_stage', [$lead->id, 'quotation']) }}" class="btn btn-primary">
-                Move To Quotation
-            </a>
-        @endcan
-    </div>
+@if ($lead->stage == 'site_visit')
+    @can('site_visits schedule')
+        <div class="card border-primary mt-3">
+            <div class="card-body text-center">
+                <p>Once the site visit is completed, you can move the lead to the Quotation stage.</p>
+                @php
+                    $isVisitCompleted = $lead->visits()->where('status', 'completed')->exists();
+                @endphp
+                <a href="{{ route('admin.leads.move_stage', [$lead->id, 'quotation']) }}" 
+                   class="btn btn-lg btn-primary {{ !$isVisitCompleted ? 'disabled' : '' }}">
+                    Move to Quotation
+                </a>
+                @if(!$isVisitCompleted)
+                    <div class="mt-2 text-danger small">
+                        <i class="fas fa-exclamation-triangle"></i> Please complete at least one site visit to enable this button.
+                    </div>
+                @endif
+            </div>
+        </div>
+    @endcan
 @endif
 
 

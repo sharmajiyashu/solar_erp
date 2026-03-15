@@ -129,12 +129,23 @@
         </div>
     </div>
 @endcan
-@if($lead->stage == 'procurement' && $lead->dispatchDetail)
+@if($lead->stage == 'procurement')
     @can('procurement_management create')
-        <div class="mt-4 text-end">
-            <a href="{{ route('admin.leads.move_stage', [$lead->id, 'installation']) }}" class="btn btn-lg btn-success">
-                Move to Installation
-            </a>
+        <div class="card border-success mt-4">
+            <div class="card-body text-center">
+                <p>Once the procurement details are saved, you can move the lead to the Installation stage.</p>
+                
+                <a href="{{ route('admin.leads.move_stage', [$lead->id, 'installation']) }}" 
+                   class="btn btn-lg btn-success {{ !$lead->dispatchDetail ? 'disabled' : '' }}">
+                    Move to Installation
+                </a>
+                
+                @if(!$lead->dispatchDetail)
+                    <div class="mt-2 text-danger small">
+                        <i class="fas fa-exclamation-triangle"></i> Please save procurement details to enable this button.
+                    </div>
+                @endif
+            </div>
         </div>
     @endcan
 @endif

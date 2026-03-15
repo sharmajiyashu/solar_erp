@@ -10,10 +10,6 @@ class VerificationController extends Controller
 {
     public function store(Request $request, $leadId)
     {
-        $request->validate([
-            'status' => 'required'
-        ]);
-
         VerificationReport::updateOrCreate(
 
             [
@@ -24,8 +20,10 @@ class VerificationController extends Controller
                 'verified_by' => $request->verified_by,
                 'verified_by_manual' => $request->verified_by_manual,
                 'verification_date' => $request->verification_date,
-                'status' => $request->status,
+                'is_docs_proceed_for_2nd_tranch' => $request->has('is_docs_proceed_for_2nd_tranch'),
                 'second_tier_payment_received' => $request->has('second_tier_payment_received'),
+                'is_verified' => $request->has('is_verified'),
+                'status' => $request->has('is_verified') ? 'verified' : 'pending',
                 'remarks' => $request->remarks
             ]
 

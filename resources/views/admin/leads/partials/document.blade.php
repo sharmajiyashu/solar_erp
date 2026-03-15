@@ -23,7 +23,7 @@
                     <div class="col-md-4">
                         <div class="form-check form-switch mt-1">
                             <input class="form-check-input" type="checkbox" name="first_payment_received" id="first_payment_received" {{ $lead->first_payment_received ? 'checked' : '' }}>
-                            <label class="form-check-label" for="first_payment_received">Token Money Received</label>
+                            <label class="form-check-label" for="first_payment_received">First Transaction Received</label>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -36,11 +36,6 @@
                         <button type="submit" class="btn btn-primary btn-sm">Update Status</button>
                     </div>
                 </div>
-                @if($lead->first_payment_received && $lead->is_document_done && $lead->stage == 'document')
-                    <div class="mt-2 text-success small">
-                        <i class="fas fa-info-circle"></i> Both completed. Ready to move to Backend.
-                    </div>
-                @endif
             </form>
         </div>
     </div>
@@ -50,7 +45,7 @@
                 <h6 class="card-title text-primary">Stage Tracking (View Only)</h6>
                 <div class="row align-items-center">
                     <div class="col-md-4">
-                        <p>Token Money: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
+                        <p>First Transaction: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
                     </div>
                     <div class="col-md-4">
                         <p>Document Status: <strong>{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</strong></p>
@@ -65,7 +60,7 @@
             <h6 class="card-title text-primary">Stage Tracking</h6>
             <div class="row align-items-center">
                 <div class="col-md-4">
-                    <p>Token Money: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
+                    <p>First Transaction: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
                 </div>
                 <div class="col-md-4">
                     <p>Document Status: <strong>{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</strong></p>
@@ -108,7 +103,7 @@
                 <td>
 
                     <!-- Delete Document -->
-                    @can('document_management delete')
+                    @can('document_management create')
                         <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
                             data-bs-target="#deleteDocModal{{ $doc->id }}">
                             Delete
@@ -237,12 +232,38 @@
         </div>
     </div>
 @endcan
-@if($lead->stage == 'document' && $lead->first_payment_received && $lead->is_document_done)
-  @can('document_management create')
-    <div class="mt-4 text-end">
-        <a href="{{ route('admin.leads.move_stage', [$lead->id, 'backend']) }}" class="btn btn-lg btn-primary">
-            Move to Backend
-        </a>
-    </div>
-  @endcan
+@if($lead->stage == 'document')
+    @can('document_management create')
+        <div class="card border-primary mt-4">
+            <div class="card-body text-center">
+                <h6 class="text-primary mb-3">Backend Stage Transition</h6>
+                <p>The lead will <strong>automatically</strong> move to the Backend stage once the following requirements are met:</p>
+                
+                <div class="d-flex justify-content-center gap-3 mb-3">
+                    <div>
+                        <span class="badge {{ $lead->first_payment_received ? 'bg-success' : 'bg-danger' }}">
+                            <i class="fas {{ $lead->first_payment_received ? 'fa-check-circle' : 'fa-times-circle' }}"></i> 
+                            First Transaction
+                        </span>
+                    </div>
+                    <div>
+                        <span class="badge {{ $lead->is_document_done ? 'bg-success' : 'bg-danger' }}">
+                            <i class="fas {{ $lead->is_document_done ? 'fa-check-circle' : 'fa-times-circle' }}"></i> 
+                            Documents Received
+                        </span>
+                    </div>
+                </div>
+
+                @if(!$lead->first_payment_received || !$lead->is_document_done)
+                    <div class="mt-2 text-danger small">
+                        <i class="fas fa-exclamation-triangle"></i> Please update the transaction and document status above to proceed.
+                    </div>
+                @else
+                    <div class="mt-2 text-success small">
+                        <i class="fas fa-check-double"></i> All requirements met. Lead is being processed.
+                    </div>
+                @endif
+            </div>
+        </div>
+    @endcan
 @endif

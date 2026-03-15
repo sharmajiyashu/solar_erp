@@ -11,8 +11,10 @@ class VerificationReport extends Model
         'verified_by',
         'verified_by_manual',
         'verification_date',
+        'is_docs_proceed_for_2nd_tranch',
         'status',
         'second_tier_payment_received',
+        'is_verified',
         'remarks'
     ];
 

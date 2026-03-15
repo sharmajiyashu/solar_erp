@@ -213,12 +213,23 @@
     </div>
 
 @endif
-@if($lead->stage == 'installation' && ($lead->installation->installation_done ?? false))
+@if($lead->stage == 'installation')
     @can('installation_management create')
-        <div class="mt-4 text-end">
-            <a href="{{ route('admin.leads.move_stage', [$lead->id, 'verification']) }}" class="btn btn-lg btn-info">
-                Move to Verification
-            </a>
+        <div class="card border-info mt-4">
+            <div class="card-body text-center">
+                <p>Once the installation is marked as done, you can move the lead to the Verification stage.</p>
+                
+                <a href="{{ route('admin.leads.move_stage', [$lead->id, 'verification']) }}" 
+                   class="btn btn-lg btn-info {{ !($lead->installation->installation_done ?? false) ? 'disabled' : '' }}">
+                    Move to Verification
+                </a>
+                
+                @if(!($lead->installation->installation_done ?? false))
+                    <div class="mt-2 text-danger small">
+                        <i class="fas fa-exclamation-triangle"></i> Please mark installation as done to enable this button.
+                    </div>
+                @endif
+            </div>
         </div>
     @endcan
 @endif
