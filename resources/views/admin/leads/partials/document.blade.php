@@ -120,7 +120,7 @@
 
                                     <div class="modal-header">
                                         <h5>Delete Document</h5>
-                                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
 
                                     <div class="modal-body">
@@ -144,7 +144,7 @@
 
                                         </form>
 
-                                        <button class="btn btn-secondary" data-bs-dismiss="modal">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                             Cancel
                                         </button>
 
@@ -190,7 +190,7 @@
 
                     <div class="modal-header">
                         <h5>Upload Document</h5>
-                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
                     <div class="modal-body">
@@ -220,7 +220,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
 

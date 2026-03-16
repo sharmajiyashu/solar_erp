@@ -92,7 +92,7 @@
 
                     <div class="modal-header">
                         <h5>Confirm Delete</h5>
-                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
                     <div class="modal-body">
@@ -112,7 +112,7 @@
 
                         </form>
 
-                        <button class="btn btn-secondary" data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             Cancel
                         </button>
 
@@ -141,7 +141,7 @@
 
                     <div class="modal-header ">
                         <h5>Create Quotation</h5>
-                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
                     <div class="modal-body">

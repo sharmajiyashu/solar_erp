@@ -55,7 +55,7 @@
 
 
         <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                 Close
             </button>
 
@@ -147,7 +147,7 @@
                                     <div class="modal-header">
                                         <h5>Confirm Delete</h5>
 
-                                        <button class="btn-close" data-bs-dismiss="modal">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal">
                                         </button>
                                     </div>
 
@@ -169,7 +169,7 @@
 
                                         </form>
 
-                                        <button class="btn btn-secondary" data-bs-dismiss="modal">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                             Cancel
                                         </button>
 
