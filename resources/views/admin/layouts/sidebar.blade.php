@@ -203,11 +203,25 @@
 
 
             @can('reports view')
-            <li class="nav-item {{ Request::routeIs('admin.reports.index') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('admin.reports.index') }}">
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="javascript:void(0)">
                     <i data-feather="bar-chart-2"></i>
                     <span class="menu-title text-truncate">Reports</span>
                 </a>
+                <ul class="menu-content">
+                    <li class="{{ Request::routeIs('admin.reports.index') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.reports.index') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Enquiry & Leads</span>
+                        </a>
+                    </li>
+                    <li class="{{ Request::routeIs('admin.reports.attendance') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.reports.attendance') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Attendance</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             @endcan
 

@@ -132,6 +132,8 @@ Route::middleware(['isAdmin'])
         Route::prefix('reports')->name('reports.')->group(function () {
             Route::get('/', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('index');
             Route::get('/export', [\App\Http\Controllers\Admin\ReportController::class, 'exportCsv'])->name('export');
+            Route::get('/attendance', [\App\Http\Controllers\Admin\ReportController::class, 'attendanceReport'])->name('attendance');
+            Route::get('/attendance/export', [\App\Http\Controllers\Admin\ReportController::class, 'exportAttendanceExcel'])->name('attendance.export');
         });
 
         Route::get('/', [HomeController::class, 'index'])->name('dashboard');

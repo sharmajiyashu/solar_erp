@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Enquiry;
 use App\Models\Lead;
+use App\Models\User;
+use App\Models\Attendance;
+use App\Exports\AttendanceExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -13,8 +19,44 @@ class ReportController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:reports view')->only('index');
-        $this->middleware('permission:reports export')->only('exportCsv');
+        $this->middleware('permission:reports view')->only(['index', 'attendanceReport']);
+        $this->middleware('permission:reports export')->only(['exportCsv', 'exportAttendanceExcel']);
+    }
+
+    public function attendanceReport(Request $request)
+    {
+        $month = $request->month ?? Carbon::now('Asia/Kolkata')->month;
+        $year  = $request->year ?? Carbon::now('Asia/Kolkata')->year;
+        $userId = $request->user_id;
+
+        $users = User::orderBy('name')->get();
+
+        $query = Attendance::with('user')
+            ->whereMonth('date', $month)
+            ->whereYear('date', $year);
+
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+
+        $attendances = $query->orderBy('date', 'desc')->paginate(31);
+
+        return view('admin.reports.attendance', compact('attendances', 'users', 'month', 'year', 'userId'));
+    }
+
+    public function exportAttendanceExcel(Request $request)
+    {
+        $month = $request->month ?? Carbon::now('Asia/Kolkata')->month;
+        $year  = $request->year ?? Carbon::now('Asia/Kolkata')->year;
+        $userId = $request->user_id;
+
+        if ($userId) {
+            $users = User::where('id', $userId)->get();
+        } else {
+            $users = User::orderBy('name')->get();
+        }
+
+        return Excel::download(new AttendanceExport($users, $month, $year), "attendance_report_" . date('Y-m-d') . ".xlsx");
     }
 
     public function index(Request $request)

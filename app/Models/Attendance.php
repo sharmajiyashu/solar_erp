@@ -13,4 +13,9 @@ class Attendance extends Model
         'punch_out',
         'punch_in_photo'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
