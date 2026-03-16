@@ -362,12 +362,18 @@ class EnquiryController extends Controller
 
         $prefix = "APS{$year}{$month}";
 
-        $count = Lead::whereYear('created_at', $year)
-            ->whereMonth('created_at', $month)
-            ->count();
+        $lastLead = Lead::where('lead_no', 'like', $prefix . '%')
+            ->orderBy('lead_no', 'desc')
+            ->first();
 
-        $series = str_pad($count + 1, 4, '0', STR_PAD_LEFT);
+        if ($lastLead) {
+            $lastNumber = intval(substr($lastLead->lead_no, strlen($prefix)));
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
 
+        $series = str_pad($newNumber, 4, '0', STR_PAD_LEFT);
         $leadNo = $prefix . $series;
 
         $projectStages = [

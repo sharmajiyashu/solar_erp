@@ -191,13 +191,18 @@ class LeadController extends Controller
 
             $prefix = "APS{$year}{$month}";
 
-            // current month leads count
-            $count = Lead::whereYear('created_at', $year)
-                ->whereMonth('created_at', $month)
-                ->count();
+            $lastLead = Lead::where('lead_no', 'like', $prefix . '%')
+                ->orderBy('lead_no', 'desc')
+                ->first();
 
-            $series = str_pad($count + 1, 4, '0', STR_PAD_LEFT);
+            if ($lastLead) {
+                $lastNumber = intval(substr($lastLead->lead_no, strlen($prefix)));
+                $newNumber = $lastNumber + 1;
+            } else {
+                $newNumber = 1;
+            }
 
+            $series = str_pad($newNumber, 4, '0', STR_PAD_LEFT);
             $leadNo = $prefix . $series;
 
 
@@ -360,8 +365,6 @@ class LeadController extends Controller
                 }
 
                 return $query->where(function($q) use ($stage) {
-                    $q->where('created_by', Auth::id());
-
                     if (in_array($stage, ['site_visit', 'quotation'])) {
                         $q->orWhereHas('visits', function($sub) {
                             $sub->where('user_id', Auth::id());
