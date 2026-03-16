@@ -129,6 +129,11 @@ Route::middleware(['isAdmin'])
         Route::get('set_permissions/{id}', [RoleController::class, 'setPermission'])->name('roles.set_permissions');
         Route::post('roles-set-update_permission', [RoleController::class, 'updatePermission'])->name('roles.update_permission');
 
+        Route::prefix('reports')->name('reports.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('index');
+            Route::get('/export', [\App\Http\Controllers\Admin\ReportController::class, 'exportCsv'])->name('export');
+        });
+
         Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 

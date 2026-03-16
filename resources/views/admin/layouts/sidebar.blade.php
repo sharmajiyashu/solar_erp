@@ -202,6 +202,15 @@
             </li>
 
 
+            @can('reports view')
+            <li class="nav-item {{ Request::routeIs('admin.reports.index') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('admin.reports.index') }}">
+                    <i data-feather="bar-chart-2"></i>
+                    <span class="menu-title text-truncate">Reports</span>
+                </a>
+            </li>
+            @endcan
+
             <li class="nav-item">
                 <a data-bs-toggle="modal" data-bs-target="#logout" class="d-flex align-items-center" href="#">
                     <i data-feather="power"></i>

@@ -82,4 +82,9 @@ return [
         'delete',
         'assign_permissions'
     ],
+
+    'reports' => [
+        'view',
+        'export',
+    ],
 ];

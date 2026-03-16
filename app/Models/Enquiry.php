@@ -39,4 +39,9 @@ class Enquiry extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function lead()
+    {
+        return $this->hasOne(Lead::class);
+    }
 }
