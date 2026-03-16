@@ -10,9 +10,9 @@
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-10 col-lg-8">
-                                <h1 class="display-2 text-white animated slideInDown">Pioneers Of Solar And Renewable Energy</h1>
-                                <p class="fs-5 fw-medium text-white mb-4 pb-3">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 animated slideInLeft">Read More</a>
+                                <h1 class="display-2 text-white animated slideInDown">Arkshakti Trusted Solar Installation Services</h1>
+                                <p class="fs-5 fw-medium text-white mb-4 pb-3">Affordable And Reliable Solar Energy Solutions For All.</p>
+                                <!-- <a href="" class="btn btn-primary rounded-pill py-3 px-5 animated slideInLeft">Read More</a> -->
                             </div>
                         </div>
                     </div>
@@ -24,9 +24,9 @@
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-10 col-lg-8">
-                                <h1 class="display-2 text-white animated slideInDown">Pioneers Of Solar And Renewable Energy</h1>
-                                <p class="fs-5 fw-medium text-white mb-4 pb-3">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 animated slideInLeft">Read More</a>
+                                <h1 class="display-2 text-white animated slideInDown">Arkshakti Trusted Solar Installation Services</h1>
+                                <p class="fs-5 fw-medium text-white mb-4 pb-3">Affordable And Reliable Solar Energy Solutions For All.</p>
+                                <!-- <a href="" class="btn btn-primary rounded-pill py-3 px-5 animated slideInLeft">Read More</a> -->
                             </div>
                         </div>
                     </div>
@@ -38,9 +38,9 @@
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-10 col-lg-8">
-                                <h1 class="display-2 text-white animated slideInDown">Pioneers Of Solar And Renewable Energy</h1>
-                                <p class="fs-5 fw-medium text-white mb-4 pb-3">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 animated slideInLeft">Read More</a>
+                                <h1 class="display-2 text-white animated slideInDown">Arkshakti Trusted Solar Installation Services</h1>
+                                <p class="fs-5 fw-medium text-white mb-4 pb-3">Affordable And Reliable Solar Energy Solutions For All.</p>
+                                <!-- <a href="" class="btn btn-primary rounded-pill py-3 px-5 animated slideInLeft">Read More</a> -->
                             </div>
                         </div>
                     </div>
@@ -62,38 +62,37 @@
                         </div>
                         <h1 class="mb-0" data-toggle="counter-up">3453</h1>
                     </div>
-                    <h5 class="mb-3">Happy Customers</h5>
-                    <span>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit</span>
+                    <h5 class="mb-3">Family with solar panels</h5>
+                    <span>Helping thousands of families transition to renewable energy.</span>
                 </div>
                 <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
                     <div class="d-flex align-items-center mb-4">
                         <div class="btn-lg-square bg-primary rounded-circle me-3">
-                            <i class="fa fa-check text-white"></i>
+                            <i class="fa fa-stamp text-white"></i>
                         </div>
-                        <h1 class="mb-0" data-toggle="counter-up">4234</h1>
+                        <h1 class="mb-0" style="font-size: 1.5rem;">MNRE</h1>
                     </div>
-                    <h5 class="mb-3">Project Done</h5>
-                    <span>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit</span>
+                    <h5 class="mb-3">APPROVED BY</h5>
+                    <span>नवीन एवं नवीकरणीय ऊर्जा मंत्रालय (MINISTRY OF NEW AND RENEWABLE ENERGY)</span>
                 </div>
                 <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
                     <div class="d-flex align-items-center mb-4">
                         <div class="btn-lg-square bg-primary rounded-circle me-3">
-                            <i class="fa fa-award text-white"></i>
+                            <i class="fa fa-id-card text-white"></i>
                         </div>
-                        <h1 class="mb-0" data-toggle="counter-up">3123</h1>
+                        <h1 class="mb-0" style="font-size: 1.2rem;">CIN</h1>
                     </div>
-                    <h5 class="mb-3">Awards Win</h5>
-                    <span>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit</span>
+                    <h5 class="mb-3">U43222RJ2025PTC103654</h5>
+                    <span>Corporate Identification Number</span>
                 </div>
                 <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
                     <div class="d-flex align-items-center mb-4">
                         <div class="btn-lg-square bg-primary rounded-circle me-3">
-                            <i class="fa fa-users-cog text-white"></i>
+                            <i class="fa fa-map-marker-alt text-white"></i>
                         </div>
-                        <h1 class="mb-0" data-toggle="counter-up">1831</h1>
                     </div>
-                    <h5 class="mb-3">Expert Workers</h5>
-                    <span>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit</span>
+                    <h5 class="mb-3">Jaipur, Rajasthan</h5>
+                    <span>G-07 Pushp Enclave Pratap Nagar Main Tonk Road, Jaipur, 302033</span>
                 </div>
             </div>
         </div>
@@ -113,12 +112,18 @@
                 <div class="col-lg-6 about-text py-5 wow fadeIn" data-wow-delay="0.5s">
                     <div class="p-lg-5 pe-lg-0">
                         <h6 class="text-primary">About Us</h6>
-                        <h1 class="mb-4">25+ Years Experience In Solar & Renewable Energy Industry</h1>
-                        <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
-                        <p><i class="fa fa-check-circle text-primary me-3"></i>Diam dolor diam ipsum</p>
-                        <p><i class="fa fa-check-circle text-primary me-3"></i>Aliqu diam amet diam et eos</p>
-                        <p><i class="fa fa-check-circle text-primary me-3"></i>Tempor erat elitr rebum at clita</p>
-                        <a href="" class="btn btn-primary rounded-pill py-3 px-5 mt-3">Explore More</a>
+                        <h1 class="mb-4">Arkansas Trusted Solar & Renewable Energy Solutions</h1>
+                        <p>Arkshakti Power Solutions Pvt. Ltd. is a dynamic and emerging solar energy solutions provider based in Jaipur, Rajasthan, India. Established with a vision to accelerate the adoption of clean and renewable energy, the company specializes in solar power systems, solar panel installations, and customized energy solutions for residential, commercial, and industrial clients.</p>
+                        <p>Arkshakti Power Solutions focuses on delivering high-quality solar products, efficient installations, and outstanding after-sales support, aiming to help customers reduce electricity costs while contributing to a greener and more sustainable future. With a commitment to innovation and customer satisfaction, the company is steadily growing its presence in the solar energy market.</p>
+                        
+                        <div class="mt-4 p-3 bg-white rounded shadow-sm border-start border-primary border-4">
+                            <h6 class="text-primary mb-2">Registration & Approvals</h6>
+                            <p class="mb-1 small"><strong>APPROVED BY:</strong> नवीन एवं नवीकरणीय ऊर्जा मंत्रालय (MINISTRY OF NEW AND RENEWABLE ENERGY)</p>
+                            <p class="mb-1 small"><strong>CIN:</strong> U43222RJ2025PTC103654</p>
+                            <p class="mb-0 small"><strong>Registered Office:</strong> G-07 Pushp Enclave Pratap Nagar Main Tonk Road, Jaipur, Rajasthan, 302033</p>
+                        </div>
+
+                        <a href="{{ route('about') }}" class="btn btn-primary rounded-pill py-3 px-5 mt-3">Explore More</a>
                     </div>
                 </div>
             </div>
@@ -142,8 +147,8 @@
                             <div class="service-icon">
                                 <i class="fa fa-solar-panel fa-3x"></i>
                             </div>
-                            <h4 class="mb-3">Solar Panels</h4>
-                            <p>Stet stet justo dolor sed duo. Ut clita sea sit ipsum diam lorem diam.</p>
+                            <h4 class="mb-3">Residential Solar</h4>
+                            <p>Customized rooftop solar solutions for homes to reduce electricity bills and increase energy independence.</p>
                             <a class="small fw-medium" href="">Read More<i class="fa fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
@@ -153,10 +158,10 @@
                         <img class="img-fluid" src="{{ url('public/frontend-assets/img/carousel-2.jpg') }}" alt="">
                         <div class="position-relative p-4 pt-0">
                             <div class="service-icon">
-                                <i class="fa fa-wind fa-3x"></i>
+                                <i class="fa fa-industry fa-3x"></i>
                             </div>
-                            <h4 class="mb-3">Wind Turbines</h4>
-                            <p>Stet stet justo dolor sed duo. Ut clita sea sit ipsum diam lorem diam.</p>
+                            <h4 class="mb-3">Commercial Solar</h4>
+                            <p>High-efficiency solar systems for commercial buildings, factories, and schools to optimize operational costs.</p>
                             <a class="small fw-medium" href="">Read More<i class="fa fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
@@ -166,10 +171,10 @@
                         <img class="img-fluid" src="{{ url('public/frontend-assets/img/carousel-3.jpg') }}" alt="">
                         <div class="position-relative p-4 pt-0">
                             <div class="service-icon">
-                                <i class="fa fa-lightbulb fa-3x"></i>
+                                <i class="fa fa-tools fa-3x"></i>
                             </div>
-                            <h4 class="mb-3">Hydropower Plants</h4>
-                            <p>Stet stet justo dolor sed duo. Ut clita sea sit ipsum diam lorem diam.</p>
+                            <h4 class="mb-3">Maintenance & O&M</h4>
+                            <p>Comprehensive operation and maintenance services ensure your solar plant performs at peak efficiency year-round.</p>
                             <a class="small fw-medium" href="">Read More<i class="fa fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
@@ -180,72 +185,7 @@
     <!-- Service End -->
 
 
-    <!-- Feature Start -->
-    <div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
-        <div class="container feature px-lg-0">
-            <div class="row g-0 mx-lg-0">
-                <div class="col-lg-6 feature-text py-5 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="p-lg-5 ps-lg-0">
-                        <h6 class="text-primary">Why Choose Us!</h6>
-                        <h1 class="mb-4">Complete Commercial & Residential Solar Systems</h1>
-                        <p class="mb-4 pb-2">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
-                        <div class="row g-4">
-                            <div class="col-6">
-                                <div class="d-flex align-items-center">
-                                    <div class="btn-lg-square bg-primary rounded-circle">
-                                        <i class="fa fa-check text-white"></i>
-                                    </div>
-                                    <div class="ms-4">
-                                        <p class="mb-0">Quality</p>
-                                        <h5 class="mb-0">Services</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-center">
-                                    <div class="btn-lg-square bg-primary rounded-circle">
-                                        <i class="fa fa-user-check text-white"></i>
-                                    </div>
-                                    <div class="ms-4">
-                                        <p class="mb-0">Expert</p>
-                                        <h5 class="mb-0">Workers</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-center">
-                                    <div class="btn-lg-square bg-primary rounded-circle">
-                                        <i class="fa fa-drafting-compass text-white"></i>
-                                    </div>
-                                    <div class="ms-4">
-                                        <p class="mb-0">Free</p>
-                                        <h5 class="mb-0">Consultation</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-center">
-                                    <div class="btn-lg-square bg-primary rounded-circle">
-                                        <i class="fa fa-headphones text-white"></i>
-                                    </div>
-                                    <div class="ms-4">
-                                        <p class="mb-0">Customer</p>
-                                        <h5 class="mb-0">Support</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 pe-lg-0 wow fadeIn" data-wow-delay="0.5s" style="min-height: 400px;">
-                    <div class="position-relative h-100">
-                        <img class="position-absolute img-fluid w-100 h-100" src="{{ url('public/frontend-assets/img/feature.jpg') }}" style="object-fit: cover;" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Feature End -->
+    @include('frontend.partials.why-choose-us')
 
 
     <!-- Projects Start -->
@@ -289,53 +229,7 @@
     <!-- Projects End -->
 
 
-    <!-- Quote Start -->
-    <div id="quote" class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
-        <div class="container quote px-lg-0">
-            <div class="row g-0 mx-lg-0">
-                <div class="col-lg-6 ps-lg-0 wow fadeIn" data-wow-delay="0.1s" style="min-height: 400px;">
-                    <div class="position-relative h-100">
-                        <img class="position-absolute img-fluid w-100 h-100" src="{{ url('public/frontend-assets/img/carousel-1.jpg') }}" style="object-fit: cover;" alt="">
-                    </div>
-                </div>
-                <div class="col-lg-6 quote-text py-5 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="p-lg-5 pe-lg-0">
-                        <h6 class="text-primary">Free Quote</h6>
-                        <h1 class="mb-4">Get A Free Quote</h1>
-                        <p class="mb-4 pb-2">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
-                        <form>
-                            <div class="row g-3">
-                                <div class="col-12 col-sm-6">
-                                    <input type="text" class="form-control border-0" placeholder="Your Name" style="height: 55px;">
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <input type="email" class="form-control border-0" placeholder="Your Email" style="height: 55px;">
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <input type="text" class="form-control border-0" placeholder="Your Mobile" style="height: 55px;">
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <select class="form-select border-0" style="height: 55px;">
-                                        <option selected>Select A Service</option>
-                                        <option value="1">Service 1</option>
-                                        <option value="2">Service 2</option>
-                                        <option value="3">Service 3</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <textarea class="form-control border-0" placeholder="Special Note"></textarea>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Quote End -->
+    @include('frontend.partials.quote')
 
 
     <!-- Contact Start -->

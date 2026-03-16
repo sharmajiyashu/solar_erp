@@ -76,7 +76,7 @@
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0">
         <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center border-end px-4 px-lg-5">
             <img src="{{ url('public/logo.jpg') }}" alt="Logo" style="height: 45px; margin-right: 10px;">
-            <h5 class="m-0 text-primary fw-bold">{{ config('app.name', 'Solartec') }}</h5>
+            <!-- <h5 class="m-0 text-primary fw-bold">{{ config('app.name', 'Solartec') }}</h5> -->
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -99,7 +99,7 @@
                 <a href="{{ route('contact') }}" class="nav-item nav-link {{ Request::routeIs('contact') ? 'active' : '' }}">Contact</a>
                 <a href="{{ route('admin.login') }}" class="nav-item nav-link">Login</a>
             </div>
-            <a href="{{ route('quote') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Get A Quote<i class="fa fa-arrow-right ms-3"></i></a>
+            <!-- <a href="{{ route('quote') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Get A Quote<i class="fa fa-arrow-right ms-3"></i></a> -->
         </div>
     </nav>
     <!-- Navbar End -->

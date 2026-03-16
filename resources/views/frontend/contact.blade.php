@@ -24,7 +24,7 @@
                     <div class="p-lg-5 ps-lg-0">
                         <h6 class="text-primary">Contact Us</h6>
                         <h1 class="mb-4">Feel Free To Contact Us</h1>
-                        <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done.</p>
+                        <p class="mb-4">Have questions about solar energy? Our expert team is ready to help. Fill out the form below or contact us via phone or email for a personalized consultation.</p>
                         <form>
                             <div class="row g-3">
                                 <div class="col-md-6">

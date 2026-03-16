@@ -27,38 +27,37 @@
                         </div>
                         <h1 class="mb-0" data-toggle="counter-up">3453</h1>
                     </div>
-                    <h5 class="mb-3">Happy Customers</h5>
-                    <span>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit</span>
+                    <h5 class="mb-3">Family with solar panels</h5>
+                    <span>Helping thousands of families transition to renewable energy.</span>
                 </div>
                 <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
                     <div class="d-flex align-items-center mb-4">
                         <div class="btn-lg-square bg-primary rounded-circle me-3">
-                            <i class="fa fa-check text-white"></i>
+                            <i class="fa fa-stamp text-white"></i>
                         </div>
-                        <h1 class="mb-0" data-toggle="counter-up">4234</h1>
+                        <h1 class="mb-0" style="font-size: 1.5rem;">MNRE</h1>
                     </div>
-                    <h5 class="mb-3">Project Done</h5>
-                    <span>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit</span>
+                    <h5 class="mb-3">APPROVED BY</h5>
+                    <span>नवीन एवं नवीकरणीय ऊर्जा मंत्रालय (MINISTRY OF NEW AND RENEWABLE ENERGY)</span>
                 </div>
                 <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
                     <div class="d-flex align-items-center mb-4">
                         <div class="btn-lg-square bg-primary rounded-circle me-3">
-                            <i class="fa fa-award text-white"></i>
+                            <i class="fa fa-id-card text-white"></i>
                         </div>
-                        <h1 class="mb-0" data-toggle="counter-up">3123</h1>
+                        <h1 class="mb-0" style="font-size: 1.2rem;">CIN</h1>
                     </div>
-                    <h5 class="mb-3">Awards Win</h5>
-                    <span>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit</span>
+                    <h5 class="mb-3">U43222RJ2025PTC103654</h5>
+                    <span>Corporate Identification Number</span>
                 </div>
                 <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
                     <div class="d-flex align-items-center mb-4">
                         <div class="btn-lg-square bg-primary rounded-circle me-3">
-                            <i class="fa fa-users-cog text-white"></i>
+                            <i class="fa fa-map-marker-alt text-white"></i>
                         </div>
-                        <h1 class="mb-0" data-toggle="counter-up">1831</h1>
                     </div>
-                    <h5 class="mb-3">Expert Workers</h5>
-                    <span>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit</span>
+                    <h5 class="mb-3">Jaipur, Rajasthan</h5>
+                    <span>G-07 Pushp Enclave Pratap Nagar Main Tonk Road, Jaipur, 302033</span>
                 </div>
             </div>
         </div>
@@ -78,12 +77,18 @@
                 <div class="col-lg-6 about-text py-5 wow fadeIn" data-wow-delay="0.5s">
                     <div class="p-lg-5 pe-lg-0">
                         <h6 class="text-primary">About Us</h6>
-                        <h1 class="mb-4">25+ Years Experience In Solar & Renewable Energy Industry</h1>
-                        <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
-                        <p><i class="fa fa-check-circle text-primary me-3"></i>Diam dolor diam ipsum</p>
-                        <p><i class="fa fa-check-circle text-primary me-3"></i>Aliqu diam amet diam et eos</p>
-                        <p><i class="fa fa-check-circle text-primary me-3"></i>Tempor erat elitr rebum at clita</p>
-                        <a href="" class="btn btn-primary rounded-pill py-3 px-5 mt-3">Explore More</a>
+                        <h1 class="mb-4">Arkansas Trusted Solar & Renewable Energy Solutions</h1>
+                        <p>Arkshakti Power Solutions Pvt. Ltd. is a dynamic and emerging solar energy solutions provider based in Jaipur, Rajasthan, India. Established with a vision to accelerate the adoption of clean and renewable energy, the company specializes in solar power systems, solar panel installations, and customized energy solutions for residential, commercial, and industrial clients.</p>
+                        <p>Arkshakti Power Solutions focuses on delivering high-quality solar products, efficient installations, and outstanding after-sales support, aiming to help customers reduce electricity costs while contributing to a greener and more sustainable future. With a commitment to innovation and customer satisfaction, the company is steadily growing its presence in the solar energy market.</p>
+                        
+                        <div class="mt-4 p-3 bg-white rounded shadow-sm border-start border-primary border-4">
+                            <h6 class="text-primary mb-2">Registration & Approvals</h6>
+                            <p class="mb-1 small"><strong>APPROVED BY:</strong> नवीन एवं नवीकरणीय ऊर्जा मंत्रालय (MINISTRY OF NEW AND RENEWABLE ENERGY)</p>
+                            <p class="mb-1 small"><strong>CIN:</strong> U43222RJ2025PTC103654</p>
+                            <p class="mb-0 small"><strong>Registered Office:</strong> G-07 Pushp Enclave Pratap Nagar Main Tonk Road, Jaipur, Rajasthan, 302033</p>
+                        </div>
+
+                        <!-- <a href="" class="btn btn-primary rounded-pill py-3 px-5 mt-3">Explore More</a> -->
                     </div>
                 </div>
             </div>
@@ -92,64 +97,5 @@
     <!-- About End -->
 
 
-    <!-- Team Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-                <h6 class="text-primary">Team Member</h6>
-                <h1 class="mb-4">Experienced Team Members</h1>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="team-item rounded overflow-hidden">
-                        <div class="d-flex">
-                            <img class="img-fluid w-75" src="{{ url('public/frontend-assets/img/team-1.jpg') }}" alt="">
-                            <div class="team-social w-25">
-                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h5>Full Name</h5>
-                            <span>Designation</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="team-item rounded overflow-hidden">
-                        <div class="d-flex">
-                            <img class="img-fluid w-75" src="{{ url('public/frontend-assets/img/team-2.jpg') }}" alt="">
-                            <div class="team-social w-25">
-                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h5>Full Name</h5>
-                            <span>Designation</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="team-item rounded overflow-hidden">
-                        <div class="d-flex">
-                            <img class="img-fluid w-75" src="{{ url('public/frontend-assets/img/team-3.jpg') }}" alt="">
-                            <div class="team-social w-25">
-                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h5>Full Name</h5>
-                            <span>Designation</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Team End -->
+    @include('frontend.partials.team')
 @endsection
