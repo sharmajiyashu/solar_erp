@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>{{ config('app.name', 'Solartec') }} - Renewable Energy</title>
+    <title>Solar Arkshakti Solutions - Renewable Energy</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta content="Solar Arkshakti Solutions, Solar Arkshi Solution, Solar Panels Jaipur, Renewable Energy Rajasthan, Solar Installation Services Jaipur, Arkshakti Power Solutions" name="keywords">
+    <meta content="Solar Arkshakti Solutions is a trusted provider of reliable and affordable solar energy solutions in Jaipur, Rajasthan. Specializing in residential, commercial, and industrial solar installations." name="description">
 
     <!-- Favicon -->
     <link href="{{ url('public/favicon.ico') }}" rel="icon">
@@ -110,7 +110,7 @@
     <div class="container-fluid bg-dark text-body footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <h5 class="text-white mb-4">Address</h5>
                     <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Pushp Enclave Pratap nagar Main Tonk Road Jaipur, Jaipur, RJ 302033</p>
                     <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>{{ config('app.website_mobile') }}</p>
@@ -122,7 +122,7 @@
                         <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <h5 class="text-white mb-4">Quick Links</h5>
                     <a class="btn btn-link" href="{{ route('about') }}">About Us</a>
                     <a class="btn btn-link" href="{{ route('contact') }}">Contact Us</a>
@@ -130,7 +130,7 @@
                     <a class="btn btn-link" href="">Terms & Condition</a>
                     <a class="btn btn-link" href="">Support</a>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <h5 class="text-white mb-4">Project Gallery</h5>
                     <div class="row g-2">
                         <div class="col-4">

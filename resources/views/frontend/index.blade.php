@@ -112,7 +112,7 @@
                 <div class="col-lg-6 about-text py-5 wow fadeIn" data-wow-delay="0.5s">
                     <div class="p-lg-5 pe-lg-0">
                         <h6 class="text-primary">About Us</h6>
-                        <h1 class="mb-4">Arkansas Trusted Solar & Renewable Energy Solutions</h1>
+                        <h1 class="mb-4">Solar Arkshakti Solution Trusted Solar & Renewable Energy Solutions</h1>
                         <p>Arkshakti Power Solutions Pvt. Ltd. is a dynamic and emerging solar energy solutions provider based in Jaipur, Rajasthan, India. Established with a vision to accelerate the adoption of clean and renewable energy, the company specializes in solar power systems, solar panel installations, and customized energy solutions for residential, commercial, and industrial clients.</p>
                         <p>Arkshakti Power Solutions focuses on delivering high-quality solar products, efficient installations, and outstanding after-sales support, aiming to help customers reduce electricity costs while contributing to a greener and more sustainable future. With a commitment to innovation and customer satisfaction, the company is steadily growing its presence in the solar energy market.</p>
                         

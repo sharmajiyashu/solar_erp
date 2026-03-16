@@ -7,10 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
 
-    <meta name="description" content="{{ config('website_setting.meta_description') ?? '' }}">
-
-    <meta name="keywords" content="{{ config('website_setting.meta_keyword') ?? '' }}">
-    <meta name="author" content="{{ config('website_setting.meta_author') ?? '' }}">
+    <meta name="description" content="Manage Solar Arkshakti Solutions leads, enquiries, and installations from the comprehensive admin panel.">
+    <meta name="keywords" content="Solar Arkshakti Solutions Admin, ERP Dashboard, Solar Lead Management, Renewable Energy Management">
+    <meta name="author" content="Solar Arkshakti Solutions">
 
     <style>
         :root {
@@ -25,7 +24,7 @@
     </style>
 
 
-    <title>{{ env('APP_NAME') }}</title>
+    <title>Dashboard | {{ env('APP_NAME') }}</title>
     <link rel="apple-touch-icon" href="{{ url('public/dashboard-assets/app-assets/images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ url('public/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"

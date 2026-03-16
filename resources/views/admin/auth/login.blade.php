@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
     <meta name="description"
-        content="{{ env('APP_NAME') }} admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+        content="Login to Solar Arkshakti Solutions Admin Panel. Manage solar energy projects and enquiries efficiently.">
     <meta name="keywords"
-        content="admin template, {{ env('APP_NAME') }} admin template, dashboard template, flat admin template, responsive admin template, web app">
-    <meta name="author" content="PIXINVENT">
-    <title>Login Page - {{ env('APP_NAME') }}</title>
+        content="Solar Arkshakti, Admin Login, Solar Dashboard Login, Arkshakti Power Solutions">
+    <meta name="author" content="Solar Arkshakti Solutions">
+    <title>Login | {{ env('APP_NAME') }}</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ url('public/favicon.ico') }}">
 
