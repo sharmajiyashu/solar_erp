@@ -14,6 +14,7 @@ class VerificationReport extends Model
         'is_docs_proceed_for_2nd_tranch',
         'status',
         'second_tier_payment_received',
+        'is_subsidy_received',
         'is_verified',
         'remarks'
     ];

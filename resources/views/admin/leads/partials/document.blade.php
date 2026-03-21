@@ -17,30 +17,54 @@
             <h6 class="card-title text-primary">Stage Tracking</h6>
             <form action="{{ route('admin.document-tracking.tracking', $lead->id) }}" method="POST">
                 @csrf
-                <div class="row align-items-center">
-                    <div class="col-md-3">
+                <div class="row align-items-center g-1">
+                    <div class="col-md-2">
                         <div class="form-check form-switch mt-1">
                             <input class="form-check-input" type="checkbox" name="first_payment_received" id="first_payment_received" {{ $lead->first_payment_received ? 'checked' : '' }}>
-                            <label class="form-check-label" for="first_payment_received">Token Amount Received</label>
+                            <label class="form-check-label" for="first_payment_received">Token Amount</label>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="input-group input-group-sm">
                             <span class="input-group-text">₹</span>
-                            <input type="number" step="0.01" name="token_amount" class="form-control" placeholder="Token Amount" value="{{ $lead->token_amount }}">
+                            <input type="number" step="0.01" name="token_amount" class="form-control" placeholder="Amount" value="{{ $lead->token_amount }}">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-check form-switch mt-1">
                             <input class="form-check-input" type="checkbox" name="is_document_done" id="is_document_done" {{ $lead->is_document_done ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_document_done">Document Done & Received</label>
+                            <label class="form-check-label" for="is_document_done">Docs Done</label>
                         </div>
                     </div>
-                    <div class="col-md-3 text-end">
-                        <button type="submit" class="btn btn-primary btn-sm">Update Status</button>
+                    <div class="col-md-2">
+                        <select name="lead_type" id="lead_type_select" class="form-select form-select-sm">
+                            <option value="cash" {{ $lead->lead_type == 'cash' ? 'selected' : '' }}>Cash</option>
+                            <option value="loan" {{ $lead->lead_type == 'loan' ? 'selected' : '' }}>Loan</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2" id="bank_login_col" style="display: {{ $lead->lead_type == 'loan' ? 'block' : 'none' }}">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="bank_login_done" id="bank_login_done_input" {{ $lead->bank_login_done ? 'checked' : '' }}>
+                            <label class="form-check-label" for="bank_login_done_input">Bank Login</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-end">
+                        <button type="submit" class="btn btn-primary btn-sm w-100">Update</button>
                     </div>
                 </div>
             </form>
+
+            <script>
+                document.getElementById('lead_type_select').addEventListener('change', function() {
+                    const bankCol = document.getElementById('bank_login_col');
+                    if (this.value === 'loan') {
+                        bankCol.style.display = 'block';
+                    } else {
+                        bankCol.style.display = 'none';
+                        document.getElementById('bank_login_done_input').checked = false;
+                    }
+                });
+            </script>
         </div>
     </div>
     @else
@@ -48,12 +72,20 @@
             <div class="card-body">
                 <h6 class="card-title text-primary">Stage Tracking (View Only)</h6>
                 <div class="row align-items-center">
-                    <div class="col-md-4">
-                        <p>Token Amount: <strong>{{ $lead->first_payment_received ? 'Received (₹'.$lead->token_amount.')' : 'Pending' }}</strong></p>
+                    <div class="col-md-3">
+                        <p class="mb-0">Token Amount: <strong>{{ $lead->first_payment_received ? 'Received (₹'.$lead->token_amount.')' : 'Pending' }}</strong></p>
                     </div>
-                    <div class="col-md-4">
-                        <p>Document Status: <strong>{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</strong></p>
+                    <div class="col-md-3">
+                        <p class="mb-0">Document Status: <strong>{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</strong></p>
                     </div>
+                    <div class="col-md-3">
+                        <p class="mb-0">Lead Type: <strong>{{ ucfirst($lead->lead_type) }}</strong></p>
+                    </div>
+                    @if($lead->lead_type == 'loan')
+                    <div class="col-md-3">
+                        <p class="mb-0">Bank Login: <strong>{{ $lead->bank_login_done ? 'Done' : 'Pending' }}</strong></p>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -63,12 +95,20 @@
         <div class="card-body">
             <h6 class="card-title text-primary">Stage Tracking</h6>
             <div class="row align-items-center">
-                <div class="col-md-4">
-                    <p>Token Amount: <strong>{{ $lead->first_payment_received ? 'Received (₹'.$lead->token_amount.')' : 'Pending' }}</strong></p>
+                <div class="col-md-3">
+                    <p class="mb-0">Token Amount: <strong>{{ $lead->first_payment_received ? 'Received (₹'.$lead->token_amount.')' : 'Pending' }}</strong></p>
                 </div>
-                <div class="col-md-4">
-                    <p>Document Status: <strong>{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</strong></p>
+                <div class="col-md-3">
+                    <p class="mb-0">Document Status: <strong>{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</strong></p>
                 </div>
+                <div class="col-md-3">
+                    <p class="mb-0">Lead Type: <strong>{{ ucfirst($lead->lead_type) }}</strong></p>
+                </div>
+                @if($lead->lead_type == 'loan')
+                <div class="col-md-3">
+                    <p class="mb-0">Bank Login: <strong>{{ $lead->bank_login_done ? 'Done' : 'Pending' }}</strong></p>
+                </div>
+                @endif
             </div>
         </div>
     </div>

@@ -36,8 +36,13 @@
                     </div>
 
                     <div class="form-check form-switch mb-1">
+                        <input class="form-check-input" type="checkbox" name="is_subsidy_received" id="is_subsidy_received" {{ optional($lead->verificationReport)->is_subsidy_received ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_subsidy_received">3. Subsidy Received</label>
+                    </div>
+
+                    <div class="form-check form-switch mb-1">
                         <input class="form-check-input" type="checkbox" name="is_verified" id="is_verified" {{ optional($lead->verificationReport)->is_verified ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_verified">3. Verified</label>
+                        <label class="form-check-label" for="is_verified">4. Verified</label>
                     </div>
                 </div>
 
@@ -82,6 +87,7 @@
                 <div class="d-flex flex-wrap gap-3">
                     <p class="mb-0">Docs for 2nd Tranch: <strong>{{ optional($lead->verificationReport)->is_docs_proceed_for_2nd_tranch ? 'Done' : 'Pending' }}</strong></p>
                     <p class="mb-0">2nd Tranch: <strong>{{ optional($lead->verificationReport)->second_tier_payment_received ? 'Received' : 'Pending' }}</strong></p>
+                    <p class="mb-0">Subsidy: <strong>{{ optional($lead->verificationReport)->is_subsidy_received ? 'Received' : 'Pending' }}</strong></p>
                     <p class="mb-0">Verification: <strong>{{ optional($lead->verificationReport)->is_verified ? 'Verified' : 'Pending' }}</strong></p>
                 </div>
             </div>
@@ -113,6 +119,12 @@
                         </span>
                     </div>
                     <div>
+                        <span class="badge {{ optional($lead->verificationReport)->is_subsidy_received ? 'bg-success' : 'bg-danger' }}">
+                            <i class="fas {{ optional($lead->verificationReport)->is_subsidy_received ? 'fa-check-circle' : 'fa-times-circle' }}"></i> 
+                            Subsidy Received
+                        </span>
+                    </div>
+                    <div>
                         <span class="badge {{ optional($lead->verificationReport)->is_verified ? 'bg-success' : 'bg-danger' }}">
                             <i class="fas {{ optional($lead->verificationReport)->is_verified ? 'fa-check-circle' : 'fa-times-circle' }}"></i> 
                             Verified
@@ -123,6 +135,7 @@
                 @php
                     $isAllDone = optional($lead->verificationReport)->is_docs_proceed_for_2nd_tranch && 
                                  optional($lead->verificationReport)->second_tier_payment_received && 
+                                 optional($lead->verificationReport)->is_subsidy_received && 
                                  optional($lead->verificationReport)->is_verified;
                 @endphp
 

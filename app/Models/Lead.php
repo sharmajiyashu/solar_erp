@@ -15,6 +15,7 @@ class Lead extends Model
         'status',
         'project_stages',
         'remarks',
+        'lead_type',
         'first_payment_received',
         'token_amount',
         'is_document_done',

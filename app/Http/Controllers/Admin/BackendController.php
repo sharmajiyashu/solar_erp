@@ -25,8 +25,10 @@ class BackendController extends Controller
     {
         $lead = Lead::findOrFail($leadId);
 
-        if (!$lead->first_payment_received || !$lead->discom_pms_portal_login_done || !$lead->bank_login_done) {
-            return back()->with('error', 'All backend steps (Portal Login, Bank Login, First Payment) must be completed before moving to procurement.');
+        $isBankRequired = $lead->lead_type == 'loan';
+        if (!$lead->first_payment_received || !$lead->discom_pms_portal_login_done || ($isBankRequired && !$lead->bank_login_done)) {
+            $requiredSteps = 'Portal Login, ' . ($isBankRequired ? 'Bank Login, ' : '') . 'First Payment';
+            return back()->with('error', "All required backend steps ({$requiredSteps}) must be completed before moving to procurement.");
         }
 
         $stages = $lead->project_stages;

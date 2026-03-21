@@ -79,6 +79,8 @@ class DocumentController extends Controller
             'first_payment_received' => $request->has('first_payment_received'),
             'token_amount' => $request->token_amount,
             'is_document_done' => $request->has('is_document_done'),
+            'lead_type' => $request->lead_type,
+            'bank_login_done' => $request->has('bank_login_done'),
         ]);
 
         if ($lead->first_payment_received && $lead->is_document_done && $lead->stage == 'document') {

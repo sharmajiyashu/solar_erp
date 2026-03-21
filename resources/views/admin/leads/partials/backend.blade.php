@@ -16,12 +16,14 @@
                             <label class="form-check-label" for="discom_pms_portal_login_done">Discom/PMS Portal Login Done</label>
                         </div>
                     </div>
+                    @if($lead->lead_type == 'loan')
                     <div class="col-md-3">
                         <div class="form-check form-switch mt-1">
                             <input class="form-check-input" type="checkbox" name="bank_login_done" id="bank_login_done" {{ $lead->bank_login_done ? 'checked' : '' }}>
                             <label class="form-check-label" for="bank_login_done">Bank Login Done</label>
                         </div>
                     </div>
+                    @endif
                     <div class="col-md-3">
                         <div class="form-check form-switch mt-1">
                             <input class="form-check-input" type="checkbox" name="first_payment_received" id="backend_first_payment_received" {{ $lead->first_payment_received ? 'checked' : '' }}>
@@ -41,13 +43,15 @@
                 <h6 class="card-title text-info">Stage Tracking (View Only)</h6>
                 <div class="row">
                     <div class="col-md-4">
-                        <p>Portal Login: <strong>{{ $lead->discom_pms_portal_login_done ? 'Done' : 'Pending' }}</strong></p>
+                        <p class="mb-0">Portal Login: <strong>{{ $lead->discom_pms_portal_login_done ? 'Done' : 'Pending' }}</strong></p>
                     </div>
+                    @if($lead->lead_type == 'loan')
                     <div class="col-md-4">
-                        <p>Bank Login: <strong>{{ $lead->bank_login_done ? 'Done' : 'Pending' }}</strong></p>
+                        <p class="mb-0">Bank Login: <strong>{{ $lead->bank_login_done ? 'Done' : 'Pending' }}</strong></p>
                     </div>
+                    @endif
                     <div class="col-md-4">
-                        <p>First Payment: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
+                        <p class="mb-0">First Payment: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
                     </div>
                 </div>
             </div>
@@ -59,13 +63,15 @@
             <h6 class="card-title text-info">Stage Tracking</h6>
             <div class="row">
                 <div class="col-md-4">
-                    <p>Portal Login: <strong>{{ $lead->discom_pms_portal_login_done ? 'Done' : 'Pending' }}</strong></p>
+                    <p class="mb-0">Portal Login: <strong>{{ $lead->discom_pms_portal_login_done ? 'Done' : 'Pending' }}</strong></p>
                 </div>
+                @if($lead->lead_type == 'loan')
                 <div class="col-md-4">
-                    <p>Bank Login: <strong>{{ $lead->bank_login_done ? 'Done' : 'Pending' }}</strong></p>
+                    <p class="mb-0">Bank Login: <strong>{{ $lead->bank_login_done ? 'Done' : 'Pending' }}</strong></p>
                 </div>
+                @endif
                 <div class="col-md-4">
-                    <p>First Payment: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
+                    <p class="mb-0">First Payment: <strong>{{ $lead->first_payment_received ? 'Received' : 'Pending' }}</strong></p>
                 </div>
             </div>
         </div>
@@ -76,18 +82,23 @@
     @if(!($is_past_stage ?? false))
     <div class="card border-warning">
         <div class="card-body text-center">
-            <p>Once all steps are completed (Portal Login, Bank Login, and First Payment), you can move the lead to the Procurement stage.</p>
+            @php
+                $isBankRequired = $lead->lead_type == 'loan';
+                $canMove = $lead->first_payment_received && $lead->discom_pms_portal_login_done && (!$isBankRequired || $lead->bank_login_done);
+            @endphp
+            
+            <p>Once all required steps are completed (Portal Login, {{ $isBankRequired ? 'Bank Login, ' : '' }}and First Payment), you can move the lead to the Procurement stage.</p>
             
             <form action="{{ route('admin.backend-tracking.move', $lead->id) }}" method="POST">
                 @csrf
-                <button type="submit" class="btn btn-lg btn-warning" {{ (!$lead->first_payment_received || !$lead->discom_pms_portal_login_done || !$lead->bank_login_done) ? 'disabled' : '' }}>
+                <button type="submit" class="btn btn-lg btn-warning" {{ !$canMove ? 'disabled' : '' }}>
                     Move to Procurement
                 </button>
             </form>
             
-            @if(!$lead->first_payment_received || !$lead->discom_pms_portal_login_done || !$lead->bank_login_done)
+            @if(!$canMove)
                 <div class="mt-2 text-danger small">
-                    <i class="fas fa-exclamation-triangle"></i> Please complete all tracking steps above to enable this button.
+                    <i class="fas fa-exclamation-triangle"></i> Please complete all required tracking steps above to enable this button.
                 </div>
             @endif
         </div>
