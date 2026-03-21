@@ -61,10 +61,10 @@
                     <small>{{ config('app.website_mobile') }}</small>
                 </div>
                 <div class="h-100 d-inline-flex align-items-center mx-n2">
-                    <a class="btn btn-square btn-link rounded-0 border-0 border-end border-secondary" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-square btn-link rounded-0 border-0 border-end border-secondary" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-square btn-link rounded-0 border-0 border-end border-secondary" href=""><i class="fab fa-linkedin-in"></i></a>
-                    <a class="btn btn-square btn-link rounded-0" href=""><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-square btn-link rounded-0 border-0 border-end border-secondary" href="https://www.facebook.com/share/18DjXkpmPo/"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-square btn-link rounded-0 border-0 border-end border-secondary" href="https://youtube.com/@arkshaktipowersolutions?si=W9OyeONmBy7B7AGT"><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-square btn-link rounded-0 border-0 border-end border-secondary" href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('app.website_mobile')) }}" target="_blank"><i class="fab fa-whatsapp text-success"></i></a>
+                    <a class="btn btn-square btn-link rounded-0" href="https://www.instagram.com/arkshaktipower?igsh=MXR6cmYzaW1qODllMA=="><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
         </div>
@@ -116,10 +116,10 @@
                     <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>{{ config('app.website_mobile') }}</p>
                     <p class="mb-2"><i class="fa fa-envelope me-3"></i>arkshaktipowersolutions@gmail.com</p>
                     <div class="d-flex pt-2">
-                        <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-square btn-outline-light btn-social" href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('app.website_mobile')) }}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a class="btn btn-square btn-outline-light btn-social" href="https://www.facebook.com/share/18DjXkpmPo/"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square btn-outline-light btn-social" href="https://youtube.com/@arkshaktipowersolutions?si=W9OyeONmBy7B7AGT"><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-square btn-outline-light btn-social" href="https://www.instagram.com/arkshaktipower?igsh=MXR6cmYzaW1qODllMA=="><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">

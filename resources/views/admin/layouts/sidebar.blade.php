@@ -232,6 +232,33 @@
             </li>
             @endcan
 
+            @canany(['category_management view', 'product_management view'])
+            <li class="nav-item {{ Request::routeIs('admin.categories.*', 'admin.products.*') ? 'sidebar-group-active open' : '' }}">
+                <a class="d-flex align-items-center" href="javascript:void(0)">
+                    <i data-feather="box"></i>
+                    <span class="menu-title text-truncate">Product & Category <br> Management</span>
+                </a>
+                <ul class="menu-content">
+                    @can('category_management view')
+                    <li class="{{ Request::routeIs('admin.categories.index') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.categories.index') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Category</span>
+                        </a>
+                    </li>
+                    @endcan
+                    @can('product_management view')
+                    <li class="{{ Request::routeIs('admin.products.index') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.products.index') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Product</span>
+                        </a>
+                    </li>
+                    @endcan
+                </ul>
+            </li>
+            @endcanany
+
             <li class="nav-item">
                 <a data-bs-toggle="modal" data-bs-target="#logout" class="d-flex align-items-center" href="#">
                     <i data-feather="power"></i>

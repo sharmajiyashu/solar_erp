@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\{
     SiteVisitController,
     LoginController,
     WebsiteEnquiryController as AdminWebsiteEnquiryController,
+    CategoryController,
+    ProductController,
 };
 use App\Http\Controllers\AirpotCsvController;
 use Illuminate\Support\Facades\Route;
@@ -142,6 +144,12 @@ Route::middleware(['isAdmin'])
             Route::get('/attendance', [\App\Http\Controllers\Admin\ReportController::class, 'attendanceReport'])->name('attendance');
             Route::get('/attendance/export', [\App\Http\Controllers\Admin\ReportController::class, 'exportAttendanceExcel'])->name('attendance.export');
         });
+
+        Route::resource('categories', CategoryController::class);
+        Route::post('categories/{id}/status', [CategoryController::class, 'updateStatus'])->name('categories.status');
+
+        Route::resource('products', ProductController::class);
+        Route::post('products/{id}/status', [ProductController::class, 'updateStatus'])->name('products.status');
 
         Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 

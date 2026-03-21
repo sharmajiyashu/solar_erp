@@ -87,4 +87,18 @@ return [
         'view',
         'export',
     ],
+
+    'category_management' => [
+        'view',
+        'create',
+        'edit',
+        'delete',
+    ],
+
+    'product_management' => [
+        'view',
+        'create',
+        'edit',
+        'delete',
+    ],
 ];
