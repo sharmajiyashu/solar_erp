@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\{
     ProductController,
     ServicePackageController,
     AnalysisController,
+    CategoryController,
 };
 use App\Http\Controllers\AirpotCsvController;
 use Illuminate\Support\Facades\Route;
