@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\{
     InstallationController,
     SiteVisitController,
     LoginController,
+    WebsiteEnquiryController as AdminWebsiteEnquiryController,
 };
 use App\Http\Controllers\AirpotCsvController;
 use Illuminate\Support\Facades\Route;
@@ -40,7 +41,13 @@ Route::middleware(['isAdmin'])
     ->group(function () {
 
         Route::resource('enquiries', EnquiryController::class);
+        Route::resource('website-enquiries', AdminWebsiteEnquiryController::class)->names('website-enquiries');
+        Route::post('website-enquiries/{id}/status', [AdminWebsiteEnquiryController::class, 'updateStatus'])->name('website-enquiries.updateStatus');
+
+        
         Route::post('enquiries/{id}/convert', [EnquiryController::class, 'convertToLead'])
+
+
             ->name('enquiries.convert');
         Route::post(
             'enquiries/{id}/followup',
