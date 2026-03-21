@@ -16,8 +16,8 @@ use App\Http\Controllers\Admin\{
     SiteVisitController,
     LoginController,
     WebsiteEnquiryController as AdminWebsiteEnquiryController,
-    CategoryController,
     ProductController,
+    ServicePackageController,
 };
 use App\Http\Controllers\AirpotCsvController;
 use Illuminate\Support\Facades\Route;
@@ -150,6 +150,9 @@ Route::middleware(['isAdmin'])
 
         Route::resource('products', ProductController::class);
         Route::post('products/{id}/status', [ProductController::class, 'updateStatus'])->name('products.status');
+
+        Route::resource('service-packages', ServicePackageController::class);
+        Route::post('service-packages/{id}/status', [ServicePackageController::class, 'updateStatus'])->name('service-packages.status');
 
         Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 

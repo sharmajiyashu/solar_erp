@@ -232,11 +232,11 @@
             </li>
             @endcan
 
-            @canany(['category_management view', 'product_management view'])
-            <li class="nav-item {{ Request::routeIs('admin.categories.*', 'admin.products.*') ? 'sidebar-group-active open' : '' }}">
+            @canany(['category_management view', 'product_management view', 'service_package view'])
+            <li class="nav-item {{ Request::routeIs('admin.categories.*', 'admin.products.*', 'admin.service-packages.*') ? 'sidebar-group-active open' : '' }}">
                 <a class="d-flex align-items-center" href="javascript:void(0)">
-                    <i data-feather="box"></i>
-                    <span class="menu-title text-truncate">Product & Category <br> Management</span>
+                    <i data-feather="package"></i>
+                    <span class="menu-title text-truncate">Product & Service <br> Management</span>
                 </a>
                 <ul class="menu-content">
                     @can('category_management view')
@@ -255,6 +255,12 @@
                         </a>
                     </li>
                     @endcan
+                    <li class="{{ Request::routeIs('admin.service-packages.index') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.service-packages.index') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Service Package</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endcanany

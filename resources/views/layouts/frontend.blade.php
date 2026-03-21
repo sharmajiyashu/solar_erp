@@ -30,6 +30,9 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ url('public/frontend-assets/css/style.css') }}" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
 <body>
@@ -197,6 +200,14 @@
 
     <!-- Template Javascript -->
     <script src="{{ url('public/frontend-assets/js/main.js') }}"></script>
+    
+    <script>
+        if (typeof feather !== 'undefined') {
+            feather.replace();
+        }
+    </script>
+    
+    @stack('scripts')
 </body>
 
 </html>

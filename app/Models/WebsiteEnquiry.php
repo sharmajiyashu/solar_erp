@@ -15,7 +15,8 @@ class WebsiteEnquiry extends Model
         'mobile',
         'subject',
         'message',
-        'type', // 'contact' or 'quotation'
+        'type', // 'contact' or 'quotation' or 'package_enquiry'
+        'price',
         'status', // 'pending', 'replied', 'closed'
     ];
 }

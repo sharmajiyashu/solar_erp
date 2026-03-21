@@ -12,11 +12,12 @@ class WebsiteEnquiryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'mobile' => 'nullable|string|max:20',
+            'email' => $request->type === 'package_enquiry' ? 'nullable|email|max:255' : 'required|email|max:255',
+            'mobile' => 'required|string|max:20',
             'subject' => 'nullable|string|max:255',
             'message' => 'required|string',
-            'type' => 'required|in:contact,quotation',
+            'type' => 'required|in:contact,quotation,package_enquiry',
+            'price' => 'nullable|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -29,11 +30,12 @@ class WebsiteEnquiryController extends Controller
         try {
             WebsiteEnquiry::create([
                 'name' => $request->name,
-                'email' => $request->email,
+                'email' => $request->email ?? 'no-email@provided.com',
                 'mobile' => $request->mobile,
                 'subject' => $request->subject,
                 'message' => $request->message,
                 'type' => $request->type,
+                'price' => $request->price,
                 'status' => 'pending',
             ]);
 

@@ -17,10 +17,10 @@
 
 
     <!-- Contact Start -->
-    <div class="container-fluid bg-light overflow-hidden px-lg-0" style="margin: 6rem 0;">
+    <div class="container-fluid bg-light overflow-hidden px-lg-0" style="margin: 3rem 0;">
         <div class="container contact px-lg-0">
             <div class="row g-0 mx-lg-0">
-                <div class="col-lg-6 contact-text py-5 wow fadeIn" data-wow-delay="0.5s">
+                <div class="col-lg-6 contact-text py-4 wow fadeIn" data-wow-delay="0.5s">
                     <div class="p-lg-5 ps-lg-0">
                         <h6 class="text-primary">Contact Us</h6>
                         <h1 class="mb-4">Feel Free To Contact Us</h1>

@@ -71,6 +71,7 @@
                                                 <option value="">All Enquiry Types</option>
                                                 <option value="contact" {{ request('type') == 'contact' ? 'selected' : '' }}>Contact Us</option>
                                                 <option value="quotation" {{ request('type') == 'quotation' ? 'selected' : '' }}>Quotation</option>
+                                                <option value="package_enquiry" {{ request('type') == 'package_enquiry' ? 'selected' : '' }}>Package Enquiry</option>
                                             </select>
                                             @if(request('type') || request('status'))
                                                 <a href="{{ route('admin.website-enquiries.index') }}" class="btn btn-outline-secondary btn-sm">Clear</a>
@@ -119,6 +120,11 @@
                                                             <div>
                                                                 @if($item->type == 'quotation')
                                                                     <span class="badge badge-light-primary">Quotation</span>
+                                                                @elseif($item->type == 'package_enquiry')
+                                                                    <span class="badge badge-light-success">Package Enquiry</span>
+                                                                    @if($item->price)
+                                                                        <div class="small fw-bold text-success mt-25">₹{{ number_format($item->price, 0) }}</div>
+                                                                    @endif
                                                                 @else
                                                                     <span class="badge badge-light-info">Contact Us</span>
                                                                 @endif
@@ -148,7 +154,8 @@
                                                                     data-mobile="{{ $item->mobile }}"
                                                                     data-subject="{{ $item->subject }}"
                                                                     data-message="{{ $item->message }}"
-                                                                    data-type="{{ ucfirst($item->type) }}"
+                                                                    data-type="{{ $item->type == 'package_enquiry' ? 'Package Enquiry' : ucfirst($item->type) }}"
+                                                                    data-price="{{ $item->price ? '₹' . number_format($item->price, 2) : 'N/A' }}"
                                                                     data-status="{{ ucfirst($item->status) }}"
                                                                     data-date="{{ $item->created_at->format('d M, Y h:i A') }}"
                                                                     data-bs-toggle="modal" 
@@ -224,6 +231,7 @@
                             <div class="mt-1">
                                 <p class="mb-1"><strong>Type:</strong> <span class="badge badge-light-info" id="view-type"></span></p>
                                 <p class="mb-1"><strong>Status:</strong> <span class="badge" id="view-status"></span></p>
+                                <p class="mb-1"><strong>Price:</strong> <span class="fw-bold text-primary" id="view-price"></span></p>
                                 <p class="mb-0 text-muted small"><i data-feather="calendar" class="me-25" style="width: 14px;"></i> <span id="view-date"></span></p>
                             </div>
                         </div>
@@ -284,6 +292,7 @@
                 $('#view-subject').text(data.subject || 'No Subject');
                 $('#view-message').text(data.message);
                 $('#view-type').text(data.type);
+                $('#view-price').text(data.price);
                 $('#view-date').text(data.date);
                 
                 const status = data.status;

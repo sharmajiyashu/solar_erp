@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\ServicePackage;
+
 class FrontendController extends Controller
 {
     public function index()
@@ -18,7 +20,8 @@ class FrontendController extends Controller
 
     public function service()
     {
-        return view('frontend.service');
+        $packages = ServicePackage::where('status', true)->get();
+        return view('frontend.service', compact('packages'));
     }
 
     public function project()
