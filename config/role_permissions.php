@@ -101,4 +101,15 @@ return [
         'edit',
         'delete',
     ],
+    'website_enquiries' => [
+        'view',
+        'delete',
+        'update_status',
+    ],
+    'service_packages' => [
+        'view',
+        'create',
+        'edit',
+        'delete',
+    ],
 ];

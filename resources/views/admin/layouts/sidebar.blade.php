@@ -35,7 +35,9 @@
                         <span class="menu-title text-truncate">Enquiry Management</span>
                     </a>
                 </li>
+            @endcan
 
+            @can('website_enquiries view')
                 <li class="nav-item {{ \Str::is('admin.website-enquiries*', request()->route()->getName()) ? 'active' : '' }}">
                     <a class="d-flex align-items-center" href="{{ route('admin.website-enquiries.index') }}">
                         <i data-feather="mail"></i>
@@ -232,7 +234,7 @@
             </li>
             @endcan
 
-            @canany(['category_management view', 'product_management view', 'service_package view'])
+            @canany(['category_management view', 'product_management view', 'service_packages view'])
             <li class="nav-item {{ Request::routeIs('admin.categories.*', 'admin.products.*', 'admin.service-packages.*') ? 'sidebar-group-active open' : '' }}">
                 <a class="d-flex align-items-center" href="javascript:void(0)">
                     <i data-feather="package"></i>
@@ -255,12 +257,14 @@
                         </a>
                     </li>
                     @endcan
+                    @can('service_packages view')
                     <li class="{{ Request::routeIs('admin.service-packages.index') ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('admin.service-packages.index') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Service Package</span>
                         </a>
                     </li>
+                    @endcan
                 </ul>
             </li>
             @endcanany

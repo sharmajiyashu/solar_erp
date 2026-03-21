@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class WebsiteEnquiryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:website_enquiries view', ['only' => ['index', 'show']]);
+        $this->middleware('permission:website_enquiries delete', ['only' => ['destroy']]);
+        $this->middleware('permission:website_enquiries update_status', ['only' => ['updateStatus']]);
+    }
+
     public function index(Request $request)
     {
         $query = WebsiteEnquiry::latest();
