@@ -256,6 +256,12 @@
                             <span class="menu-item text-truncate">Product</span>
                         </a>
                     </li>
+                    <li class="{{ Request::routeIs('admin.products.analysis') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.products.analysis') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Analysis</span>
+                        </a>
+                    </li>
                     @endcan
                     @can('service_packages view')
                     <li class="{{ Request::routeIs('admin.service-packages.index') ? 'active' : '' }}">
