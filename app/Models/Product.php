@@ -19,10 +19,21 @@ class Product extends Model
         'final_landing_with_gst',
         'three_kw_dcr_qnt',
         'status',
+        'stock',
     ];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function stockHistories()
+    {
+        return $this->hasMany(StockHistory::class);
+    }
+
+    public function procurementItems()
+    {
+        return $this->hasMany(ProcurementItem::class);
     }
 }

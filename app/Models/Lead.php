@@ -114,6 +114,11 @@ class Lead extends Model
         return $this->hasOne(VerificationReport::class);
     }
 
+    public function procurementItems()
+    {
+        return $this->hasMany(ProcurementItem::class);
+    }
+
     public static $workflowStages = [
         'site_visit',
         'quotation',

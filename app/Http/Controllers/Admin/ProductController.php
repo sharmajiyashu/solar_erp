@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\StockHistory;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -72,5 +74,46 @@ class ProductController extends Controller
         $product->save();
 
         return response()->json(['success' => 'Status updated successfully.']);
+    }
+
+    public function updateStock(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+            'type' => 'required|in:add,less',
+            'reason' => 'required|string|max:255',
+        ]);
+
+        $quantity = $request->quantity;
+        if ($request->type == 'less') {
+            if ($product->stock < $quantity) {
+                return response()->json(['errors' => ['quantity' => ['Insufficient stock. Current stock: ' . $product->stock]]], 422);
+            }
+            $product->decrement('stock', $quantity);
+        } else {
+            $product->increment('stock', $quantity);
+        }
+
+        StockHistory::create([
+            'product_id' => $product->id,
+            'user_id' => Auth::id(),
+            'quantity' => $quantity,
+            'type' => $request->type,
+            'reason' => $request->reason,
+        ]);
+
+        return response()->json(['success' => 'Stock updated successfully.', 'new_stock' => $product->stock]);
+    }
+
+    public function stockHistory($id)
+    {
+        $product = Product::with('stockHistories.user')->findOrFail($id);
+        $history = $product->stockHistories()->latest()->get();
+        
+        return response()->json([
+            'product' => $product,
+            'history' => $history
+        ]);
     }
 }

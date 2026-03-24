@@ -7,6 +7,8 @@ use App\Models\Customer;
 use App\Models\Lead;
 use App\Models\Quotation;
 use App\Models\SiteVisit;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -398,7 +400,13 @@ class LeadController extends Controller
             ->first();
 
         $activeStage = $lead->stage;
-        return view('admin.leads.show', compact('lead', 'quotation', 'activeStage'));
+
+        // For Procurement Item Management
+        $products = Product::where('status', 1)->get();
+        $categories = Category::where('status', 1)->get();
+        $companies = Product::where('status', 1)->whereNotNull('company')->distinct()->pluck('company');
+
+        return view('admin.leads.show', compact('lead', 'quotation', 'activeStage', 'products', 'categories', 'companies'));
     }
 
     /*

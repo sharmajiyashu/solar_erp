@@ -119,6 +119,9 @@ Route::middleware(['isAdmin'])
         )
             ->name('procurement.store');
 
+        Route::post('/procurement-items/{lead}', [DispatchDetailController::class, 'addProcurementItem'])->name('procurement.addItem');
+        Route::delete('/procurement-items/{id}', [DispatchDetailController::class, 'removeProcurementItem'])->name('procurement.removeItem');
+
         Route::post(
             '/installation/store/{lead}',
             [InstallationController::class, 'store']
@@ -151,6 +154,8 @@ Route::middleware(['isAdmin'])
         Route::post('categories/{id}/status', [CategoryController::class, 'updateStatus'])->name('categories.status');
 
         Route::get('products/analysis', [AnalysisController::class, 'index'])->name('products.analysis');
+        Route::post('products/{id}/stock', [ProductController::class, 'updateStock'])->name('products.updateStock');
+        Route::get('products/{id}/stock-history', [ProductController::class, 'stockHistory'])->name('products.stockHistory');
         Route::resource('products', ProductController::class);
         Route::post('products/{id}/status', [ProductController::class, 'updateStatus'])->name('products.status');
 

@@ -38,8 +38,9 @@
                                                     <th class="py-1" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Details</th>
                                                     <th class="py-1 text-end" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Pricing (₹)</th>
                                                     <th class="py-1 text-center" style="width: 100px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">3KW DCR</th>
+                                                    <th class="py-1 text-center" style="width: 100px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Stock</th>
                                                     <th class="py-1 text-center" style="width: 100px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Status</th>
-                                                    <th class="py-1 text-center pe-2" style="width: 120px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Actions</th>
+                                                    <th class="py-1 text-center pe-2" style="width: 150px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -72,6 +73,9 @@
                                                             <span class="fw-bold text-secondary">{{ $product->three_kw_dcr_qnt ?? '-' }}</span>
                                                         </td>
                                                         <td class="py-1 align-middle text-center">
+                                                            <span class="badge badge-light-info current-stock-display-{{ $product->id }}" style="font-size: 0.9rem;">{{ $product->stock }}</span>
+                                                        </td>
+                                                        <td class="py-1 align-middle text-center">
                                                             <div class="form-check form-switch d-flex justify-content-center">
                                                                 <input type="checkbox" class="form-check-input status-toggle" 
                                                                     data-id="{{ $product->id }}" {{ $product->status ? 'checked' : '' }} role="switch" style="cursor: pointer;">
@@ -79,6 +83,12 @@
                                                         </td>
                                                         <td class="py-1 align-middle text-center pe-2">
                                                             <div class="d-flex justify-content-center">
+                                                                <button class="btn btn-icon btn-flat-success btn-sm manage-stock me-25" data-id="{{ $product->id }}" data-name="{{ $product->subtype }} ({{ $product->company }})" title="Manage Stock">
+                                                                    <i data-feather="plus-circle" style="width: 14px; height: 14px;"></i>
+                                                                </button>
+                                                                <button class="btn btn-icon btn-flat-info btn-sm view-history me-25" data-id="{{ $product->id }}" title="Stock History">
+                                                                    <i data-feather="list" style="width: 14px; height: 14px;"></i>
+                                                                </button>
                                                                 <button class="btn btn-icon btn-flat-primary btn-sm edit-product me-25" data-id="{{ $product->id }}" title="Edit">
                                                                     <i data-feather="edit" style="width: 14px; height: 14px;"></i>
                                                                 </button>
@@ -260,6 +270,80 @@
         </div>
     </div>
 
+    <!-- Manage Stock Modal -->
+    <div class="modal fade" id="manageStockModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div class="modal-header bg-transparent border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-5 pb-5">
+                    <div class="text-center mb-2">
+                        <h1 class="mb-50" style="font-weight: 700; color: #333;">Manage Stock</h1>
+                        <p class="text-muted stock-product-name"></p>
+                    </div>
+                    <form id="manageStockForm" class="row gy-1 pt-75">
+                        @csrf
+                        <input type="hidden" name="product_id" id="stock_product_id">
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Transaction Type</label>
+                            <select name="type" class="form-select" style="padding: 0.75rem; border-radius: 8px;">
+                                <option value="add">Add In (+)</option>
+                                <option value="less">Less From (-)</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Quantity</label>
+                            <input type="number" name="quantity" class="form-control" min="1" placeholder="Enter quantity" style="padding: 0.75rem; border-radius: 8px;" />
+                            <span class="text-danger error-text quantity_error small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Reason</label>
+                            <textarea name="reason" class="form-control" rows="2" placeholder="e.g. Purchase order #123 or Sale" style="padding: 0.75rem; border-radius: 8px;"></textarea>
+                            <span class="text-danger error-text reason_error small"></span>
+                        </div>
+                        <div class="col-12 text-center mt-2">
+                            <button type="submit" class="btn btn-success px-3 submit-btn" style="border-radius: 8px; font-weight: 600;">Update Stock</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stock History Modal -->
+    <div class="modal fade" id="stockHistoryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div class="modal-header bg-transparent border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-3 pb-3">
+                    <div class="text-center mb-2">
+                        <h1 class="mb-50" style="font-weight: 700; color: #333;">Stock History</h1>
+                        <p class="text-muted history-product-name"></p>
+                    </div>
+                    <div class="table-responsive" style="max-height: 400px;">
+                        <table class="table table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th class="text-center">Type</th>
+                                    <th class="text-center">Qty</th>
+                                    <th>Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stock-history-body">
+                                <!-- History entries will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @push('scripts')
     <script>
         $(document).ready(function() {
@@ -415,6 +499,90 @@
                             text: response.success,
                             backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
                         }).showToast();
+                    }
+                });
+            });
+
+            // Open Manage Stock Modal
+            $(document).on('click', '.manage-stock', function() {
+                let id = $(this).data('id');
+                let name = $(this).data('name');
+                $('#stock_product_id').val(id);
+                $('.stock-product-name').text(name);
+                $('#manageStockForm')[0].reset();
+                clearErrors($('#manageStockForm'));
+                $('#manageStockModal').modal('show');
+            });
+
+            // Update Stock AJAX
+            $('#manageStockForm').on('submit', function(e) {
+                e.preventDefault();
+                let form = $(this);
+                let id = $('#stock_product_id').val();
+                clearErrors(form);
+                toggleLoader(form, true);
+
+                $.ajax({
+                    url: "{{ url('admin/products') }}/" + id + "/stock",
+                    method: "POST",
+                    data: form.serialize(),
+                    success: function(response) {
+                        toggleLoader(form, false);
+                        $('#manageStockModal').modal('hide');
+                        Toastify({
+                            text: response.success,
+                            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                        }).showToast();
+                        // Update stock in table without reload
+                        $(`.current-stock-display-${id}`).text(response.new_stock);
+                    },
+                    error: function(xhr) {
+                        toggleLoader(form, false);
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                form.find('.' + key + '_error').text(value[0]);
+                            });
+                        }
+                    }
+                });
+            });
+
+            // View Stock History
+            $(document).on('click', '.view-history', function() {
+                let id = $(this).data('id');
+                $('#stock-history-body').html('<tr><td colspan="5" class="text-center py-2"><span class="spinner-border spinner-border-sm"></span> Loading...</td></tr>');
+                $('#stockHistoryModal').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/products') }}/" + id + "/stock-history",
+                    method: "GET",
+                    success: function(data) {
+                        $('.history-product-name').text(`${data.product.subtype} (${data.product.company})`);
+                        let rows = '';
+                        if (data.history.length === 0) {
+                            rows = '<tr><td colspan="5" class="text-center py-2">No history records found.</td></tr>';
+                        } else {
+                            data.history.forEach(item => {
+                                let date = new Date(item.created_at).toLocaleString();
+                                let typeBadge = item.type === 'add' ? 
+                                    '<span class="badge bg-light-success">Add In</span>' : 
+                                    '<span class="badge bg-light-danger">Less From</span>';
+                                let qtyClass = item.type === 'add' ? 'text-success' : 'text-danger';
+                                let sign = item.type === 'add' ? '+' : '-';
+                                
+                                rows += `
+                                    <tr>
+                                        <td>${date}</td>
+                                        <td>${item.user ? item.user.name : 'System'}</td>
+                                        <td class="text-center">${typeBadge}</td>
+                                        <td class="text-center fw-bold ${qtyClass}">${sign}${item.quantity}</td>
+                                        <td class="small">${item.reason || '-'}</td>
+                                    </tr>
+                                `;
+                            });
+                        }
+                        $('#stock-history-body').html(rows);
                     }
                 });
             });
