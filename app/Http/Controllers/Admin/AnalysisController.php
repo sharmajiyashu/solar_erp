@@ -18,7 +18,8 @@ class AnalysisController extends Controller
     {
         $products = Product::with('category')->where('status', 1)->get();
         $categories = Category::where('status', 1)->get();
+        $companies = Product::where('status', 1)->whereNotNull('company')->distinct()->pluck('company');
         
-        return view('admin.products.analysis', compact('products', 'categories'));
+        return view('admin.products.analysis', compact('products', 'categories', 'companies'));
     }
 }

@@ -10,69 +10,103 @@
 
         <div class="content-body">
             <section id="analysis-section">
-                <div class="row">
-                    <!-- Product Selection Card -->
-                    <div class="col-md-4">
-                        <div class="card border-0" style="border-radius: 12px; box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);">
+                <div class="row match-height">
+                    <!-- Row 1: Product Selection and Summary -->
+                    <div class="col-md-7 mb-2">
+                        <div class="card border-0 h-100" style="border-radius: 12px; box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);">
                             <div class="card-header border-bottom py-2">
                                 <h4 class="card-title" style="font-weight: 600;">Add Product</h4>
                             </div>
                             <div class="card-body py-2">
-                                <div class="mb-2">
-                                    <label class="form-label fw-bold small text-uppercase" style="color: #5e5873;">Select Product</label>
-                                    <select id="product-selector" class="form-select select2" style="padding: 0.75rem; border-radius: 8px;">
-                                        <option value="">Choose a product...</option>
-                                        @foreach($products as $product)
-                                            <option value="{{ $product->id }}" 
-                                                data-name="{{ $product->subtype }} ({{ $product->company }})" 
-                                                data-landing="{{ $product->total_landing_wo_gst }}"
-                                                data-gst="{{ $product->gst_percentage }}"
-                                                data-tax="{{ $product->tax_amount }}"
-                                                data-price="{{ $product->final_landing_with_gst }}"
-                                                data-category="{{ $product->category->name ?? 'N/A' }}">
-                                                {{ $product->subtype }} - {{ $product->company }} (₹{{ number_format($product->final_landing_with_gst, 2) }})
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                <div class="row mb-1">
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label fw-bold small text-uppercase" style="color: #5e5873;">Filter Category</label>
+                                        <select id="category-filter" class="form-select select2" style="padding: 0.75rem; border-radius: 8px;">
+                                            <option value="">All Categories</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label fw-bold small text-uppercase" style="color: #5e5873;">Filter Company</label>
+                                        <select id="company-filter" class="form-select select2" style="padding: 0.75rem; border-radius: 8px;">
+                                            <option value="">All Companies</option>
+                                            @foreach($companies as $company)
+                                                <option value="{{ $company }}">{{ $company }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="mb-2">
-                                    <label class="form-label fw-bold small text-uppercase" style="color: #5e5873;">Quantity</label>
-                                    <input type="number" id="product-qty" class="form-control" value="1" min="1" style="padding: 0.75rem; border-radius: 8px;">
-                                </div>
-                                <button id="add-to-analysis" class="btn btn-primary w-100 py-1" style="border-radius: 8px; font-weight: 600; box-shadow: 0 4px 14px 0 rgba(113, 187, 178, 0.4);">
-                                    <i data-feather="plus" class="me-50"></i> Add to List
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Summary Card -->
-                        <div class="card border-0 mt-2" style="border-radius: 12px; background: linear-gradient(135deg, #71bbb2 0%, #54a59a 100%); box-shadow: 0 4px 24px 0 rgba(113, 187, 178, 0.3);">
-                            <div class="card-body p-3">
-                                <h4 class="text-white mb-2" style="font-weight: 600;">Analysis Summary</h4>
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span class="text-white-50">Total Items:</span>
-                                    <span id="summary-items" class="text-white fw-bold">0</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span class="text-white-50">Total Landing (WO GST):</span>
-                                    <span id="summary-landing" class="text-white fw-bold">₹0.00</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span class="text-white-50">Total Tax:</span>
-                                    <span id="summary-tax" class="text-white fw-bold">₹0.00</span>
-                                </div>
-                                <hr style="border-color: rgba(255,255,255,0.1);">
-                                <div class="d-flex flex-column">
-                                    <span class="text-white-50 small text-uppercase">Total Final Cost</span>
-                                    <span id="summary-total" class="text-white" style="font-size: 1.75rem; font-weight: 700;">₹0.00</span>
+                                <div class="row align-items-end">
+                                    <div class="col-md-7 mb-1">
+                                        <label class="form-label fw-bold small text-uppercase" style="color: #5e5873;">Select Product (Item)</label>
+                                        <select id="product-selector" class="form-select select2" style="padding: 0.75rem; border-radius: 8px;">
+                                            <option value="">Choose a product...</option>
+                                            @foreach($products as $product)
+                                                <option value="{{ $product->id }}" 
+                                                    data-name="{{ $product->subtype }} ({{ $product->company }})" 
+                                                    data-landing="{{ $product->total_landing_wo_gst }}"
+                                                    data-gst="{{ $product->gst_percentage }}"
+                                                    data-tax="{{ $product->tax_amount }}"
+                                                    data-price="{{ $product->final_landing_with_gst }}"
+                                                    data-category-id="{{ $product->category_id }}"
+                                                    data-company="{{ $product->company }}"
+                                                    data-category="{{ $product->category->name ?? 'N/A' }}">
+                                                    {{ $product->subtype }} - {{ $product->company }} (₹{{ number_format($product->final_landing_with_gst, 2) }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mb-1">
+                                        <label class="form-label fw-bold small text-uppercase" style="color: #5e5873;">Qty</label>
+                                        <input type="number" id="product-qty" class="form-control" value="1" min="1" style="padding: 0.75rem; border-radius: 8px;">
+                                    </div>
+                                    <div class="col-md-3 mb-1 text-end">
+                                        <button id="add-to-analysis" class="btn btn-primary w-100 py-1" style="border-radius: 8px; font-weight: 600; box-shadow: 0 4px 14px 0 rgba(113, 187, 178, 0.4);">
+                                            <i data-feather="plus" class="me-50"></i> Add
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Analysis Table Card -->
-                    <div class="col-md-8">
-                        <div class="card border-0" style="border-radius: 12px; box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);">
+                    <div class="col-md-5 mb-2">
+                        <!-- Summary Card -->
+                        <div class="card border-0 h-100" style="border-radius: 12px; background: linear-gradient(135deg, #71bbb2 0%, #54a59a 100%); box-shadow: 0 4px 24px 0 rgba(113, 187, 178, 0.3);">
+                            <div class="card-body p-3 d-flex flex-column justify-content-between">
+                                <div>
+                                    <h4 class="text-white mb-2" style="font-weight: 600;">Analysis Summary</h4>
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-white-50">Total Items:</span>
+                                        <span id="summary-items" class="text-white fw-bold">0</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-white-50">Total Landing (WO GST):</span>
+                                        <span id="summary-landing" class="text-white fw-bold">₹0.00</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-white-50">Total Tax:</span>
+                                        <span id="summary-tax" class="text-white fw-bold">₹0.00</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <hr style="border-color: rgba(255,255,255,0.1);">
+                                    <div class="d-flex flex-column">
+                                        <span class="text-white-50 small text-uppercase">Total Final Cost</span>
+                                        <span id="summary-total" class="text-white" style="font-size: 1.75rem; font-weight: 700;">₹0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <!-- Row 2: Analysis Table -->
+                    <div class="col-md-12">
+                        <div class="card border-0" style="border-radius: 12px; box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1); background-color: #fcfcfc;">
                             <div class="card-header border-bottom py-2 d-flex justify-content-between align-items-center">
                                 <h4 class="card-title" style="font-weight: 600;">Selected Items Analysis</h4>
                                 <button id="clear-all" class="btn btn-sm btn-outline-danger" style="border-radius: 6px;">
@@ -82,7 +116,7 @@
                             <div class="card-body p-0">
                                 <div class="table-responsive">
                                     <table id="analysis-table" class="table table-hover mb-0">
-                                        <thead style="background-color: #f8f9fa;">
+                                        <thead style="background-color: #f1f1f1;">
                                             <tr>
                                                 <th class="ps-2 py-1" style="text-transform: uppercase; font-size: 0.7rem; font-weight: 600; color: #5e5873;">Product</th>
                                                 <th class="py-1 text-center" style="text-transform: uppercase; font-size: 0.7rem; font-weight: 600; color: #5e5873;">Landing</th>
@@ -154,6 +188,33 @@
 <script>
     $(document).ready(function() {
         let analysisItems = [];
+        const allProductOptions = $('#product-selector option').clone();
+
+        function filterProducts() {
+            const categoryId = $('#category-filter').val();
+            const company = $('#company-filter').val();
+            const selector = $('#product-selector');
+            
+            selector.empty().append('<option value="">Choose a product...</option>');
+            
+            allProductOptions.each(function() {
+                const opt = $(this);
+                if (opt.val() === "") return;
+                
+                const matchesCategory = categoryId === "" || opt.data('category-id').toString() === categoryId;
+                const matchesCompany = company === "" || opt.data('company') === company;
+                
+                if (matchesCategory && matchesCompany) {
+                    selector.append(opt.clone());
+                }
+            });
+            
+            selector.trigger('change');
+        }
+
+        $('#category-filter, #company-filter').on('change', function() {
+            filterProducts();
+        });
 
         function renderTable() {
             const tbody = $('#analysis-table tbody');
