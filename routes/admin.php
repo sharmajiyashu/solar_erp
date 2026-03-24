@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\{
     ServicePackageController,
     AnalysisController,
     CategoryController,
+    ProformaInvoiceController,
 };
 use App\Http\Controllers\AirpotCsvController;
 use Illuminate\Support\Facades\Route;
@@ -121,6 +122,9 @@ Route::middleware(['isAdmin'])
 
         Route::post('/procurement-items/{lead}', [DispatchDetailController::class, 'addProcurementItem'])->name('procurement.addItem');
         Route::delete('/procurement-items/{id}', [DispatchDetailController::class, 'removeProcurementItem'])->name('procurement.removeItem');
+
+        Route::get('/leads/{id}/proforma-invoice', [ProformaInvoiceController::class, 'generate'])->name('leads.proforma.generate');
+        Route::get('/leads/{id}/proforma-invoice/view', [ProformaInvoiceController::class, 'view'])->name('leads.proforma.view');
 
         Route::post(
             '/installation/store/{lead}',

@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Auth;
 
 class DispatchDetailController extends Controller
 {
+    public function __construct()
+    {
+        // User wants 'procurement_management view' to manage logistics
+        $this->middleware('permission:procurement_management view')->only(['storeOrUpdate']); 
+        
+        $this->middleware('permission:items_management create')->only(['addProcurementItem']);
+        $this->middleware('permission:items_management delete')->only(['removeProcurementItem']);
+        $this->middleware('permission:items_management view')->only(['index', 'show']); // If they existed
+    }
+
     public function storeOrUpdate(Request $request, $leadId)
     {
         $request->validate([

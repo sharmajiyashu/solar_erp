@@ -1,4 +1,6 @@
-@can('procurement_management create')
+<!-- Procurement Items Management Section -->
+@can('items_management view')
+    @can('items_management create')
     <div class="row mb-2">
         <div class="col-12">
             <div class="card bg-light-secondary border-0 shadow-none" style="border-radius: 12px;">
@@ -69,6 +71,18 @@
         </div>
     </div>
 
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <h5 class="mb-0 fw-bold text-primary">Procurement Items</h5>
+        <div class="btn-group">
+            <a href="{{ route('admin.leads.proforma.view', $lead->id) }}" target="_blank" class="btn btn-outline-info btn-sm">
+                <i data-feather="eye" class="me-25"></i> View Proforma Invoice
+            </a>
+            <a href="{{ route('admin.leads.proforma.generate', $lead->id) }}" class="btn btn-outline-primary btn-sm">
+                <i data-feather="file-text" class="me-25"></i> Download PDF
+            </a>
+        </div>
+    </div>
+
     <div class="table-responsive mb-4">
         <table class="table table-bordered table-hover" id="procurementItemsTable">
             <thead class="table-light">
@@ -115,9 +129,16 @@
             </tfoot>
         </table>
     </div>
+@else
+    <div class="alert alert-warning">
+        You do not have permission to view procurement items.
+    </div>
+@endcan
 
-    <hr class="my-3">
+<hr class="my-3">
 
+<!-- Logistics Details Section -->
+@can('procurement_management view')
     <form action="{{ route('admin.procurement.store', $lead->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
@@ -175,67 +196,13 @@
         </div>
     </form>
 @else
-    <div class="modal-body">
-        <!-- Display items read-only if no permission or stage passed -->
-        <h5 class="mb-1 fw-bold text-primary">Procurement Items</h5>
-        <div class="table-responsive mb-3">
-            <table class="table table-bordered table-sm">
-                <thead class="table-light">
-                    <tr>
-                        <th>Item Details</th>
-                        <th class="text-center">Qty</th>
-                        <th class="text-end">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($lead->procurementItems as $item)
-                        <tr>
-                            <td>{{ $item->product->subtype }} ({{ $item->product->company }})</td>
-                            <td class="text-center">{{ $item->quantity }}</td>
-                            <td class="text-end">₹{{ number_format($item->total, 2) }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <h5 class="mb-1 fw-bold text-primary">Logistics Details</h5>
-        <div class="row">
-            <div class="col-md-6 mb-1">
-                <label class="small text-muted">Transporter Name</label>
-                <p><strong>{{ $lead->dispatchDetail->transporter_name ?? 'N/A' }}</strong></p>
-            </div>
-            <div class="col-md-6 mb-1">
-                <label class="small text-muted">Vehicle Number</label>
-                <p><strong>{{ $lead->dispatchDetail->vehicle_number ?? 'N/A' }}</strong></p>
-            </div>
-            <div class="col-md-6 mb-1">
-                <label class="small text-muted">Driver Contact</label>
-                <p><strong>{{ $lead->dispatchDetail->driver_contact ?? 'N/A' }}</strong></p>
-            </div>
-            <div class="col-md-6 mb-1">
-                <label class="small text-muted">Procurement Date</label>
-                <p><strong>{{ $lead->dispatchDetail->dispatch_date ?? 'N/A' }}</strong></p>
-            </div>
-            <div class="col-md-6 mb-1">
-                <label class="small text-muted">Challan Book</label>
-                @if (!empty($lead->dispatchDetail->challan_book))
-                    <div>
-                        <a href="{{ url('public/' . $lead->dispatchDetail->challan_book) }}" target="_blank"
-                            class="btn btn-sm btn-info text-white">
-                            View File
-                        </a>
-                    </div>
-                @else
-                    <p><strong>N/A</strong></p>
-                @endif
-            </div>
-        </div>
+    <div class="alert alert-warning">
+        You do not have permission to manage logistics details.
     </div>
 @endcan
 
 @if($lead->stage == 'procurement')
-    @can('procurement_management create')
+    @if(auth()->user()->can('items_management create') || auth()->user()->can('procurement_management view'))
         <div class="card border-success mt-4">
             <div class="card-body text-center">
                 <p>Once the procurement details are saved, you can move the lead to the Installation stage.</p>
@@ -250,7 +217,7 @@
                 @endif
             </div>
         </div>
-    @endcan
+    @endif
 @endif
 
 <!-- JavaScript for Procurement Item Management -->

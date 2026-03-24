@@ -49,7 +49,15 @@ return [
     'procurement_management' => [
         'view',
         'create',
+        'delete',
         'get-all'   
+    ],
+
+    'items_management' => [
+        'view',
+        'create',
+        'delete',
+        'get-all'
     ],
 
     'installation_management' => [
