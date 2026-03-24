@@ -14,6 +14,7 @@ class BackendController extends Controller
 
         $lead->update([
             'first_payment_received' => $request->has('first_payment_received'),
+            'first_tranche_amount' => $request->first_tranche_amount,
             'discom_pms_portal_login_done' => $request->has('discom_pms_portal_login_done'),
             'bank_login_done' => $request->has('bank_login_done'),
         ]);

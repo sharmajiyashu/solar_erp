@@ -20,8 +20,8 @@
                 <div class="row align-items-center g-1">
                     <div class="col-md-2">
                         <div class="form-check form-switch mt-1">
-                            <input class="form-check-input" type="checkbox" name="first_payment_received" id="first_payment_received" {{ $lead->first_payment_received ? 'checked' : '' }}>
-                            <label class="form-check-label" for="first_payment_received">Token Amount</label>
+                            <input class="form-check-input" type="checkbox" name="token_received" id="token_received" {{ $lead->token_received ? 'checked' : '' }}>
+                            <label class="form-check-label text-nowrap" for="token_received">Token Amount Received</label>
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -42,29 +42,50 @@
                             <option value="loan" {{ $lead->lead_type == 'loan' ? 'selected' : '' }}>Loan</option>
                         </select>
                     </div>
-                    <div class="col-md-2" id="bank_login_col" style="display: {{ $lead->lead_type == 'loan' ? 'block' : 'none' }}">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="bank_login_done" id="bank_login_done_input" {{ $lead->bank_login_done ? 'checked' : '' }}>
-                            <label class="form-check-label" for="bank_login_done_input">Bank Login</label>
-                        </div>
-                    </div>
-                    <div class="col-md-2 text-end">
+                    <div class="col-md-4 text-end">
                         <button type="submit" class="btn btn-primary btn-sm w-100">Update</button>
                     </div>
                 </div>
             </form>
 
-            <script>
-                document.getElementById('lead_type_select').addEventListener('change', function() {
-                    const bankCol = document.getElementById('bank_login_col');
-                    if (this.value === 'loan') {
-                        bankCol.style.display = 'block';
-                    } else {
-                        bankCol.style.display = 'none';
-                        document.getElementById('bank_login_done_input').checked = false;
-                    }
-                });
-            </script>
+            <div class="mt-2 pt-1 border-top">
+                <h6 class="small fw-bold text-uppercase text-muted mb-1">Payment Summary</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Payment Stage</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-end">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold">Token Amount</td>
+                                <td class="text-center">
+                                    @if($lead->token_received)
+                                        <span class="badge bg-light-success text-success">Received</span>
+                                    @else
+                                        <span class="badge bg-light-warning text-warning">Pending</span>
+                                    @endif
+                                </td>
+                                <td class="text-end fw-bold text-primary">₹{{ number_format($lead->token_amount ?? 0, 2) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-muted small">First Tranche</td>
+                                <td class="text-center">
+                                    @if($lead->first_payment_received)
+                                        <span class="badge bg-light-success text-success">Received</span>
+                                    @else
+                                        <span class="badge bg-light-secondary text-secondary">Not Started</span>
+                                    @endif
+                                </td>
+                                <td class="text-end text-muted small">₹{{ number_format($lead->first_tranche_amount ?? 0, 2) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     @else
@@ -72,20 +93,18 @@
             <div class="card-body">
                 <h6 class="card-title text-primary">Stage Tracking (View Only)</h6>
                 <div class="row align-items-center">
-                    <div class="col-md-3">
-                        <p class="mb-0">Token Amount: <strong>{{ $lead->first_payment_received ? 'Received (₹'.$lead->token_amount.')' : 'Pending' }}</strong></p>
+                    <div class="col-md-4">
+                        <p class="mb-0 text-muted small">Token Amount</p>
+                        <h6 class="mb-0 fw-bold">{{ $lead->token_received ? 'Received (₹'.number_format($lead->token_amount, 2).')' : 'Pending' }}</h6>
                     </div>
-                    <div class="col-md-3">
-                        <p class="mb-0">Document Status: <strong>{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</strong></p>
+                    <div class="col-md-4">
+                        <p class="mb-0 text-muted small">Document Status</p>
+                        <h6 class="mb-0 fw-bold">{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</h6>
                     </div>
-                    <div class="col-md-3">
-                        <p class="mb-0">Lead Type: <strong>{{ ucfirst($lead->lead_type) }}</strong></p>
+                    <div class="col-md-4">
+                        <p class="mb-0 text-muted small">Lead Type</p>
+                        <h6 class="mb-0 fw-bold">{{ ucfirst($lead->lead_type) }}</h6>
                     </div>
-                    @if($lead->lead_type == 'loan')
-                    <div class="col-md-3">
-                        <p class="mb-0">Bank Login: <strong>{{ $lead->bank_login_done ? 'Done' : 'Pending' }}</strong></p>
-                    </div>
-                    @endif
                 </div>
             </div>
         </div>
@@ -95,20 +114,18 @@
         <div class="card-body">
             <h6 class="card-title text-primary">Stage Tracking</h6>
             <div class="row align-items-center">
-                <div class="col-md-3">
-                    <p class="mb-0">Token Amount: <strong>{{ $lead->first_payment_received ? 'Received (₹'.$lead->token_amount.')' : 'Pending' }}</strong></p>
+                <div class="col-md-4">
+                    <p class="mb-0 text-muted small">Token Amount</p>
+                    <h6 class="mb-0 fw-bold">{{ $lead->token_received ? 'Received (₹'.number_format($lead->token_amount, 2).')' : 'Pending' }}</h6>
                 </div>
-                <div class="col-md-3">
-                    <p class="mb-0">Document Status: <strong>{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</strong></p>
+                <div class="col-md-4">
+                    <p class="mb-0 text-muted small">Document Status</p>
+                    <h6 class="mb-0 fw-bold">{{ $lead->is_document_done ? 'Done & Received' : 'Pending' }}</h6>
                 </div>
-                <div class="col-md-3">
-                    <p class="mb-0">Lead Type: <strong>{{ ucfirst($lead->lead_type) }}</strong></p>
+                <div class="col-md-4">
+                    <p class="mb-0 text-muted small">Lead Type</p>
+                    <h6 class="mb-0 fw-bold">{{ ucfirst($lead->lead_type) }}</h6>
                 </div>
-                @if($lead->lead_type == 'loan')
-                <div class="col-md-3">
-                    <p class="mb-0">Bank Login: <strong>{{ $lead->bank_login_done ? 'Done' : 'Pending' }}</strong></p>
-                </div>
-                @endif
             </div>
         </div>
     </div>
@@ -285,8 +302,8 @@
                 
                 <div class="d-flex justify-content-center gap-3 mb-3">
                     <div>
-                        <span class="badge {{ $lead->first_payment_received ? 'bg-success' : 'bg-danger' }}">
-                            <i class="fas {{ $lead->first_payment_received ? 'fa-check-circle' : 'fa-times-circle' }}"></i> 
+                        <span class="badge {{ $lead->token_received ? 'bg-success' : 'bg-danger' }}">
+                            <i class="fas {{ $lead->token_received ? 'fa-check-circle' : 'fa-times-circle' }}"></i> 
                             Token Amount Received {{ $lead->token_amount ? '(₹'.$lead->token_amount.')' : '' }}
                         </span>
                     </div>
@@ -298,7 +315,7 @@
                     </div>
                 </div>
 
-                @if(!$lead->first_payment_received || !$lead->is_document_done)
+                @if(!$lead->token_received || !$lead->is_document_done)
                     <div class="mt-2 text-danger small">
                         <i class="fas fa-exclamation-triangle"></i> Please update the transaction and document status above to proceed.
                     </div>

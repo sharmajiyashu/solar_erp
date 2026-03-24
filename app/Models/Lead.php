@@ -17,6 +17,8 @@ class Lead extends Model
         'remarks',
         'lead_type',
         'first_payment_received',
+        'first_tranche_amount',
+        'token_received',
         'token_amount',
         'is_document_done',
         'discom_pms_portal_login_done',

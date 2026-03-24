@@ -1,5 +1,5 @@
 <!-- Procurement Items Management Section -->
-@can('items_management view')
+@if(auth()->user()->can('items_management view'))
     @can('items_management create')
     <div class="row mb-2">
         <div class="col-12">
@@ -70,6 +70,7 @@
             </div>
         </div>
     </div>
+    @endcan
 
     <div class="d-flex justify-content-between align-items-center mb-1">
         <h5 class="mb-0 fw-bold text-primary">Procurement Items</h5>
@@ -133,7 +134,7 @@
     <div class="alert alert-warning">
         You do not have permission to view procurement items.
     </div>
-@endcan
+@endif
 
 <hr class="my-3">
 

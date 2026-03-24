@@ -62,8 +62,8 @@
                     
                     @if($stageKey == 'document')
                         <div class="mt-1 flex-wrap d-flex gap-1 text-nowrap">
-                            <span class="badge {{ $lead->first_payment_received ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Token Amount</span>
-                            <span class="badge {{ $lead->is_document_done ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Documents</span>
+                            <span class="badge {{ $lead->token_received ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Token Received</span>
+                            <span class="badge {{ $lead->is_document_done ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Documents Received</span>
                             <span class="badge bg-secondary py-0 px-1" style="font-size: 1rem;">{{ ucfirst($lead->lead_type) }}</span>
                         </div>
                     @elseif($stageKey == 'backend')
@@ -72,6 +72,7 @@
                             @if($lead->lead_type == 'loan')
                                 <span class="badge {{ $lead->bank_login_done ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">Bank Login</span>
                             @endif
+                            <span class="badge {{ $lead->first_payment_received ? 'bg-success' : 'bg-danger' }} py-0 px-1" style="font-size: 1rem;">First Tranche Received</span>
                         </div>
                     @elseif($stageKey == 'installation')
                         @php $inst = $lead->installation; @endphp

@@ -76,14 +76,13 @@ class DocumentController extends Controller
         $lead = \App\Models\Lead::findOrFail($leadId);
 
         $lead->update([
-            'first_payment_received' => $request->has('first_payment_received'),
+            'token_received' => $request->has('token_received'),
             'token_amount' => $request->token_amount,
             'is_document_done' => $request->has('is_document_done'),
             'lead_type' => $request->lead_type,
-            'bank_login_done' => $request->has('bank_login_done'),
         ]);
 
-        if ($lead->first_payment_received && $lead->is_document_done && $lead->stage == 'document') {
+        if ($lead->token_received && $lead->is_document_done && $lead->stage == 'document') {
             
             $stages = $lead->project_stages;
             if (is_string($stages)) {
