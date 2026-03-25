@@ -33,6 +33,14 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [WebsiteAuthController::class, 'resetPassword'])->name('password.update');
 });
 
+// User Panel Routes
+Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\User\UserDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [App\Http\Controllers\User\UserDashboardController::class, 'profile'])->name('profile');
+    Route::post('/profile/update', [App\Http\Controllers\User\UserDashboardController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/services', [App\Http\Controllers\User\UserDashboardController::class, 'services'])->name('services');
+});
+
 Route::post('/logout', [WebsiteAuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::post('/website-enquiry', [WebsiteEnquiryController::class, 'store'])->name('website.enquiry.store');

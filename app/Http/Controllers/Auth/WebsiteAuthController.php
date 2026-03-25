@@ -47,7 +47,7 @@ class WebsiteAuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Login successful! Redirecting...',
-                'redirect' => route('home')
+                'redirect' => $user->role == 'admin' ? route('admin.dashboard') : route('user.dashboard')
             ]);
         }
 
@@ -166,7 +166,7 @@ class WebsiteAuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Email verified successfully! Welcome to your dashboard.',
-            'redirect' => route('home')
+            'redirect' => route('user.dashboard')
         ]);
     }
 

@@ -120,6 +120,9 @@
                             <i class="fa fa-user-circle me-1"></i> {{ Auth::user()->name }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light m-0 border-0 shadow-sm">
+                            <a href="{{ route('user.dashboard') }}" class="dropdown-item px-4 py-2">
+                                <i class="fa fa-th-large me-2 text-primary"></i> Dashboard
+                            </a>
                             <form action="{{ route('logout') }}" method="POST" id="logout-form">
                                 @csrf
                                 <button type="submit" class="dropdown-item px-4 py-2">
