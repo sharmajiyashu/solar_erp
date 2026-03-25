@@ -38,6 +38,7 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\User\UserDashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [App\Http\Controllers\User\UserDashboardController::class, 'profile'])->name('profile');
     Route::post('/profile/update', [App\Http\Controllers\User\UserDashboardController::class, 'updateProfile'])->name('profile.update');
+    Route::post('/profile/update/password', [App\Http\Controllers\User\UserDashboardController::class, 'updatePassword'])->name('profile.password.update');
     Route::get('/services', [App\Http\Controllers\User\UserDashboardController::class, 'services'])->name('services');
     
     // Subscription & Payments

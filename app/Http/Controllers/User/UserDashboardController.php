@@ -13,7 +13,34 @@ class UserDashboardController extends Controller
 {
     public function index()
     {
-        return view('user.dashboard');
+        $userId = Auth::id();
+        
+        $subscriptions = \App\Models\UserSubscription::where('user_id', $userId)
+            ->where('status', 'active')
+            ->with(['package'])
+            ->get();
+            
+        $subscriptionIds = $subscriptions->pluck('id');
+        
+        $totalSlotsCount = \App\Models\ServiceSlot::whereIn('subscription_id', $subscriptionIds)->count();
+        $completedSlotsCount = \App\Models\ServiceSlot::whereIn('subscription_id', $subscriptionIds)
+            ->where('status', 'completed')
+            ->count();
+            
+        $upcomingSlots = \App\Models\ServiceSlot::whereIn('subscription_id', $subscriptionIds)
+            ->where('status', 'pending')
+            ->where('service_date', '>=', now()->startOfDay())
+            ->with('subscription.package')
+            ->orderBy('service_date', 'asc')
+            ->limit(5)
+            ->get();
+
+        return view('user.dashboard', compact(
+            'subscriptions', 
+            'totalSlotsCount', 
+            'completedSlotsCount', 
+            'upcomingSlots'
+        ));
     }
 
     public function profile()
@@ -32,27 +59,60 @@ class UserDashboardController extends Controller
             'city' => 'nullable|string|max:255',
             'state' => 'nullable|string|max:255',
             'address' => 'nullable|string',
-            'password' => 'nullable|string|min:8|confirmed',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $data = [
-            'name' => $request->name,
-            'mobile' => $request->mobile,
-            'city' => $request->city,
-            'state' => $request->state,
-            'address' => $request->address,
-        ];
+        $user->name = $request->name;
+        $user->mobile = $request->mobile;
+        $user->city = $request->city;
+        $user->state = $request->state;
+        $user->address = $request->address;
 
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
+        if ($request->hasFile('profile_image')) {
+            if ($user->profile_image) {
+                $oldPath = public_path('uploads/profile/' . $user->profile_image);
+                if (file_exists($oldPath)) { unlink($oldPath); }
+            }
+
+            $image = $request->file('profile_image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('uploads/profile');
+            if (!file_exists($destinationPath)) { mkdir($destinationPath, 0777, true); }
+            $image->move($destinationPath, $name);
+            $user->profile_image = $name;
         }
 
-        /** @var User $user */
-        $user->update($data);
+        $user->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Profile updated successfully!'
+            'message' => 'Profile updated successfully!',
+            'image_url' => $user->profile_image ? url('public/uploads/profile/'.$user->profile_image) : null
+        ]);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Current password does not match.'
+            ], 422);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Password updated successfully!'
         ]);
     }
 
