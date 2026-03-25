@@ -19,8 +19,8 @@ class ReportController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:reports view')->only(['index', 'attendanceReport']);
-        $this->middleware('permission:reports export')->only(['exportCsv', 'exportAttendanceExcel']);
+        $this->middleware('permission:reports view')->only(['index', 'attendanceReport', 'stockReport']);
+        $this->middleware('permission:reports export')->only(['exportCsv', 'exportAttendanceExcel', 'exportStockCsv']);
     }
 
     public function attendanceReport(Request $request)
@@ -185,6 +185,68 @@ class ReportController extends Controller
 
                 $row[] = $enquiry->created_at->format('Y-m-d H:i');
 
+                fputcsv($file, $row);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function stockReport(Request $request)
+    {
+        $query = \App\Models\Product::with('category');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('subtype', 'like', "%{$search}%")
+                    ->orWhere('company', 'like', "%{$search}%");
+            });
+        }
+
+        $products = $query->orderBy('subtype')->paginate(20);
+
+        return view('admin.reports.stock', compact('products'));
+    }
+
+    public function exportStockCsv(Request $request)
+    {
+        $query = \App\Models\Product::with('category');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('subtype', 'like', "%{$search}%")
+                    ->orWhere('company', 'like', "%{$search}%");
+            });
+        }
+
+        $products = $query->orderBy('subtype')->get();
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=current_stock_report_" . date('Y-m-d') . ".csv",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = ['Category', 'Product Subtype', 'Company', 'Current Stock', 'Last Updated'];
+
+        $callback = function() use($products, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($products as $product) {
+                $row = [
+                    $product->category ? $product->category->name : 'N/A',
+                    $product->subtype,
+                    $product->company,
+                    $product->stock ?? 0,
+                    $product->updated_at->format('Y-m-d H:i'),
+                ];
                 fputcsv($file, $row);
             }
 

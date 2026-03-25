@@ -230,6 +230,12 @@
                             <span class="menu-item text-truncate">Attendance</span>
                         </a>
                     </li>
+                    <li class="{{ Request::routeIs('admin.reports.stock') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.reports.stock') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Current Stock</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endcan

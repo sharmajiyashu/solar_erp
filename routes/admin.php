@@ -152,6 +152,8 @@ Route::middleware(['isAdmin'])
             Route::get('/export', [\App\Http\Controllers\Admin\ReportController::class, 'exportCsv'])->name('export');
             Route::get('/attendance', [\App\Http\Controllers\Admin\ReportController::class, 'attendanceReport'])->name('attendance');
             Route::get('/attendance/export', [\App\Http\Controllers\Admin\ReportController::class, 'exportAttendanceExcel'])->name('attendance.export');
+            Route::get('/stock', [\App\Http\Controllers\Admin\ReportController::class, 'stockReport'])->name('stock');
+            Route::get('/stock/export', [\App\Http\Controllers\Admin\ReportController::class, 'exportStockCsv'])->name('stock.export');
         });
 
         Route::resource('categories', CategoryController::class);

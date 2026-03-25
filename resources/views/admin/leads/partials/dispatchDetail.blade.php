@@ -32,7 +32,7 @@
                                 <option value="">Select Product</option>
                                 @foreach($products as $prod)
                                     <option value="{{ $prod->id }}" 
-                                        data-category="{{ $prod->category_id }}" 
+                                        data-category-id="{{ $prod->category_id }}" 
                                         data-company="{{ $prod->company }}"
                                         data-price="{{ $prod->total_landing_wo_gst }}"
                                         data-gst="{{ $prod->gst_percentage }}"
@@ -226,28 +226,34 @@
 <script>
 $(document).ready(function() {
     // Dynamic Product Filtering
+    const allProductOptions = $('#proc_product_id option').clone();
+    
     function filterProducts() {
         let catId = $('#proc_category_id').val();
         let company = $('#proc_company').val();
-        
-        $('#proc_product_id option').each(function() {
-            let prodCat = $(this).data('category');
-            let prodComp = $(this).data('company');
-            let show = true;
+        let selector = $('#proc_product_id');
+
+        selector.empty().append('<option value="">Select Product</option>');
+
+        allProductOptions.each(function() {
+            let opt = $(this);
+            if (opt.val() === "") return;
             
-            if (catId && prodCat != catId) show = false;
-            if (company && prodComp != company) show = false;
+            let optCatId = opt.data('category-id');
+            let optCompany = opt.data('company');
             
-            if ($(this).val() === "") show = true; // Always show placeholder
+            let matchesCategory = !catId || (optCatId && optCatId.toString() === catId);
+            let matchesCompany = !company || (optCompany && optCompany.toString() === company);
             
-            $(show ? this : null).toggle(show);
+            if (matchesCategory && matchesCompany) {
+                selector.append(opt.clone());
+            }
         });
-        
-        // Reset product selection if hidden
-        let selectedOption = $('#proc_product_id option:selected');
-        if (selectedOption.val() && selectedOption.css('display') === 'none') {
-            $('#proc_product_id').val('').trigger('change');
+
+        if (selector.hasClass('select2-hidden-accessible')) {
+            selector.select2();
         }
+        selector.trigger('change');
     }
 
     $('#proc_category_id, #proc_company').on('change', filterProducts);

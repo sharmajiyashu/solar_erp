@@ -11,10 +11,25 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category')->latest()->paginate(10);
+        $query = Product::with('category')->latest();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('subtype', 'like', "%{$search}%")
+                    ->orWhere('company', 'like', "%{$search}%");
+            });
+        }
+
+        $products = $query->paginate(10);
         $categories = Category::where('status', true)->get();
+
+        if ($request->ajax()) {
+            return view('admin.products._table', compact('products'))->render();
+        }
+
         return view('admin.products.index', compact('products', 'categories'));
     }
 

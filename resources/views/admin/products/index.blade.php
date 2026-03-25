@@ -25,100 +25,18 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card border-0" style="border-radius: 12px; box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);">
-                                <div class="card-header border-bottom py-2">
+                                <div class="card-header border-bottom py-2 d-flex justify-content-between align-items-center">
                                     <h4 class="card-title" style="font-weight: 600;">Inventory Items</h4>
+                                    <div class="d-flex align-items-center" style="width: 300px;">
+                                        <div class="input-group input-group-merge">
+                                            <span class="input-group-text"><i data-feather="search" style="width: 14px; height: 14px;"></i></span>
+                                            <input type="text" id="product-search" class="form-control" placeholder="Search product or company..." />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body p-0">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover mb-0">
-                                            <thead style="background-color: #f8f9fa;">
-                                                <tr>
-                                                    <th class="ps-2 py-1" style="width: 50px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">#</th>
-                                                    <th class="py-1" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Category</th>
-                                                    <th class="py-1" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Details</th>
-                                                    <th class="py-1 text-end" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Pricing (₹)</th>
-                                                    <th class="py-1 text-center" style="width: 100px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">3KW DCR</th>
-                                                    <th class="py-1 text-center" style="width: 100px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Stock</th>
-                                                    <th class="py-1 text-center" style="width: 100px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Status</th>
-                                                    <th class="py-1 text-center pe-2" style="width: 150px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @forelse ($products as $key => $product)
-                                                    <tr style="transition: all 0.2s ease;">
-                                                        <td class="ps-2 py-1 align-middle text-muted small fw-bold">
-                                                            {{ ($products->currentPage() - 1) * $products->perPage() + $loop->iteration }}
-                                                        </td>
-                                                        <td class="py-1 align-middle">
-                                                            <span class="badge rounded-pill" style="background-color: rgba(113, 187, 178, 0.12); color: #71bbb2; font-weight: 600;">
-                                                                {{ $product->category->name ?? 'Uncategorized' }}
-                                                            </span>
-                                                        </td>
-                                                        <td class="py-1 align-middle">
-                                                            <div class="d-flex flex-column">
-                                                                <span class="fw-bolder" style="color: #444; font-size: 0.95rem;">{{ $product->subtype ?? 'N/A' }}</span>
-                                                                <small class="text-muted">{{ $product->company ?? 'No Company' }}</small>
-                                                            </div>
-                                                        </td>
-                                                        <td class="py-1 align-middle text-end">
-                                                            <div class="d-flex flex-column align-items-end">
-                                                                <span class="fw-bolder text-dark" style="font-size: 1rem;">₹{{ number_format($product->final_landing_with_gst, 2) }}</span>
-                                                                <div style="font-size: 0.75rem;">
-                                                                    <span class="text-muted">Base: ₹{{ number_format($product->total_landing_wo_gst, 2) }}</span>
-                                                                    <span class="text-success ms-50">+{{ $product->gst_percentage }}% GST</span>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="py-1 align-middle text-center">
-                                                            <span class="fw-bold text-secondary">{{ $product->three_kw_dcr_qnt ?? '-' }}</span>
-                                                        </td>
-                                                        <td class="py-1 align-middle text-center">
-                                                            <span class="badge badge-light-info current-stock-display-{{ $product->id }}" style="font-size: 0.9rem;">{{ $product->stock }}</span>
-                                                        </td>
-                                                        <td class="py-1 align-middle text-center">
-                                                            <div class="form-check form-switch d-flex justify-content-center">
-                                                                <input type="checkbox" class="form-check-input status-toggle" 
-                                                                    data-id="{{ $product->id }}" {{ $product->status ? 'checked' : '' }} role="switch" style="cursor: pointer;">
-                                                            </div>
-                                                        </td>
-                                                        <td class="py-1 align-middle text-center pe-2">
-                                                            <div class="d-flex justify-content-center">
-                                                                <button class="btn btn-icon btn-flat-success btn-sm manage-stock me-25" data-id="{{ $product->id }}" data-name="{{ $product->subtype }} ({{ $product->company }})" title="Manage Stock">
-                                                                    <i data-feather="plus-circle" style="width: 14px; height: 14px;"></i>
-                                                                </button>
-                                                                <button class="btn btn-icon btn-flat-info btn-sm view-history me-25" data-id="{{ $product->id }}" title="Stock History">
-                                                                    <i data-feather="list" style="width: 14px; height: 14px;"></i>
-                                                                </button>
-                                                                <button class="btn btn-icon btn-flat-primary btn-sm edit-product me-25" data-id="{{ $product->id }}" title="Edit">
-                                                                    <i data-feather="edit" style="width: 14px; height: 14px;"></i>
-                                                                </button>
-                                                                <button class="btn btn-icon btn-flat-danger btn-sm delete-product" data-id="{{ $product->id }}" title="Delete">
-                                                                    <i data-feather="trash-2" style="width: 14px; height: 14px;"></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="7" class="text-center py-5">
-                                                            <div class="d-flex flex-column align-items-center">
-                                                                <i data-feather="box" class="text-muted mb-1" style="width: 48px; height: 48px; opacity: 0.5;"></i>
-                                                                <p class="text-muted font-medium-2">Your inventory is currently empty.</p>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="px-2 py-1 border-top d-flex justify-content-between align-items-center">
-                                        <div class="text-muted small">
-                                            Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} entries
-                                        </div>
-                                        <div>
-                                            @include('admin._pagination', ['data' => $products])
-                                        </div>
-                                    </div>
+                                <div class="card-body p-0" id="product-table-container">
+                                    @include('admin.products._table')
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -585,6 +503,34 @@
                         $('#stock-history-body').html(rows);
                     }
                 });
+            });
+
+            // AJAX Search & Pagination
+            let searchTimer;
+            function fetchProducts(page = 1, search = '') {
+                $('#product-table-container').css('opacity', '0.5');
+                $.ajax({
+                    url: "{{ route('admin.products.index') }}?page=" + page + "&search=" + search,
+                    success: function(data) {
+                        $('#product-table-container').html(data);
+                        $('#product-table-container').css('opacity', '1');
+                    }
+                });
+            }
+
+            $(document).on('keyup', '#product-search', function() {
+                clearTimeout(searchTimer);
+                let search = $(this).val();
+                searchTimer = setTimeout(function() {
+                    fetchProducts(1, search);
+                }, 500);
+            });
+
+            $(document).on('click', '#ajax-pagination .page-link', function(e) {
+                e.preventDefault();
+                let page = $(this).attr('href').split('page=')[1];
+                let search = $('#product-search').val();
+                fetchProducts(page, search);
             });
         });
     </script>

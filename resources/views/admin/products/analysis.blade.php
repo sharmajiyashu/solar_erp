@@ -201,14 +201,21 @@
                 const opt = $(this);
                 if (opt.val() === "") return;
                 
-                const matchesCategory = categoryId === "" || opt.data('category-id').toString() === categoryId;
-                const matchesCompany = company === "" || opt.data('company') === company;
+                const optCatId = opt.data('category-id');
+                const optCompany = opt.data('company');
+                
+                const matchesCategory = categoryId === "" || (optCatId && optCatId.toString() === categoryId);
+                const matchesCompany = company === "" || (optCompany && optCompany.toString() === company);
                 
                 if (matchesCategory && matchesCompany) {
                     selector.append(opt.clone());
                 }
             });
             
+            // Re-initialize or trigger select2 if it's being used
+            if (selector.hasClass('select2-hidden-accessible')) {
+                selector.select2();
+            }
             selector.trigger('change');
         }
 
