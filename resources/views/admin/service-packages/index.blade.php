@@ -40,8 +40,7 @@
                                             <thead style="background-color: #f8f9fa;">
                                                 <tr>
                                                     <th class="ps-2 py-1" style="width: 50px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">#</th>
-                                                    <th class="py-1" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Package Name</th>
-                                                    <th class="py-1" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Description</th>
+                                                    <th class="py-1" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Details</th>
                                                     <th class="py-1 text-end" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Price (₹)</th>
                                                     <th class="py-1 text-center" style="width: 100px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Status</th>
                                                     <th class="py-1 text-center pe-2" style="width: 120px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Actions</th>
@@ -54,15 +53,13 @@
                                                             {{ ($packages->currentPage() - 1) * $packages->perPage() + $loop->iteration }}
                                                         </td>
                                                         <td class="py-1 align-middle">
-                                                            <span class="fw-bolder text-dark" style="font-size: 0.95rem;">{{ $package->name }}</span>
+                                                            <span class="fw-bolder text-dark" style="font-size: 0.95rem;">{{ $package->name }}</span><br>
+                                                            <small class="text-muted">{{ \Str::limit($package->description, 40) }}</small>
                                                         </td>
                                                         <td class="py-1 align-middle">
-                                                            <div class="text-truncate" style="max-width: 300px;" title="{{ $package->description }}">
-                                                                {{ \Str::limit($package->description, 50) }}
-                                                            </div>
-                                                            @if($package->features)
-                                                                <small class="text-primary">{{ count($package->features) }} Features included</small>
-                                                            @endif
+                                                            <span class="badge badge-light-primary text-uppercase">{{ str_replace('_', ' ', $package->package_type) }}</span>
+                                                            <span class="badge badge-light-info"> Every {{ str_replace('_days', ' Days', $package->frequency) }}</span>
+                                                            <span class="badge badge-light-warning"> {{ str_replace('_', ' ', $package->duration_type) }}</span>
                                                         </td>
                                                         <td class="py-1 align-middle text-end fw-bolder text-dark" style="font-size: 1rem;">
                                                             ₹{{ number_format($package->price, 2) }}
@@ -137,6 +134,40 @@
                                     <span class="text-danger small price_error"></span>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="mb-1">
+                                    <label class="form-label fw-bold">Package Type</label>
+                                    <select name="package_type" class="form-select" required>
+                                        <option value="subscription">Subscription</option>
+                                        <option value="one_time">One Time Project</option>
+                                    </select>
+                                    <span class="text-danger small package_type_error"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-1">
+                                    <label class="form-label fw-bold">Service Interval</label>
+                                    <select name="frequency" class="form-select" required>
+                                        <option value="7_days">Every 7 Days</option>
+                                        <option value="15_days">Every 15 Days</option>
+                                        <option value="30_days">Monthly</option>
+                                    </select>
+                                    <span class="text-danger small frequency_error"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-1">
+                                    <label class="form-label fw-bold">Duration</label>
+                                    <select name="duration_type" class="form-select" required>
+                                        <option value="monthly">1 Month</option>
+                                        <option value="3_months">3 Months</option>
+                                        <option value="6_months">6 Months</option>
+                                        <option value="9_months">9 Months</option>
+                                        <option value="12_months">12 Months</option>
+                                    </select>
+                                    <span class="text-danger small duration_type_error"></span>
+                                </div>
+                            </div>
                             <div class="col-12">
                                 <div class="mb-1">
                                     <label class="form-label fw-bold">Description</label>
@@ -197,6 +228,40 @@
                                     <label class="form-label fw-bold">Price (₹)</label>
                                     <input type="number" name="price" id="edit_price" class="form-control" step="0.01" required />
                                     <span class="text-danger small price_error"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-1">
+                                    <label class="form-label fw-bold">Package Type</label>
+                                    <select name="package_type" id="edit_package_type" class="form-select" required>
+                                        <option value="subscription">Subscription</option>
+                                        <option value="one_time">One Time Project</option>
+                                    </select>
+                                    <span class="text-danger small package_type_error"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-1">
+                                    <label class="form-label fw-bold">Service Interval</label>
+                                    <select name="frequency" id="edit_frequency" class="form-select" required>
+                                        <option value="7_days">Every 7 Days</option>
+                                        <option value="15_days">Every 15 Days</option>
+                                        <option value="30_days">Monthly</option>
+                                    </select>
+                                    <span class="text-danger small frequency_error"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-1">
+                                    <label class="form-label fw-bold">Duration</label>
+                                    <select name="duration_type" id="edit_duration_type" class="form-select" required>
+                                        <option value="monthly">1 Month</option>
+                                        <option value="3_months">3 Months</option>
+                                        <option value="6_months">6 Months</option>
+                                        <option value="9_months">9 Months</option>
+                                        <option value="12_months">12 Months</option>
+                                    </select>
+                                    <span class="text-danger small duration_type_error"></span>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -307,6 +372,9 @@
                         $('#edit_name').val(data.name);
                         $('#edit_price').val(data.price);
                         $('#edit_description').val(data.description);
+                        $('#edit_package_type').val(data.package_type);
+                        $('#edit_frequency').val(data.frequency);
+                        $('#edit_duration_type').val(data.duration_type);
                         
                         // Clear and load features
                         let container = $('#edit-features-container');

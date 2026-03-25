@@ -58,7 +58,12 @@ class UserDashboardController extends Controller
 
     public function services()
     {
-        // For now, just show a placeholder or fixed list of services
-        return view('user.services');
+        $packages = \App\Models\ServicePackage::where('status', 1)->get();
+        $subscriptions = \App\Models\UserSubscription::where('user_id', Auth::id())
+            ->with(['package', 'slots'])
+            ->latest()
+            ->get();
+            
+        return view('user.services', compact('packages', 'subscriptions'));
     }
 }

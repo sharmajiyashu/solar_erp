@@ -20,6 +20,9 @@ class ServicePackageController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
+            'frequency' => 'required|string|in:7_days,15_days,30_days',
+            'duration_type' => 'required|string|in:monthly,3_months,6_months,9_months,12_months',
+            'package_type' => 'required|string|in:one_time,subscription',
             'features' => 'nullable|array',
             'status' => 'nullable|boolean',
         ]);
@@ -42,6 +45,9 @@ class ServicePackageController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
+            'frequency' => 'required|string|in:7_days,15_days,30_days',
+            'duration_type' => 'required|string|in:monthly,3_months,6_months,9_months,12_months',
+            'package_type' => 'required|string|in:one_time,subscription',
             'features' => 'nullable|array',
             'status' => 'nullable|boolean',
         ]);

@@ -39,6 +39,10 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/profile', [App\Http\Controllers\User\UserDashboardController::class, 'profile'])->name('profile');
     Route::post('/profile/update', [App\Http\Controllers\User\UserDashboardController::class, 'updateProfile'])->name('profile.update');
     Route::get('/services', [App\Http\Controllers\User\UserDashboardController::class, 'services'])->name('services');
+    
+    // Subscription & Payments
+    Route::post('/subscription/initiate', [\App\Http\Controllers\User\SubscriptionController::class, 'initiatePayment'])->name('subscription.initiate');
+    Route::post('/subscription/verify', [\App\Http\Controllers\User\SubscriptionController::class, 'verifyPayment'])->name('subscription.verify');
 });
 
 Route::post('/logout', [WebsiteAuthController::class, 'logout'])->name('logout')->middleware('auth');
