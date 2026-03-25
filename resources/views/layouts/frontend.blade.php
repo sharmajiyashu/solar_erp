@@ -31,11 +31,21 @@
     <!-- Template Stylesheet -->
     <link href="{{ url('public/frontend-assets/css/style.css') }}" rel="stylesheet">
     
+    <!-- Toastify CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    
     <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
+    
+<style>
+    body {
+        overflow-x: hidden !important;
+    }
+</style>
+@stack('styles')
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -100,7 +110,25 @@
                     </div>
                 </div> -->
                 <a href="{{ route('contact') }}" class="nav-item nav-link {{ Request::routeIs('contact') ? 'active' : '' }}">Contact</a>
-                <a href="{{ route('admin.login') }}" class="nav-item nav-link">Login</a>
+                
+                @guest
+                    <a href="{{ route('login') }}" class="nav-item nav-link {{ Request::routeIs('login') ? 'active' : '' }}">Login</a>
+                    <a href="{{ route('register') }}" class="nav-item nav-link {{ Request::routeIs('register') ? 'active' : '' }}">Register</a>
+                @else
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-user-circle me-1"></i> {{ Auth::user()->name }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light m-0 border-0 shadow-sm">
+                            <form action="{{ route('logout') }}" method="POST" id="logout-form">
+                                @csrf
+                                <button type="submit" class="dropdown-item px-4 py-2">
+                                    <i class="fa fa-sign-out-alt me-2 text-primary"></i> Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @endguest
             </div>
             <!-- <a href="{{ route('quote') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Get A Quote<i class="fa fa-arrow-right ms-3"></i></a> -->
         </div>
@@ -110,7 +138,7 @@
     @yield('content')
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-body footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container-fluid bg-dark text-body footer pt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-4 col-md-6">
@@ -200,6 +228,9 @@
 
     <!-- Template Javascript -->
     <script src="{{ url('public/frontend-assets/js/main.js') }}"></script>
+    
+    <!-- Toastify JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     
     <script>
         if (typeof feather !== 'undefined') {
