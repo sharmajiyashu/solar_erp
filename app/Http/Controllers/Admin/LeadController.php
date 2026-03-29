@@ -330,7 +330,7 @@ class LeadController extends Controller
     {
         $query_search = $request->input('search');
 
-        $leads = Lead::with(['customer'])
+        $leads = Lead::with(['customer', 'verificationReport'])
             ->when(!Auth::user()->can('leads get-all'), function ($query) {
                 $query->where(function($q) {
                     $q->where('created_by', Auth::id());
@@ -351,7 +351,7 @@ class LeadController extends Controller
     {
         $query_search = $request->input('search');
 
-        $leads = Lead::with(['customer'])
+        $leads = Lead::with(['customer', 'verificationReport'])
             ->where('stage', $stage)
             ->when(true, function ($query) use ($stage) {
                 if (Auth::user()->can('leads get-all')) {

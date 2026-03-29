@@ -54,6 +54,7 @@
                                                 <th>Status</th>
                                                 <th>Created By</th>
                                                 <th>Created At</th>
+                                                <th>Payments</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -108,6 +109,24 @@
                                                     <!-- Created -->
                                                     <td>
                                                         {{ $item->created_at->format('d-m-Y h:i A') }}
+                                                    </td>
+                                                    
+                                                    <!-- Payments -->
+                                                    <td>
+                                                        <div class="d-flex flex-column gap-1">
+                                                            @if($item->token_received)
+                                                                <span class="badge badge-light-success text-start" style="font-size: 0.7rem;">T: ₹{{ number_format($item->token_amount) }}</span>
+                                                            @endif
+                                                            @if($item->first_payment_received)
+                                                                <span class="badge badge-light-info text-start" style="font-size: 0.7rem;">1st: ₹{{ number_format($item->first_tranche_amount) }}</span>
+                                                            @endif
+                                                            @if(optional($item->verificationReport)->second_tier_payment_received)
+                                                                <span class="badge badge-light-primary text-start" style="font-size: 0.7rem;">2nd: ₹{{ number_format(optional($item->verificationReport)->second_tranche_amount) }}</span>
+                                                            @endif
+                                                            @if(!$item->token_received && !$item->first_payment_received && !optional($item->verificationReport)->second_tier_payment_received)
+                                                                <span class="text-muted small">-</span>
+                                                            @endif
+                                                        </div>
                                                     </td>
 
                                                     <!-- Actions -->

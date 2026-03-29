@@ -62,6 +62,9 @@
                                 <th>Category</th>
                                 <th>Product Subtype</th>
                                 <th>Company</th>
+                                <th>Landing (wo GST)</th>
+                                <th>GST (%)</th>
+                                <th>Final Landing</th>
                                 <th>Current Stock</th>
                                 <th>Last Updated</th>
                             </tr>
@@ -78,6 +81,9 @@
                                 <td>
                                     {{ $product->company }}
                                 </td>
+                                <td>₹{{ number_format($product->total_landing_wo_gst, 2) }}</td>
+                                <td>{{ $product->gst_percentage }}%</td>
+                                <td>₹{{ number_format($product->final_landing_with_gst, 2) }}</td>
                                 <td>
                                     @if($product->stock <= 5)
                                         <span class="badge rounded-pill badge-light-danger">{{ $product->stock ?? 0 }}</span>
@@ -91,7 +97,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="5" class="text-center">No products found.</td>
+                                <td colspan="8" class="text-center">No products found.</td>
                             </tr>
                             @endforelse
                         </tbody>

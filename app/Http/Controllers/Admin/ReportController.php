@@ -233,7 +233,7 @@ class ReportController extends Controller
             "Expires"             => "0"
         ];
 
-        $columns = ['Category', 'Product Subtype', 'Company', 'Current Stock', 'Last Updated'];
+        $columns = ['Category', 'Product Subtype', 'Company', 'Landing (wo GST)', 'GST (%)', 'Tax Amount', 'Final Landing', 'Current Stock', 'Last Updated'];
 
         $callback = function() use($products, $columns) {
             $file = fopen('php://output', 'w');
@@ -244,6 +244,10 @@ class ReportController extends Controller
                     $product->category ? $product->category->name : 'N/A',
                     $product->subtype,
                     $product->company,
+                    $product->total_landing_wo_gst ?? 0,
+                    $product->gst_percentage ?? 0,
+                    $product->tax_amount ?? 0,
+                    $product->final_landing_with_gst ?? 0,
                     $product->stock ?? 0,
                     $product->updated_at->format('Y-m-d H:i'),
                 ];

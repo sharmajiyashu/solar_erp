@@ -16,7 +16,17 @@ class VerificationReport extends Model
         'second_tier_payment_received',
         'is_subsidy_received',
         'is_verified',
+        'quotation_price',
+        'first_tranche_date',
+        'second_tranche_amount',
+        'tax_invoice_amount',
+        'payout_amount',
         'remarks'
+    ];
+
+    protected $casts = [
+        'first_tranche_date' => 'date',
+        'verification_date' => 'date',
     ];
 
     public function lead()
