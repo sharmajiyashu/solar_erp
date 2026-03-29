@@ -224,7 +224,7 @@
     <!-- END: Footer-->
 
     @include('admin.layouts.js')
-
+    @stack('scripts')
 </body>
 <!-- END: Body-->
 

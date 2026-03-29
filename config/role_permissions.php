@@ -120,4 +120,14 @@ return [
         'edit',
         'delete',
     ],
+    'expenses' => [
+        'view',
+        'create',
+        'edit',
+        'delete',
+    ],
+    'wallet' => [
+        'view',
+        'manage',
+    ],
 ];

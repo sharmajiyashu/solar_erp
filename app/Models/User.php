@@ -36,6 +36,7 @@ class User extends Authenticatable
         'country',
         'pincode',
         'profile_image',
+        'wallet_balance',
     ];
 
     /**
@@ -69,5 +70,15 @@ class User extends Authenticatable
     public function subscriptions()
     {
         return $this->hasMany(UserSubscription::class);
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
+
+    public function walletTransactions()
+    {
+        return $this->hasMany(WalletTransaction::class);
     }
 }

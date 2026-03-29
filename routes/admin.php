@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\{
     AnalysisController,
     CategoryController,
     ProformaInvoiceController,
+    ExpenseController,
 };
 use App\Http\Controllers\AirpotCsvController;
 use Illuminate\Support\Facades\Route;
@@ -175,4 +176,16 @@ Route::middleware(['isAdmin'])
         Route::post('/punch-in', [AttendanceController::class, 'punchIn'])->name('punch.in');
         Route::post('/punch-out', [AttendanceController::class, 'punchOut'])->name('punch.out');
         Route::get('/attendance', [AttendanceController::class,'index'])->name('attendance.index');
+
+        // Wallet & Expenses
+        Route::resource('expenses', ExpenseController::class);
+        Route::get('expenses-export', [ExpenseController::class, 'exportExpenses'])->name('expenses.export');
+        Route::get('expense-reports', [ExpenseController::class, 'reports'])->name('expense_reports.index');
+        Route::get('expense-reports/export', [ExpenseController::class, 'exportReport'])->name('expense_reports.export');
+        
+        // Wallet Routes
+    Route::get('my-wallet', [AdminUserController::class, 'myWallet'])->name('my_wallet');
+    Route::get('wallet-management', [AdminUserController::class, 'walletManagement'])->name('wallet_management');
+    Route::get('wallet-history/{id}', [AdminUserController::class, 'walletHistory'])->name('wallet_history');
+    Route::post('wallet/add-budget', [AdminUserController::class, 'addBudget'])->name('wallet.addBudget');
     });

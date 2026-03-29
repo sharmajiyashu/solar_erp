@@ -7,23 +7,29 @@ use App\Http\Requests\Admin\StoreAdminUserRequest;
 use App\Http\Requests\Admin\UpdateAdminUserRequest;
 use App\Http\Resources\Admin\AdminUserResource;
 use App\Models\Attendance;
+use App\Models\Expense;
 use App\Models\User;
+use App\Models\WalletTransaction;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class AdminUserController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     $this->middleware('permission:admin_users view', ['only' => ['index', 'show']]);
-    //     $this->middleware('permission:admin_users create', ['only' => ['create', 'store']]);
-    //     $this->middleware('permission:admin_users edit', ['only' => ['edit', 'update']]);
-    //     $this->middleware('permission:admin_users delete', ['only' => ['destroy']]);
-    // }
+    public function __construct()
+    {
+        $this->middleware('permission:admin_users view', ['only' => ['index', 'show']]);
+        $this->middleware('permission:admin_users create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:admin_users edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:admin_users delete', ['only' => ['destroy']]);
+        $this->middleware('permission:wallet view', ['only' => ['myWallet', 'walletHistory']]);
+        $this->middleware('permission:wallet manage', ['only' => ['walletManagement', 'addBudget']]);
+    }
 
 
     public function index()
@@ -108,5 +114,87 @@ class AdminUserController extends Controller
     {
         User::where('id', $id)->delete();
         return redirect()->back()->with('success', 'Admin User deleted successfully');
+    }
+
+    public function myWallet()
+    {
+        $user = Auth::user();
+        $month = request('month', date('m'));
+        $year = request('year', date('Y'));
+
+        $transactions = WalletTransaction::where('user_id', $user->id)
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('admin.wallet.index', compact('user', 'transactions', 'month', 'year'));
+    }
+
+    public function walletManagement()
+    {
+        $this->middleware('permission:wallet manage');
+        $users = User::where('role', User::$admin)->paginate(15);
+        return view('admin.wallet.list', compact('users'));
+    }
+
+    public function walletHistory($id)
+    {
+        $user = User::findOrFail($id);
+        
+        // Security Check: Only 'wallet manage' can view others' wallets
+        if (Auth::id() !== $user->id && !Auth::user()->can('wallet manage')) {
+            abort(403, 'Unauthorized access to this wallet.');
+        }
+
+        $month = request('month', date('m'));
+        $year = request('year', date('Y'));
+
+        $transactions = WalletTransaction::where('user_id', $user->id)
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('admin.wallet.index', compact('user', 'transactions', 'month', 'year'));
+    }
+
+    public function addBudget(Request $request)
+    {
+        // Only Super Admin ('wallet manage') should be able to manually update wallets
+        if (!Auth::user()->can('wallet manage')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'amount' => 'required|numeric|min:0.01',
+            'type' => 'required|in:credit,debit',
+            'description' => 'required|string|max:255',
+        ]);
+
+        $targetUser = User::findOrFail($request->user_id);
+
+        if ($request->type == 'debit' && $targetUser->wallet_balance < $request->amount) {
+            return redirect()->back()->with('error', 'Insufficient wallet balance for this deduction.');
+        }
+
+        DB::transaction(function () use ($request, $targetUser) {
+            if ($request->type == 'credit') {
+                $targetUser->increment('wallet_balance', $request->amount);
+            } else {
+                $targetUser->decrement('wallet_balance', $request->amount);
+            }
+
+            WalletTransaction::create([
+                'user_id' => $targetUser->id,
+                'amount' => $request->amount,
+                'type' => $request->type,
+                'description' => 'Manually Managed: ' . $request->description,
+                'balance_after' => $targetUser->wallet_balance,
+            ]);
+        });
+
+        return redirect()->back()->with('success', 'Wallet updated successfully.');
     }
 }

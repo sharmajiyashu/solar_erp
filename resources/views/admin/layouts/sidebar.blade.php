@@ -210,9 +210,32 @@
                 </a>
             </li>
 
+            <li class="nav-item {{ Request::routeIs('admin.my_wallet') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('admin.my_wallet') }}">
+                    <i data-feather="dollar-sign"></i>
+                    <span class="menu-title text-truncate">My Wallet</span>
+                </a>
+            </li>
+
+            @can('wallet manage')
+            <li class="nav-item {{ Request::routeIs('admin.wallet_management') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('admin.wallet_management') }}">
+                    <i data-feather="briefcase"></i>
+                    <span class="menu-title text-truncate">Wallet Management</span>
+                </a>
+            </li>
+            @endcan
+
+            <li class="nav-item {{ Request::routeIs('admin.expenses.index') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('admin.expenses.index') }}">
+                    <i data-feather="trending-down"></i>
+                    <span class="menu-title text-truncate">Expenses</span>
+                </a>
+            </li>
+
 
             @can('reports view')
-            <li class="nav-item">
+            <li class="nav-item {{ Request::routeIs('admin.reports.*', 'admin.expense_reports.index') ? 'sidebar-group-active open' : '' }}">
                 <a class="d-flex align-items-center" href="javascript:void(0)">
                     <i data-feather="bar-chart-2"></i>
                     <span class="menu-title text-truncate">Reports</span>
@@ -234,6 +257,12 @@
                         <a class="d-flex align-items-center" href="{{ route('admin.reports.stock') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Current Stock</span>
+                        </a>
+                    </li>
+                    <li class="{{ Request::routeIs('admin.expense_reports.index') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.expense_reports.index') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Expenditure Report</span>
                         </a>
                     </li>
                 </ul>
