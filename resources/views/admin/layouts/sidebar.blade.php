@@ -37,15 +37,6 @@
                 </li>
             @endcan
 
-            @can('website_enquiries view')
-                <li class="nav-item {{ \Str::is('admin.website-enquiries*', request()->route()->getName()) ? 'active' : '' }}">
-                    <a class="d-flex align-items-center" href="{{ route('admin.website-enquiries.index') }}">
-                        <i data-feather="mail"></i>
-                        <span class="menu-title text-truncate">Website Enquiries</span>
-                    </a>
-                </li>
-            @endcan
-
             @canany(['leads get-own', 'leads get-all', 'leads create'])
                 <li class="nav-item">
 
@@ -167,55 +158,14 @@
                 </li>
             @endcanany
 
-
-            @can('roles_permissions view')
-
-                <li class=" nav-item ">
-
-                    <a class="d-flex align-items-center" href="#"> <i data-feather="shield"></i><span
-                            class="menu-title text-truncate" data-i18n="Invoice">Role & Permissions</span>
+            @can('website_enquiries view')
+                <li class="nav-item {{ \Str::is('admin.website-enquiries*', request()->route()->getName()) ? 'active' : '' }}">
+                    <a class="d-flex align-items-center" href="{{ route('admin.website-enquiries.index') }}">
+                        <i data-feather="mail"></i>
+                        <span class="menu-title text-truncate">Website Enquiries</span>
                     </a>
-
-                    <ul class="menu-content">
-
-                        @can('roles_permissions view')
-                            <li
-                                class="nav-item {{ Request::routeIs('admin.roles.index', 'admin.roles.create', 'admin.roles.edit', 'admin.roles.show', 'admin.roles.set_permissions') ? 'active' : '' }}">
-                                <a class="d-flex align-items-center" href="{{ route('admin.roles.index') }}"><i
-                                        data-feather="circle"></i><span class="menu-title text-truncate"
-                                        data-i18n="File Manager">Role</span></a>
-                            </li>
-                        @endcan
-
-
-                        @can('users view')
-                            <li
-                                class="nav-item {{ Request::routeIs('admin.admin_users.index', 'admin.admin_users.create', 'admin.admin_users.edit', 'admin.admin_users.show', 'admin.admin_users.set_permissions') ? 'active' : '' }}">
-                                <a class="d-flex align-items-center" href="{{ route('admin.admin_users.index') }}"><i
-                                        data-feather="circle"></i><span class="menu-title text-truncate"
-                                        data-i18n="File Manager">Admin User</span></a>
-                            </li>
-                        @endcan
-
-                    </ul>
                 </li>
-
             @endcan
-
-
-            <li class="nav-item {{ Request::routeIs('admin.attendance.index') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('admin.attendance.index') }}">
-                    <i data-feather="home"></i>
-                    <span class="menu-title text-truncate">Attendance</span>
-                </a>
-            </li>
-
-            <li class="nav-item {{ Request::routeIs('admin.my_wallet') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('admin.my_wallet') }}">
-                    <i data-feather="dollar-sign"></i>
-                    <span class="menu-title text-truncate">My Wallet</span>
-                </a>
-            </li>
 
             @can('wallet manage')
             <li class="nav-item {{ Request::routeIs('admin.wallet_management') ? 'active' : '' }}">
@@ -232,7 +182,6 @@
                     <span class="menu-title text-truncate">Expenses</span>
                 </a>
             </li>
-
 
             @can('reports view')
             <li class="nav-item {{ Request::routeIs('admin.reports.*', 'admin.expense_reports.index') ? 'sidebar-group-active open' : '' }}">
@@ -273,7 +222,7 @@
             <li class="nav-item {{ Request::routeIs('admin.categories.*', 'admin.products.*', 'admin.service-packages.*') ? 'sidebar-group-active open' : '' }}">
                 <a class="d-flex align-items-center" href="javascript:void(0)">
                     <i data-feather="package"></i>
-                    <span class="menu-title text-truncate">Product & Service <br> Management</span>
+                    <span class="menu-title text-truncate">Product & Service Management</span>
                 </a>
                 <ul class="menu-content">
                     @can('category_management view')
@@ -309,6 +258,54 @@
                 </ul>
             </li>
             @endcanany
+
+            @can('roles_permissions view')
+
+                <li class=" nav-item ">
+
+                    <a class="d-flex align-items-center" href="#"> <i data-feather="shield"></i><span
+                            class="menu-title text-truncate" data-i18n="Invoice">Role & Permissions</span>
+                    </a>
+
+                    <ul class="menu-content">
+
+                        @can('roles_permissions view')
+                            <li
+                                class="nav-item {{ Request::routeIs('admin.roles.index', 'admin.roles.create', 'admin.roles.edit', 'admin.roles.show', 'admin.roles.set_permissions') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('admin.roles.index') }}"><i
+                                        data-feather="circle"></i><span class="menu-title text-truncate"
+                                        data-i18n="File Manager">Role</span></a>
+                            </li>
+                        @endcan
+
+
+                        @can('users view')
+                            <li
+                                class="nav-item {{ Request::routeIs('admin.admin_users.index', 'admin.admin_users.create', 'admin.admin_users.edit', 'admin.admin_users.show', 'admin.admin_users.set_permissions') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('admin.admin_users.index') }}"><i
+                                        data-feather="circle"></i><span class="menu-title text-truncate"
+                                        data-i18n="File Manager">Admin User</span></a>
+                            </li>
+                        @endcan
+
+                    </ul>
+                </li>
+
+            @endcan
+
+            <li class="nav-item {{ Request::routeIs('admin.attendance.index') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('admin.attendance.index') }}">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate">Attendance</span>
+                </a>
+            </li>
+
+            <li class="nav-item {{ Request::routeIs('admin.my_wallet') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('admin.my_wallet') }}">
+                    <i data-feather="dollar-sign"></i>
+                    <span class="menu-title text-truncate">My Wallet</span>
+                </a>
+            </li>
 
             <li class="nav-item">
                 <a data-bs-toggle="modal" data-bs-target="#logout" class="d-flex align-items-center" href="#">

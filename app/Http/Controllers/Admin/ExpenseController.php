@@ -12,15 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('permission:expenses view', ['only' => ['index']]);
-        $this->middleware('permission:expenses create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:expenses edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:expenses delete', ['only' => ['destroy']]);
-        $this->middleware('permission:wallet manage', ['only' => ['reports', 'exportReport', 'exportExpenses']]);
-    }
-
+    
     public function index(Request $request)
     {
         $month = $request->month ?? date('m');

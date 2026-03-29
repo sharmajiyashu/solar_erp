@@ -21,17 +21,6 @@ use Spatie\Permission\Models\Role;
 class AdminUserController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('permission:admin_users view', ['only' => ['index', 'show']]);
-        $this->middleware('permission:admin_users create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:admin_users edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:admin_users delete', ['only' => ['destroy']]);
-        $this->middleware('permission:wallet view', ['only' => ['myWallet', 'walletHistory']]);
-        $this->middleware('permission:wallet manage', ['only' => ['walletManagement', 'addBudget']]);
-    }
-
-
     public function index()
     {
         $admin_users = User::where('role', User::$admin)->paginate(10);

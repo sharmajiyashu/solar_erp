@@ -50,12 +50,8 @@
                                             <span class="badge bg-success" style="font-size: 1rem;">Wallet: ₹{{ number_format(Auth::user()->wallet_balance, 2) }}</span>
                                         </div>
 
-                                        @can('expenses create')
-                                            <a href="{{ route('admin.expenses.export', ['month' => $month, 'year' => $year]) }}" class="btn btn-sm btn-outline-success me-50">
-                                                <i data-feather="download" class="me-25"></i> Export CSV
-                                            </a>
+                                        
                                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addExpenseModal">Add Expense</button>
-                                        @endcan
                                     </div>
                                 </div>
                                 <div class="card-body p-0">
@@ -91,13 +87,11 @@
                                                         </td>
                                                         <td class="py-1 align-middle text-center pe-2">
                                                             <div class="d-flex justify-content-center align-items-center">
-                                                                @can('expenses delete')
                                                                     <button type="button" class="btn btn-icon btn-flat-danger open-delete-modal" 
                                                                         data-action="{{ route('admin.expenses.destroy', $expense->id) }}" 
                                                                         title="Delete">
                                                                         <i data-feather="trash-2" style="width: 16px; height: 16px;"></i>
                                                                     </button>
-                                                                @endcan
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -124,7 +118,6 @@
         </div>
     </div>
 
-    @can('expenses create')
         <div class="modal fade" id="addExpenseModal" tabindex="-1" aria-labelledby="addExpenseModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -158,7 +151,6 @@
                 </div>
             </div>
         </div>
-    @endcan
 
     <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="deleteExpenseModal" tabindex="-1" aria-labelledby="deleteExpenseModalLabel" aria-hidden="true">

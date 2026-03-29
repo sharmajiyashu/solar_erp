@@ -114,11 +114,12 @@ class ReportController extends Controller
         $columns = [
             'Enquiry No', 'Customer Name', 'Mobile', 'Enquiry Status', 'Created By',
             'Lead No', 'Current Stage', 'Lead Status',
-            'Discom Login', 'Bank Login', '1st Payment Received', 'Token Amount', 'Is Documents Done', 'Is Handover Done',
+            'Discom Login', 'Bank Login', '1st Payment Received', 'Is Documents Done', 'Is Handover Done',
             'Site Visit Status', 'Quotation Status', 'Document Status', 'Backend Status', 
             'Procurement Status', 'Installation Status', 'Verification Status', 'Completed Status',
             'Installation Done', 'Net Metering Done',
             'Docs for 2nd Tranch', '2nd Tranch Received', 'Is Verified',
+            'Quotation Price', 'Token Amount', 'First Tranche Amount', 'First Tranche Date', 'Second Tranche Amount', 'Tax Invoice Amount', 'Total Received',
             'Created At'
         ];
 
@@ -146,14 +147,18 @@ class ReportController extends Controller
 
                 // Detailed Lead Info
                 if ($lead) {
+                    $vReport = $lead->verificationReport;
                     $row[] = $lead->discom_pms_portal_login_done ? 'Yes' : 'No';
                     $row[] = $lead->bank_login_done ? 'Yes' : 'No';
                     $row[] = $lead->first_payment_received ? 'Yes' : 'No';
-                    $row[] = $lead->token_amount ?? '0';
                     $row[] = $lead->is_document_done ? 'Yes' : 'No';
                     $row[] = $lead->handover_by ? 'Yes' : 'No';
                 } else {
-                    $row[] = 'N/A'; $row[] = 'N/A'; $row[] = 'N/A'; $row[] = 'N/A'; $row[] = 'N/A'; $row[] = 'N/A';
+                    $row[] = 'N/A'; // Discom
+                    $row[] = 'N/A'; // Bank
+                    $row[] = 'N/A'; // 1st payment rec
+                    $row[] = 'N/A'; // Is Docs done
+                    $row[] = 'N/A'; // Handover
                 }
 
                 // Add workflow stage statuses
@@ -181,6 +186,34 @@ class ReportController extends Controller
                     for ($i = 0; $i < 8; $i++) $row[] = 'N/A'; // stages
                     $row[] = 'N/A'; $row[] = 'N/A'; // installation
                     $row[] = 'N/A'; $row[] = 'N/A'; $row[] = 'N/A'; // verification
+                }
+
+                // Financials (At the end)
+                if ($lead) {
+                    $vReport = $lead->verificationReport;
+                    $quotation_price = $vReport->quotation_price ?? '0';
+                    $token_amount = $lead->token_amount ?? '0';
+                    $first_tranche_amount = $lead->first_tranche_amount ?? '0';
+                    $first_tranche_date = ($vReport && $vReport->first_tranche_date) ? $vReport->first_tranche_date->format('Y-m-d') : 'N/A';
+                    $second_tranche_amount = $vReport->second_tranche_amount ?? '0';
+                    $tax_invoice_amount = $vReport->tax_invoice_amount ?? '0';
+                    $total_received = (float)$token_amount + (float)$first_tranche_amount + (float)$second_tranche_amount;
+
+                    $row[] = $quotation_price;
+                    $row[] = $token_amount;
+                    $row[] = $first_tranche_amount;
+                    $row[] = $first_tranche_date;
+                    $row[] = $second_tranche_amount;
+                    $row[] = $tax_invoice_amount;
+                    $row[] = $total_received;
+                } else {
+                    $row[] = 'N/A'; // Quotation Price
+                    $row[] = 'N/A'; // Token
+                    $row[] = 'N/A'; // First Tranche Amount
+                    $row[] = 'N/A'; // First Tranche Date
+                    $row[] = 'N/A'; // Second Tranche
+                    $row[] = 'N/A'; // Tax Invoice
+                    $row[] = 'N/A'; // Total Received
                 }
 
                 $row[] = $enquiry->created_at->format('Y-m-d H:i');
