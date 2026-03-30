@@ -272,7 +272,16 @@ class ReportController extends Controller
 
     public function paymentAnalysisReport(Request $request)
     {
-        $query = Enquiry::with(['creator', 'lead.verificationReport', 'lead.procurementItems']);
+        $query = Enquiry::with(['creator', 'lead.verificationReport', 'lead.procurementItems'])
+            ->whereHas('lead', function($q) {
+                $q->where(function($sq) {
+                    $sq->where('token_received', 1)
+                       ->orWhere('first_payment_received', 1)
+                       ->orWhereHas('verificationReport', function($vq) {
+                           $vq->where('second_tier_payment_received', 1);
+                       });
+                });
+            });
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -290,7 +299,16 @@ class ReportController extends Controller
 
     public function exportPaymentAnalysisCsv(Request $request)
     {
-        $query = Enquiry::with(['creator', 'lead.verificationReport', 'lead.procurementItems']);
+        $query = Enquiry::with(['creator', 'lead.verificationReport', 'lead.procurementItems'])
+            ->whereHas('lead', function($q) {
+                $q->where(function($sq) {
+                    $sq->where('token_received', 1)
+                       ->orWhere('first_payment_received', 1)
+                       ->orWhereHas('verificationReport', function($vq) {
+                           $vq->where('second_tier_payment_received', 1);
+                       });
+                });
+            });
 
         if ($request->filled('search')) {
             $search = $request->search;
