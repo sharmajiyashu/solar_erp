@@ -137,9 +137,9 @@ class ReportController extends Controller
                     $enquiry->enquiry_no,
                     $enquiry->customer_name,
                     $enquiry->mobile,
+                    $enquiry->project_size ? $enquiry->project_size . ' KW' : 'N/A',
                     ucfirst(str_replace('_', ' ', $enquiry->status)),
                     $enquiry->creator ? $enquiry->creator->name : 'N/A',
-                    $enquiry->project_size ? $enquiry->project_size . ' KW' : 'N/A',
                     $lead ? $lead->lead_no : 'N/A',
                     ($lead && $lead->visits->count() > 0) ? $lead->visits->last()->user->name : 'N/A',
                     $lead ? ucfirst(str_replace('_', ' ', $lead->stage)) : 'N/A',
@@ -336,7 +336,7 @@ class ReportController extends Controller
                 $taxInvoice = $vReport->tax_invoice_amount ?? 0;
                 $payout = $vReport->payout_amount ?? 0;
                 
-                $dividedBit = ($taxInvoice - $quotation) * 0.15;
+                $dividedBit = ($taxInvoice - $quotation) * 0.089;
                 $netSaving = $quotation - ($proforma + $payout + $dividedBit);
                 $pending = $quotation - $totalCredit;
 

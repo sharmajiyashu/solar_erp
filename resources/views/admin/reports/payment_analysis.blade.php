@@ -87,7 +87,7 @@
                                 $taxInvoice = $vReport ? ($vReport->tax_invoice_amount ?? 0) : 0;
                                 $payout = $vReport ? ($vReport->payout_amount ?? 0) : 0;
                                 
-                                $dividedBit = ($taxInvoice - $quotation) * 0.15;
+                                $dividedBit = ($taxInvoice - $quotation) * 0.089;
                                 $netSaving = $quotation - ($proforma + $payout + $dividedBit);
                                 $pending = $quotation - $totalRec;
                             @endphp
