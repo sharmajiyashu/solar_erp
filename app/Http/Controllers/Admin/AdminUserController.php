@@ -123,7 +123,7 @@ class AdminUserController extends Controller
     public function walletManagement()
     {
         $this->middleware('permission:wallet manage');
-        $users = User::where('role', User::$admin)->paginate(15);
+        $users = User::permission('expenses create')->paginate(15);
         return view('admin.wallet.list', compact('users'));
     }
 

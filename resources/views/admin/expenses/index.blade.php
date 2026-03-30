@@ -51,7 +51,9 @@
                                         </div>
 
                                         
+                                        @can('expenses create')
                                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addExpenseModal">Add Expense</button>
+                                        @endcan
                                     </div>
                                 </div>
                                 <div class="card-body p-0">
@@ -87,11 +89,13 @@
                                                         </td>
                                                         <td class="py-1 align-middle text-center pe-2">
                                                             <div class="d-flex justify-content-center align-items-center">
+                                                                @can('expenses delete')
                                                                     <button type="button" class="btn btn-icon btn-flat-danger open-delete-modal" 
                                                                         data-action="{{ route('admin.expenses.destroy', $expense->id) }}" 
                                                                         title="Delete">
                                                                         <i data-feather="trash-2" style="width: 16px; height: 16px;"></i>
                                                                     </button>
+                                                                @endcan
                                                             </div>
                                                         </td>
                                                     </tr>

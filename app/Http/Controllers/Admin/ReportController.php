@@ -19,8 +19,8 @@ class ReportController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:reports view')->only(['index', 'attendanceReport', 'stockReport']);
-        $this->middleware('permission:reports export')->only(['exportCsv', 'exportAttendanceExcel', 'exportStockCsv']);
+        $this->middleware('permission:reports view')->only(['index', 'attendanceReport', 'stockReport', 'paymentAnalysisReport']);
+        $this->middleware('permission:reports export')->only(['exportCsv', 'exportAttendanceExcel', 'exportStockCsv', 'exportPaymentAnalysisCsv']);
     }
 
     public function attendanceReport(Request $request)
@@ -61,7 +61,7 @@ class ReportController extends Controller
 
     public function index(Request $request)
     {
-        $query = Enquiry::with(['creator', 'lead.installation', 'lead.verificationReport', 'lead.assignedUser']);
+        $query = Enquiry::with(['creator', 'lead.installation', 'lead.verificationReport', 'lead.visits.user']);
 
         // Filter by search
         if ($request->filled('search')) {
@@ -85,7 +85,7 @@ class ReportController extends Controller
 
     public function exportCsv(Request $request)
     {
-        $query = Enquiry::with(['creator', 'lead.installation', 'lead.verificationReport']);
+        $query = Enquiry::with(['creator', 'lead.installation', 'lead.verificationReport', 'lead.visits.user']);
 
         // Apply filters same as index
         if ($request->filled('search')) {
@@ -112,14 +112,13 @@ class ReportController extends Controller
         ];
 
         $columns = [
-            'Enquiry No', 'Customer Name', 'Mobile', 'Enquiry Status', 'Created By',
-            'Lead No', 'Current Stage', 'Lead Status',
+            'Enquiry No', 'Customer Name', 'Mobile', 'Capacity (KW)', 'Enquiry Status', 'Created By',
+            'Lead No', 'Assigned To', 'Current Stage', 'Lead Status',
             'Discom Login', 'Bank Login', '1st Payment Received', 'Is Documents Done', 'Is Handover Done',
             'Site Visit Status', 'Quotation Status', 'Document Status', 'Backend Status', 
             'Procurement Status', 'Installation Status', 'Verification Status', 'Completed Status',
             'Installation Done', 'Net Metering Done',
             'Docs for 2nd Tranch', '2nd Tranch Received', 'Is Verified',
-            'Quotation Price', 'Token Amount', 'First Tranche Amount', 'First Tranche Date', 'Second Tranche Amount', 'Tax Invoice Amount', 'Total Received',
             'Created At'
         ];
 
@@ -140,14 +139,15 @@ class ReportController extends Controller
                     $enquiry->mobile,
                     ucfirst(str_replace('_', ' ', $enquiry->status)),
                     $enquiry->creator ? $enquiry->creator->name : 'N/A',
+                    $enquiry->project_size ? $enquiry->project_size . ' KW' : 'N/A',
                     $lead ? $lead->lead_no : 'N/A',
+                    ($lead && $lead->visits->count() > 0) ? $lead->visits->last()->user->name : 'N/A',
                     $lead ? ucfirst(str_replace('_', ' ', $lead->stage)) : 'N/A',
                     $lead ? ucfirst($lead->status) : 'N/A',
                 ];
 
                 // Detailed Lead Info
                 if ($lead) {
-                    $vReport = $lead->verificationReport;
                     $row[] = $lead->discom_pms_portal_login_done ? 'Yes' : 'No';
                     $row[] = $lead->bank_login_done ? 'Yes' : 'No';
                     $row[] = $lead->first_payment_received ? 'Yes' : 'No';
@@ -189,32 +189,7 @@ class ReportController extends Controller
                 }
 
                 // Financials (At the end)
-                if ($lead) {
-                    $vReport = $lead->verificationReport;
-                    $quotation_price = $vReport->quotation_price ?? '0';
-                    $token_amount = $lead->token_amount ?? '0';
-                    $first_tranche_amount = $lead->first_tranche_amount ?? '0';
-                    $first_tranche_date = ($vReport && $vReport->first_tranche_date) ? $vReport->first_tranche_date->format('Y-m-d') : 'N/A';
-                    $second_tranche_amount = $vReport->second_tranche_amount ?? '0';
-                    $tax_invoice_amount = $vReport->tax_invoice_amount ?? '0';
-                    $total_received = (float)$token_amount + (float)$first_tranche_amount + (float)$second_tranche_amount;
-
-                    $row[] = $quotation_price;
-                    $row[] = $token_amount;
-                    $row[] = $first_tranche_amount;
-                    $row[] = $first_tranche_date;
-                    $row[] = $second_tranche_amount;
-                    $row[] = $tax_invoice_amount;
-                    $row[] = $total_received;
-                } else {
-                    $row[] = 'N/A'; // Quotation Price
-                    $row[] = 'N/A'; // Token
-                    $row[] = 'N/A'; // First Tranche Amount
-                    $row[] = 'N/A'; // First Tranche Date
-                    $row[] = 'N/A'; // Second Tranche
-                    $row[] = 'N/A'; // Tax Invoice
-                    $row[] = 'N/A'; // Total Received
-                }
+                
 
                 $row[] = $enquiry->created_at->format('Y-m-d H:i');
 
@@ -266,13 +241,14 @@ class ReportController extends Controller
             "Expires"             => "0"
         ];
 
-        $columns = ['Category', 'Product Subtype', 'Company', 'Landing (wo GST)', 'GST (%)', 'Tax Amount', 'Final Landing', 'Current Stock', 'Last Updated'];
+        $columns = ['Category', 'Product Subtype', 'Company', 'Landing (wo GST)', 'GST (%)', 'Tax Amount', 'Final Landing', 'Current Stock', 'Total Value', 'Last Updated'];
 
         $callback = function() use($products, $columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
 
             foreach ($products as $product) {
+                $totalValue = ($product->stock ?? 0) * ($product->final_landing_with_gst ?? 0);
                 $row = [
                     $product->category ? $product->category->name : 'N/A',
                     $product->subtype,
@@ -282,7 +258,108 @@ class ReportController extends Controller
                     $product->tax_amount ?? 0,
                     $product->final_landing_with_gst ?? 0,
                     $product->stock ?? 0,
+                    $totalValue,
                     $product->updated_at->format('Y-m-d H:i'),
+                ];
+                fputcsv($file, $row);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function paymentAnalysisReport(Request $request)
+    {
+        $query = Enquiry::with(['creator', 'lead.verificationReport', 'lead.procurementItems']);
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('enquiry_no', 'like', "%{$search}%")
+                    ->orWhere('customer_name', 'like', "%{$search}%")
+                    ->orWhere('mobile', 'like', "%{$search}%");
+            });
+        }
+
+        $enquiries = $query->latest()->paginate(20);
+
+        return view('admin.reports.payment_analysis', compact('enquiries'));
+    }
+
+    public function exportPaymentAnalysisCsv(Request $request)
+    {
+        $query = Enquiry::with(['creator', 'lead.verificationReport', 'lead.procurementItems']);
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('enquiry_no', 'like', "%{$search}%")
+                    ->orWhere('customer_name', 'like', "%{$search}%")
+                    ->orWhere('mobile', 'like', "%{$search}%");
+            });
+        }
+
+        $enquiries = $query->latest()->get();
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=payment_analysis_report_" . date('Y-m-d') . ".csv",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = [
+            'Date', 'Customer Name', 'Mobile No.', 'KW', 'CURRENT STATUS', 'Source By', 'Loan/Cash',
+            'Quotation', 'Token Money', '1st Tranche', '2nd Tranche', 'Total Amount Credit',
+            'Proforma Invoice Amt', 'Tax Invoice Amt', 'Payout', 'DIVIDED BIT', 'NET SAVING',
+            'Admin Collection Pending Amt', '1st Tranche Date'
+        ];
+
+        $callback = function() use($enquiries, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($enquiries as $enquiry) {
+                $lead = $enquiry->lead;
+                $vReport = $lead ? $lead->verificationReport : null;
+                
+                $token = $lead->token_amount ?? 0;
+                $tranch1 = $lead->first_tranche_amount ?? 0;
+                $tranch2 = $vReport->second_tranche_amount ?? 0;
+                $totalCredit = $token + $tranch1 + $tranch2;
+                
+                $quotation = $vReport->quotation_price ?? 0;
+                $proforma = $lead ? $lead->procurementItems->sum('total') : 0;
+                $taxInvoice = $vReport->tax_invoice_amount ?? 0;
+                $payout = $vReport->payout_amount ?? 0;
+                
+                $dividedBit = ($taxInvoice - $quotation) * 0.15;
+                $netSaving = $quotation - ($proforma + $payout + $dividedBit);
+                $pending = $quotation - $totalCredit;
+
+                $row = [
+                    $enquiry->created_at->format('d/m/Y'),
+                    $enquiry->customer_name,
+                    $enquiry->mobile,
+                    $enquiry->project_size,
+                    $lead ? ucfirst(str_replace('_', ' ', $lead->stage)) : ($enquiry->status == 'converted_to_lead' ? 'Lead' : ucfirst($enquiry->status)),
+                    $enquiry->creator->name ?? 'N/A',
+                    $lead->lead_type ?? 'N/A',
+                    $quotation,
+                    $token,
+                    $tranch1,
+                    $tranch2,
+                    $totalCredit,
+                    $proforma,
+                    $taxInvoice,
+                    $payout,
+                    round($dividedBit, 2),
+                    round($netSaving, 2),
+                    $pending,
+                    $vReport && $vReport->first_tranche_date ? $vReport->first_tranche_date->format('d/m/Y') : 'N/A'
                 ];
                 fputcsv($file, $row);
             }

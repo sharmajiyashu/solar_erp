@@ -66,6 +66,7 @@
                                 <th>GST (%)</th>
                                 <th>Final Landing</th>
                                 <th>Current Stock</th>
+                                <th>Total Stock Value</th>
                                 <th>Last Updated</th>
                             </tr>
                         </thead>
@@ -93,11 +94,12 @@
                                         <span class="badge rounded-pill badge-light-success">{{ $product->stock ?? 0 }}</span>
                                     @endif
                                 </td>
+                                <td><span class="fw-bolder" style="color: #444;">₹{{ number_format(($product->stock ?? 0) * ($product->final_landing_with_gst ?? 0), 2) }}</span></td>
                                 <td>{{ $product->updated_at->format('d M Y H:i') }}</td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="8" class="text-center">No products found.</td>
+                                <td colspan="9" class="text-center">No products found.</td>
                             </tr>
                             @endforelse
                         </tbody>

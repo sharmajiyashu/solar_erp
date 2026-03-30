@@ -96,7 +96,12 @@
                                 <td>
                                     <div class="d-flex flex-column">
                                         <span class="user-name fw-bolder text-truncate">{{ $enquiry->customer_name }}</span>
-                                        <small class="text-muted text-truncate">{{ $enquiry->mobile }}</small>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <small class="text-muted text-truncate">{{ $enquiry->mobile }}</small>
+                                            @if($enquiry->project_size)
+                                                <span class="badge badge-light-info" style="font-size: 0.65rem;">{{ $enquiry->project_size }} KW</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
@@ -113,6 +118,7 @@
                                     @if($lead)
                                         <div class="d-flex flex-column">
                                             <span class="fw-bold">{{ $lead->lead_no }}</span>
+                                            <small class="text-muted text-truncate" style="font-size: 0.65rem;">User: {{ $lead->visits->isNotEmpty() ? ($lead->visits->last()->user->name ?? 'Unassigned') : 'Unassigned' }}</small>
                                             <span class="badge badge-light-warning text-capitalize" style="font-size: 0.7rem;">{{ str_replace('_', ' ', $lead->stage) }}</span>
                                         </div>
                                     @else
@@ -180,25 +186,7 @@
                                             @endif
                                         </div>
                                         
-                                        @if($lead)
-                                            <div class="mt-25" style="border-top: 1px solid #ebe9f1; padding-top: 5px; margin-top: 5px; font-size: 0.65rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
-                                                <div>
-                                                    <span class="text-muted">Quot:</span> <span class="fw-bold">₹{{ number_format($vReport->quotation_price ?? 0) }}</span>
-                                                </div>
-                                                <div>
-                                                    <span class="text-muted">Token:</span> <span class="fw-bold">₹{{ number_format($lead->token_amount ?? 0) }}</span>
-                                                </div>
-                                                <div>
-                                                    <span class="text-muted">1st Tr:</span> <span class="fw-bold">₹{{ number_format($lead->first_tranche_amount ?? 0) }}</span>
-                                                </div>
-                                                <div>
-                                                    <span class="text-muted">2nd Tr:</span> <span class="fw-bold">₹{{ number_format($vReport->second_tranche_amount ?? 0) }}</span>
-                                                </div>
-                                                <div style="grid-column: span 2; border-top: 1px dashed #ebe9f1; padding-top: 2px;">
-                                                    <span class="text-muted">Total Paid:</span> <span class="fw-bolder text-success">₹{{ number_format(($lead->token_amount ?? 0) + ($lead->first_tranche_amount ?? 0) + ($vReport->second_tranche_amount ?? 0)) }}</span>
-                                                </div>
-                                            </div>
-                                        @endif
+
                                     </div>
                                     @else
                                         <div class="text-center text-muted">-</div>

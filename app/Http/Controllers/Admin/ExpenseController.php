@@ -12,16 +12,28 @@ use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:expenses view')->only(['index', 'reports', 'exportReport', 'exportExpenses']);
+        $this->middleware('permission:expenses create')->only(['create', 'store']);
+        $this->middleware('permission:expenses edit')->only(['edit', 'update']);
+        $this->middleware('permission:expenses delete')->only(['destroy']);
+    }
     
     public function index(Request $request)
     {
         $month = $request->month ?? date('m');
         $year = $request->year ?? date('Y');
 
-        $expenses = Expense::with('user')
+        $query = Expense::with('user')
             ->whereMonth('expense_date', $month)
-            ->whereYear('expense_date', $year)
-            ->orderBy('expense_date', 'desc')
+            ->whereYear('expense_date', $year);
+
+        if (!Auth::user()->can('wallet manage')) {
+            $query->where('user_id', Auth::id());
+        }
+
+        $expenses = $query->orderBy('expense_date', 'desc')
             ->paginate(15);
 
         return view('admin.expenses.index', compact('expenses', 'month', 'year'));
@@ -41,10 +53,6 @@ class ExpenseController extends Controller
         ]);
 
         $user = Auth::user();
-
-        if ($user->wallet_balance < $request->amount) {
-            return redirect()->back()->with('error', 'Insufficient wallet balance.')->withInput();
-        }
 
         DB::transaction(function () use ($request, $user) {
             // Create Expense
@@ -84,30 +92,33 @@ class ExpenseController extends Controller
             'expense_date' => 'required|date',
         ]);
 
-        $user = Auth::user();
-        $diff = $request->amount - $expense->amount;
-
-        if ($diff > 0 && $user->wallet_balance < $diff) {
-            return redirect()->back()->with('error', 'Insufficient wallet balance for this update.')->withInput();
+        $expenseOwner = $expense->user;
+        
+        if (Auth::id() !== $expense->user_id && !Auth::user()->can('wallet manage')) {
+            abort(403, 'Unauthorized update.');
         }
 
-        DB::transaction(function () use ($request, $expense, $user, $diff) {
+        $diff = $request->amount - $expense->amount;
+
+
+
+        DB::transaction(function () use ($request, $expense, $expenseOwner, $diff) {
             // Update Wallet
             if ($diff != 0) {
                 if ($diff > 0) {
-                    $user->decrement('wallet_balance', $diff);
+                    $expenseOwner->decrement('wallet_balance', $diff);
                     $type = 'debit';
                 } else {
-                    $user->increment('wallet_balance', abs($diff));
+                    $expenseOwner->increment('wallet_balance', abs($diff));
                     $type = 'credit';
                 }
 
                 WalletTransaction::create([
-                    'user_id' => $user->id,
+                    'user_id' => $expenseOwner->id,
                     'amount' => abs($diff),
                     'type' => $type,
                     'description' => 'Expense update diff: ' . $request->description,
-                    'balance_after' => $user->wallet_balance,
+                    'balance_after' => $expenseOwner->wallet_balance,
                 ]);
             }
 
@@ -124,19 +135,23 @@ class ExpenseController extends Controller
 
     public function destroy(Expense $expense)
     {
-        $user = Auth::user();
+        if (Auth::id() !== $expense->user_id && !Auth::user()->can('wallet manage')) {
+            abort(403, 'Unauthorized deletion.');
+        }
 
-        DB::transaction(function () use ($expense, $user) {
+        $expenseOwner = $expense->user;
+
+        DB::transaction(function () use ($expense, $expenseOwner) {
             // Add back to Wallet
-            $user->increment('wallet_balance', $expense->amount);
+            $expenseOwner->increment('wallet_balance', $expense->amount);
 
             // Create Transaction
             WalletTransaction::create([
-                'user_id' => $user->id,
+                'user_id' => $expenseOwner->id,
                 'amount' => $expense->amount,
                 'type' => 'credit',
                 'description' => 'Expense deleted: ' . $expense->description,
-                'balance_after' => $user->wallet_balance,
+                'balance_after' => $expenseOwner->wallet_balance,
             ]);
 
             $expense->delete();
@@ -150,7 +165,13 @@ class ExpenseController extends Controller
         $month = $request->month ?? date('m');
         $year = $request->year ?? date('Y');
 
-        $users = User::where('role', User::$admin)->get();
+        $query = User::permission('expenses create');
+
+        if (!Auth::user()->can('wallet manage')) {
+            $query->where('id', Auth::id());
+        }
+
+        $users = $query->get();
         $reportData = [];
 
         foreach ($users as $u) {
@@ -185,7 +206,13 @@ class ExpenseController extends Controller
         $year = $request->year ?? date('Y');
         $fileName = "Expense_Report_{$month}_{$year}.csv";
 
-        $users = User::where('role', User::$admin)->get();
+        $query = User::permission('expenses create');
+
+        if (!Auth::user()->can('wallet manage')) {
+            $query->where('id', Auth::id());
+        }
+
+        $users = $query->get();
 
         $headers = [
             "Content-type"        => "text/csv",
@@ -229,10 +256,15 @@ class ExpenseController extends Controller
         $year = $request->year ?? date('Y');
         $fileName = "Expenses_List_{$month}_{$year}.csv";
 
-        $expenses = Expense::with('user')
+        $query = Expense::with('user')
             ->whereMonth('expense_date', $month)
-            ->whereYear('expense_date', $year)
-            ->orderBy('expense_date', 'desc')
+            ->whereYear('expense_date', $year);
+
+        if (!Auth::user()->can('wallet manage')) {
+            $query->where('user_id', Auth::id());
+        }
+
+        $expenses = $query->orderBy('expense_date', 'desc')
             ->get();
 
         $headers = [
