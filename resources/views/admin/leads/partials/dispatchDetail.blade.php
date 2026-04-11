@@ -315,6 +315,13 @@ $(document).ready(function() {
                     text: response.success,
                     backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
                 }).showToast();
+
+                if (response.duplicate) {
+                    // Reset form and stop here if it's a duplicate
+                    form[0].reset();
+                    $('#proc_product_id').val('').trigger('change');
+                    return;
+                }
                 
                 // Add row to table
                 let item = response.item;

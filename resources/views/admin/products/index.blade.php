@@ -221,7 +221,10 @@
                             <span class="text-danger error-text reason_error small"></span>
                         </div>
                         <div class="col-12 text-center mt-2">
-                            <button type="submit" class="btn btn-success px-3 submit-btn" style="border-radius: 8px; font-weight: 600;">Update Stock</button>
+                            <button type="submit" class="btn btn-success px-3 submit-btn" style="border-radius: 8px; font-weight: 600;">
+                                <span class="spinner-border spinner-border-sm d-none me-50"></span>
+                                Update Stock
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -296,25 +299,21 @@
                 form.find('input[name="final_landing_with_gst"]').val(finalPrice.toFixed(2));
             });
 
-            // Add Product
-            $('#addProductForm').on('submit', function(e) {
-                e.preventDefault();
-                let form = $(this);
+            // Unified AJAX Submitter
+            function submitForm(form, url, method, onSuccess) {
+                let btn = form.find('.submit-btn');
+                if (btn.prop('disabled')) return;
+                
                 clearErrors(form);
                 toggleLoader(form, true);
 
                 $.ajax({
-                    url: "{{ route('admin.products.store') }}",
-                    method: "POST",
+                    url: url,
+                    method: method,
                     data: form.serialize(),
                     success: function(response) {
                         toggleLoader(form, false);
-                        $('#addProductModal').modal('hide');
-                        Toastify({
-                            text: response.success,
-                            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-                        }).showToast();
-                        setTimeout(() => location.reload(), 1000);
+                        if (onSuccess) onSuccess(response);
                     },
                     error: function(xhr) {
                         toggleLoader(form, false);
@@ -324,9 +323,25 @@
                                 form.find('.' + key + '_error').text(value[0]);
                             });
                         } else {
-                            alert('Something went wrong!');
+                            Toastify({
+                                text: "Operation failed!",
+                                backgroundColor: "linear-gradient(to right, #b73b3c, #f44336)",
+                            }).showToast();
                         }
                     }
+                });
+            }
+
+            // Add Product
+            $(document).off('submit', '#addProductForm').on('submit', '#addProductForm', function(e) {
+                e.preventDefault();
+                submitForm($(this), "{{ route('admin.products.store') }}", "POST", function(response) {
+                    $('#addProductModal').modal('hide');
+                    Toastify({
+                        text: response.success,
+                        backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                    }).showToast();
+                    setTimeout(() => location.reload(), 800);
                 });
             });
 
@@ -353,35 +368,16 @@
             });
 
             // Update Product
-            $('#editProductForm').on('submit', function(e) {
+            $(document).off('submit', '#editProductForm').on('submit', '#editProductForm', function(e) {
                 e.preventDefault();
-                let form = $(this);
                 let id = $('#edit_product_id').val();
-                clearErrors(form);
-                toggleLoader(form, true);
-
-                $.ajax({
-                    url: "{{ url('admin/products') }}/" + id,
-                    method: "POST",
-                    data: form.serialize(),
-                    success: function(response) {
-                        toggleLoader(form, false);
-                        $('#editProductModal').modal('hide');
-                        Toastify({
-                            text: response.success,
-                            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-                        }).showToast();
-                        setTimeout(() => location.reload(), 1000);
-                    },
-                    error: function(xhr) {
-                        toggleLoader(form, false);
-                        if (xhr.status === 422) {
-                            let errors = xhr.responseJSON.errors;
-                            $.each(errors, function(key, value) {
-                                form.find('.' + key + '_error').text(value[0]);
-                            });
-                        }
-                    }
+                submitForm($(this), "{{ url('admin/products') }}/" + id, "POST", function(response) {
+                    $('#editProductModal').modal('hide');
+                    Toastify({
+                        text: response.success,
+                        backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                    }).showToast();
+                    setTimeout(() => location.reload(), 800);
                 });
             });
 
@@ -405,18 +401,33 @@
             });
 
             // Status Toggle
-            $(document).on('change', '.status-toggle', function() {
+            let statusDebouncing = false;
+            $(document).off('change', '.status-toggle').on('change', '.status-toggle', function() {
+                if(statusDebouncing) return;
+                statusDebouncing = true;
+
                 let id = $(this).data('id');
-                let status = $(this).prop('checked') ? 1 : 0;
+                let checkbox = $(this);
+                let status = checkbox.prop('checked') ? 1 : 0;
+                
                 $.ajax({
                     url: "{{ url('admin/products') }}/" + id + "/status",
                     method: "POST",
                     data: { _token: "{{ csrf_token() }}", status: status },
                     success: function(response) {
+                        statusDebouncing = false;
                         Toastify({
                             text: response.success,
                             backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
                         }).showToast();
+                    },
+                    error: function() {
+                        statusDebouncing = false;
+                        checkbox.prop('checked', !status); // Restore state
+                        Toastify({
+                                text: "Status change failed!",
+                                backgroundColor: "linear-gradient(to right, #b73b3c, #f44336)",
+                            }).showToast();
                     }
                 });
             });
@@ -433,36 +444,19 @@
             });
 
             // Update Stock AJAX
-            $('#manageStockForm').on('submit', function(e) {
+            $(document).off('submit', '#manageStockForm').on('submit', '#manageStockForm', function(e) {
                 e.preventDefault();
                 let form = $(this);
                 let id = $('#stock_product_id').val();
-                clearErrors(form);
-                toggleLoader(form, true);
-
-                $.ajax({
-                    url: "{{ url('admin/products') }}/" + id + "/stock",
-                    method: "POST",
-                    data: form.serialize(),
-                    success: function(response) {
-                        toggleLoader(form, false);
-                        $('#manageStockModal').modal('hide');
-                        Toastify({
-                            text: response.success,
-                            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-                        }).showToast();
-                        // Update stock in table without reload
-                        $(`.current-stock-display-${id}`).text(response.new_stock);
-                    },
-                    error: function(xhr) {
-                        toggleLoader(form, false);
-                        if (xhr.status === 422) {
-                            let errors = xhr.responseJSON.errors;
-                            $.each(errors, function(key, value) {
-                                form.find('.' + key + '_error').text(value[0]);
-                            });
-                        }
-                    }
+                
+                submitForm(form, "{{ url('admin/products') }}/" + id + "/stock", "POST", function(response) {
+                    $('#manageStockModal').modal('hide');
+                    Toastify({
+                        text: response.success,
+                        backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                    }).showToast();
+                    // Update stock in table without reload
+                    $(`.current-stock-display-${id}`).text(response.new_stock);
                 });
             });
 

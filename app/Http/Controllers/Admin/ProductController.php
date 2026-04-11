@@ -85,10 +85,14 @@ class ProductController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $product = Product::findOrFail($id);
-        $product->status = $request->status;
+        $status = (boolean)$request->status;
+        $product->status = $status;
         $product->save();
 
-        return response()->json(['success' => 'Status updated successfully.']);
+        return response()->json([
+            'success' => 'Status changed to ' . ($status ? 'Active' : 'Inactive'),
+            'status' => $status
+        ]);
     }
 
     public function updateStock(Request $request, $id)
@@ -101,24 +105,40 @@ class ProductController extends Controller
         ]);
 
         $quantity = $request->quantity;
-        if ($request->type == 'less') {
-            if ($product->stock < $quantity) {
-                return response()->json(['errors' => ['quantity' => ['Insufficient stock. Current stock: ' . $product->stock]]], 422);
-            }
-            $product->decrement('stock', $quantity);
-        } else {
-            $product->increment('stock', $quantity);
+
+        // Prevent duplicate submission (same user, product, type, quantity within 5 seconds)
+        $existing = StockHistory::where('product_id', $product->id)
+            ->where('user_id', Auth::id())
+            ->where('type', $request->type)
+            ->where('quantity', $quantity)
+            ->where('created_at', '>=', now()->subSeconds(5))
+            ->first();
+
+        if ($existing) {
+            return response()->json(['success' => 'Stock updated successfully (Duplicate request ignored).', 'new_stock' => $product->stock]);
         }
 
-        StockHistory::create([
-            'product_id' => $product->id,
-            'user_id' => Auth::id(),
-            'quantity' => $quantity,
-            'type' => $request->type,
-            'reason' => $request->reason,
-        ]);
+        return \DB::transaction(function () use ($product, $request, $quantity) {
+            if ($request->type == 'less') {
+                if ($product->stock < $quantity) {
+                    return response()->json(['errors' => ['quantity' => ['Insufficient stock. Current stock: ' . $product->stock]]], 422);
+                }
+                $product->decrement('stock', $quantity);
+            } else {
+                $product->increment('stock', $quantity);
+            }
 
-        return response()->json(['success' => 'Stock updated successfully.', 'new_stock' => $product->stock]);
+            StockHistory::create([
+                'product_id' => $product->id,
+                'user_id' => Auth::id(),
+                'quantity' => $quantity,
+                'type' => $request->type,
+                'reason' => $request->reason,
+            ]);
+
+            $product->refresh();
+            return response()->json(['success' => 'Stock updated successfully.', 'new_stock' => $product->stock]);
+        });
     }
 
     public function stockHistory($id)

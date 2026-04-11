@@ -86,6 +86,21 @@ class DispatchDetailController extends Controller
             $product = Product::findOrFail($request->product_id);
             $lead = \App\Models\Lead::findOrFail($leadId);
 
+            // Prevent duplicate submission (same lead, product, quantity within 5 seconds)
+            $existing = ProcurementItem::where('lead_id', $leadId)
+                ->where('product_id', $request->product_id)
+                ->where('quantity', $request->quantity)
+                ->where('created_at', '>=', now()->subSeconds(5))
+                ->first();
+
+            if ($existing) {
+                return response()->json([
+                    'success' => 'Item added and stock updated.',
+                    'item' => $existing->load('product'),
+                    'duplicate' => true
+                ]);
+            }
+
             // Deduct stock
             $product->decrement('stock', $request->quantity);
 

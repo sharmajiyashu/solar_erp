@@ -64,8 +64,6 @@
 <script src="{{ url('public/dashboard-assets/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
 <script src="{{ url('public/dashboard-assets/app-assets/js/scripts/forms/form-select2.js') }}"></script>
 
-@stack('scripts')
-
 <script>
     let video = document.getElementById('camera');
     let canvas = document.getElementById('canvas');
