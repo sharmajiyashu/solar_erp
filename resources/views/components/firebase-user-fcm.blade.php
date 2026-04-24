@@ -127,6 +127,27 @@
             console.warn('FCM registration skipped:', e.message);
         }
     });
+
+    // Foreground notifications
+    messaging.onMessage(function(payload) {
+        console.log('FCM: Foreground message received', payload);
+        if (typeof Toastify !== 'undefined') {
+            Toastify({
+                text: (payload.notification ? payload.notification.title + ": " + payload.notification.body : "New update received"),
+                duration: 5000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+                onClick: function(){} // Callback after click
+            }).showToast();
+        } else {
+            alert((payload.notification ? payload.notification.title + "\n" + payload.notification.body : "New update received"));
+        }
+    });
     }
 })();
 </script>

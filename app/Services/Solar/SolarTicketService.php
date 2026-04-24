@@ -45,6 +45,17 @@ class SolarTicketService
 
             Log::info('Ticket created', ['ticket_id' => $ticket->id, 'user_id' => $user->id]);
 
+            // Notify all admins about the new ticket
+            $admins = User::where('role', 'admin')->whereNotNull('fcm_token')->get();
+            foreach ($admins as $admin) {
+                $this->fcm->sendToUser(
+                    $admin,
+                    'New Ticket Created',
+                    $user->name . ' has opened a new ticket: ' . $subject,
+                    ['type' => 'new_ticket', 'ticket_id' => (string) $ticket->id]
+                );
+            }
+
             return $ticket->load('messages.sender');
         });
     }
