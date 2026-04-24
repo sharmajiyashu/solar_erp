@@ -288,6 +288,47 @@
             </li>
             @endcanany
 
+            @if(auth()->user()->isAdminUser())
+            <li class="nav-item {{ Request::routeIs('admin.solar.*') ? 'sidebar-group-active open' : '' }}">
+                <a class="d-flex align-items-center" href="javascript:void(0)">
+                    <i data-feather="sun"></i>
+                    <span class="menu-title text-truncate">Solar services</span>
+                </a>
+                <ul class="menu-content">
+                    @can('service_assign')
+                    <li class="{{ Request::routeIs('admin.solar.slots.pending') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.solar.slots.pending') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Assign slots</span>
+                        </a>
+                    </li>
+                    @endcan
+                    <li class="{{ Request::routeIs('admin.solar.my_services') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.solar.my_services') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">My services</span>
+                        </a>
+                    </li>
+                    @can('service_management')
+                    <li class="{{ Request::routeIs('admin.solar.feedback.report') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.solar.feedback.report') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Customer reviews</span>
+                        </a>
+                    </li>
+                    @endcan
+                    @can('ticket_management')
+                    <li class="{{ Request::routeIs('admin.solar.tickets.*') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.solar.tickets.index') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Tickets</span>
+                        </a>
+                    </li>
+                    @endcan
+                </ul>
+            </li>
+            @endif
+
             @can('roles_permissions view')
 
                 <li class=" nav-item ">

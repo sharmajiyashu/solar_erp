@@ -23,6 +23,10 @@ use App\Http\Controllers\Admin\{
     ProformaInvoiceController,
     ExpenseController,
 };
+use App\Http\Controllers\Admin\SolarFeedbackAdminController;
+use App\Http\Controllers\Admin\SolarSlotAdminController;
+use App\Http\Controllers\Admin\SolarTicketAdminController;
+use App\Http\Controllers\Firebase\FirebaseCustomTokenController;
 use App\Http\Controllers\AirpotCsvController;
 use Illuminate\Support\Facades\Route;
 
@@ -170,6 +174,28 @@ Route::middleware(['isAdmin'])
 
         Route::resource('service-packages', ServicePackageController::class);
         Route::post('service-packages/{id}/status', [ServicePackageController::class, 'updateStatus'])->name('service-packages.status');
+
+        Route::prefix('solar')->name('solar.')->group(function () {
+            Route::middleware('permission:service_assign')->group(function () {
+                Route::get('slots', [SolarSlotAdminController::class, 'pendingSlots'])->name('slots.pending');
+                Route::post('slots/assign', [SolarSlotAdminController::class, 'assignSlot'])->name('slots.assign');
+            });
+            Route::get('my-services', [SolarSlotAdminController::class, 'myServices'])->name('my_services');
+            Route::get('slots/{slot}/complete', [SolarSlotAdminController::class, 'completeForm'])->name('slots.complete.form');
+            Route::post('slots/complete', [SolarSlotAdminController::class, 'completeSlot'])->name('slots.complete');
+
+            Route::middleware('permission:service_management')->group(function () {
+                Route::get('feedback-report', [SolarFeedbackAdminController::class, 'index'])->name('feedback.report');
+            });
+
+            Route::middleware('permission:ticket_management')->group(function () {
+                Route::get('tickets', [SolarTicketAdminController::class, 'index'])->name('tickets.index');
+                Route::get('tickets/{ticket}/firebase-token', [FirebaseCustomTokenController::class, 'adminTicketToken'])->name('tickets.firebase-token');
+                Route::get('tickets/{ticket}', [SolarTicketAdminController::class, 'show'])->name('tickets.show');
+                Route::post('tickets/{ticket}/reply', [SolarTicketAdminController::class, 'reply'])->name('tickets.reply');
+                Route::post('tickets/{ticket}/status', [SolarTicketAdminController::class, 'updateStatus'])->name('tickets.status');
+            });
+        });
 
         Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 

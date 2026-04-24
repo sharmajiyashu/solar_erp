@@ -55,6 +55,7 @@
                     <div class="card-body p-4 p-sm-5">
                         <form action="{{ route('login.post') }}" method="POST" class="auth-form">
                             @csrf
+                            <input type="hidden" name="fcm_token" id="login_fcm_token">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="form-floating mb-3">
@@ -97,5 +98,6 @@
 @endsection
 
 @push('scripts')
+@include('components.firebase-user-fcm')
 <script src="{{ url('public/frontend-assets/js/auth_ajax.js') }}"></script>
 @endpush

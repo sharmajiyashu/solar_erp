@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>Solar Arkshakti Solutions - Renewable Energy</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta content="Solar Arkshakti Solutions, Solar Arkshi Solution, Solar Panels Jaipur, Renewable Energy Rajasthan, Solar Installation Services Jaipur, Arkshakti Power Solutions" name="keywords">
     <meta content="Solar Arkshakti Solutions is a trusted provider of reliable and affordable solar energy solutions in Jaipur, Rajasthan. Specializing in residential, commercial, and industrial solar installations." name="description">
 
@@ -240,7 +241,13 @@
             feather.replace();
         }
     </script>
-    
+
+    @auth
+        @if(auth()->user()->role === \App\Models\User::$user)
+            @include('components.firebase-user-fcm')
+        @endif
+    @endauth
+
     @stack('scripts')
 </body>
 

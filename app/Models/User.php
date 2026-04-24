@@ -37,6 +37,7 @@ class User extends Authenticatable
         'pincode',
         'profile_image',
         'wallet_balance',
+        'fcm_token',
     ];
 
     /**
@@ -80,5 +81,15 @@ class User extends Authenticatable
     public function walletTransactions()
     {
         return $this->hasMany(WalletTransaction::class);
+    }
+
+    public function assignedServiceSlots()
+    {
+        return $this->hasMany(ServiceSlot::class, 'assigned_to');
+    }
+
+    public function isAdminUser(): bool
+    {
+        return $this->role === self::$admin;
     }
 }

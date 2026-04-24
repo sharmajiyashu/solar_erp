@@ -34,10 +34,18 @@ class UserRolePermissionSeeder extends Seeder
 
         foreach ($permissionsByModule as $module => $actions) {
             foreach ($actions as $action) {
-                $permission_name = $module . ' ' . $action;
-                // Use firstOrCreate to ensure it's in the DB
+                $permission_name = $module.' '.$action;
                 Permission::firstOrCreate(['name' => $permission_name, 'guard_name' => 'web']);
             }
+        }
+
+        foreach (array_keys(config('role_permission.permissions', [])) as $permName) {
+            Permission::firstOrCreate(['name' => $permName, 'guard_name' => 'web']);
+        }
+
+        foreach (config('role_permission.role_permission_defaults', []) as $roleName => $permNames) {
+            $r = Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
+            $r->syncPermissions($permNames);
         }
 
         // Clear cache again before syncing

@@ -16,6 +16,8 @@ class UserSubscription extends Model
         'status',
         'start_date',
         'end_date',
+        'total_slots',
+        'duration_months',
     ];
 
     protected $casts = [

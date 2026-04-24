@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta name="description" content="Manage Solar Arkshakti Solutions leads, enquiries, and installations from the comprehensive admin panel.">
     <meta name="keywords" content="Solar Arkshakti Solutions Admin, ERP Dashboard, Solar Lead Management, Renewable Energy Management">
@@ -224,6 +225,7 @@
     <!-- END: Footer-->
 
     @include('admin.layouts.js')
+    @include('components.firebase-user-fcm')
     @stack('scripts')
 </body>
 <!-- END: Body-->

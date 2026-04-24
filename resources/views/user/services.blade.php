@@ -91,6 +91,15 @@
     </div>
     @endif
 
+    <!-- Preferred start date (first visit) -->
+    <div class="row mb-4 px-4">
+        <div class="col-md-6 col-lg-4">
+            <label class="form-label small fw-bold text-muted text-uppercase" style="letter-spacing: 0.5px;">Preferred first visit date</label>
+            <input type="date" id="solarStartDate" class="form-control rounded-4 border-light shadow-sm" value="{{ now()->format('Y-m-d') }}" min="{{ now()->format('Y-m-d') }}">
+            <small class="text-muted">Used when you subscribe; visits are then scheduled from this date.</small>
+        </div>
+    </div>
+
     <!-- New Plans - CLEANED BGs -->
     <div class="row">
         <div class="col-12 mb-3 px-4">
@@ -221,6 +230,7 @@ $(document).ready(function() {
             data: {
                 _token: "{{ csrf_token() }}",
                 package_id: packageId,
+                start_date: $('#solarStartDate').val(),
                 razorpay_payment_id: razorResponse.razorpay_payment_id,
                 razorpay_order_id: razorResponse.razorpay_order_id,
                 razorpay_signature: razorResponse.razorpay_signature

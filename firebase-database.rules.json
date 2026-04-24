@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "ticket_chats": {
+      "$ticketId": {
+        "messages": {
+          ".read": "auth != null && auth.token.ticket_id == $ticketId && (auth.token.is_ticket_admin == true || auth.token.role == 'customer')",
+          ".write": false
+        }
+      }
+    }
+  }
+}

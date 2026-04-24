@@ -120,6 +120,19 @@
                                                     </td>
                                                 </tr>    
                                                 @endforeach
+                                                <tr>
+                                                    <th class="capital" style="background-color: bisque;text-align:center;text-transform: uppercase;">Solar services</th>
+                                                    <td>
+                                                        @foreach (array_keys(config('role_permission.permissions', [])) as $permName)
+                                                            <span style="margin-left: 20px">
+                                                                <input type="checkbox" name="permissions[]" class="form-check-input city_checkbox"
+                                                                    @if($role && $role->hasPermissionTo($permName)) checked @endif
+                                                                    value="{{ $permName }}" />
+                                                                <label class="form-check-label mb-50 capital" for="customSwitch3" style="text-transform: uppercase;">{{ str_replace('_', ' ', $permName) }}</label>
+                                                            </span>
+                                                        @endforeach
+                                                    </td>
+                                                </tr>
                                             </table>
                                              
 

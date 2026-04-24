@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <title>User Dashboard | {{ config('app.name') }}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Favicon -->
     <link href="{{ url('public/favicon.ico') }}" rel="icon">
 
@@ -226,6 +227,12 @@
             <a href="{{ route('user.services') }}" class="nav-link {{ Request::routeIs('user.services') ? 'active' : '' }}">
                 <i class="fas fa-solar-panel"></i> Subscriptions
             </a>
+            <a href="{{ route('user.slots') }}" class="nav-link {{ Request::routeIs('user.slots') ? 'active' : '' }}">
+                <i class="fas fa-calendar-check"></i> My slots
+            </a>
+            <a href="{{ route('user.tickets.index') }}" class="nav-link {{ Request::routeIs('user.tickets.*') ? 'active' : '' }}">
+                <i class="fas fa-comments"></i> Tickets
+            </a>
             <a href="{{ route('user.profile') }}" class="nav-link {{ Request::routeIs('user.profile') ? 'active' : '' }}">
                 <i class="fas fa-user-gear"></i> Settings
             </a>
@@ -270,6 +277,7 @@
             backdrop.on('click', toggleSidebar);
         });
     </script>
+    @include('components.firebase-user-fcm')
     @stack('scripts')
 </body>
 </html>

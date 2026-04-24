@@ -42,6 +42,12 @@ class WebsiteAuthController extends Controller
                 ], 403);
             }
 
+            // Save FCM token if provided in login request
+            if ($request->filled('fcm_token')) {
+                $user->update(['fcm_token' => $request->fcm_token]);
+                Log::info('FCM token saved during login', ['user_id' => $user->id]);
+            }
+
             $request->session()->regenerate();
             
             return response()->json([
