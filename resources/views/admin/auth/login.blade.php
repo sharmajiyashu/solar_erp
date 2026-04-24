@@ -142,6 +142,7 @@
                                 <form class="auth-login-form mt-2" action="{{ route('admin.check_login') }}"
                                     method="POST">
                                     @csrf
+                                    <input type="hidden" name="fcm_token" id="login_fcm_token">
                                     <div class="mb-1">
                                         <label for="login-email" class="form-label">Email</label>
                                         <input type="text" class="form-control" id="login-email" name="email"
@@ -208,6 +209,7 @@
             }
         })
     </script>
+    @include('components.firebase-user-fcm')
 </body>
 <!-- END: Body-->
 

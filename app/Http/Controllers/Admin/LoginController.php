@@ -24,6 +24,10 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
+            if ($request->filled('fcm_token')) {
+                $user->update(['fcm_token' => $request->fcm_token]);
+            }
+
             // if (in_array($user->role, [User::$admin, User::$agent])) {
             $request->session()->regenerate();
             return redirect()->route('admin.dashboard');

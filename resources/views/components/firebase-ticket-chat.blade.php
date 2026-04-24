@@ -1,11 +1,44 @@
 {{-- Realtime ticket messages: Laravel saves to DB + RTDB; listeners for other party; AJAX send for instant UI. --}}
 @if(!empty($firebaseChat['enabled']))
 @push('scripts')
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script>
-(function () {
+(function() {
+    if (!window.firebaseLoadPromise) {
+        window.firebaseLoadPromise = new Promise((resolve) => {
+            function loadScript(url, check, callback) {
+                if (check()) return callback();
+                var s = document.createElement('script');
+                s.src = url;
+                s.onload = callback;
+                document.head.appendChild(s);
+            }
+            loadScript("https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js", 
+                () => typeof firebase !== 'undefined', 
+                function() {
+                    loadScript("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js", 
+                        () => typeof firebase.auth !== 'undefined', 
+                        function() {
+                            loadScript("https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js", 
+                                () => typeof firebase.database !== 'undefined', 
+                                function() {
+                                    loadScript("https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js",
+                                        () => typeof firebase.messaging !== 'undefined',
+                                        resolve
+                                    );
+                                }
+                            );
+                        }
+                    );
+                }
+            );
+        });
+    }
+
+    window.firebaseLoadPromise.then(initChat);
+
+    function initChat() {
+        // The rest of your script moves into this function
+
     const cfg = @json($firebaseChat['web']);
     const ticketId = {{ $ticket->id }};
     const tokenUrl = @json($firebaseChat['token_url']);
@@ -62,14 +95,18 @@
     }
 
     function wireRealtime() {
+        console.log('FCM Chat: Connecting to database for ticket ' + ticketId);
         const ref = firebase.database().ref('ticket_chats/' + ticketId + '/messages');
         ref.on('child_added', function (snap) {
-            appendMessage(snap.key, snap.val() || {});
+            const val = snap.val();
+            console.log('FCM Chat: New message received', snap.key, val);
+            appendMessage(snap.key, val || {});
         }, function (err) {
-            console.warn('Firebase ticket chat read denied or failed', err && err.code ? err.code : err);
+            console.error('FCM Chat: Database read failed', err);
         });
     }
 
+    console.log('FCM Chat: Fetching token from ' + tokenUrl);
     fetch(tokenUrl, {
         credentials: 'same-origin',
         headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
@@ -81,14 +118,16 @@
             });
         })
         .then(function (data) {
+            console.log('FCM Chat: Token received, signing in...');
             if (!data.token) throw new Error(data.error || 'No token');
             return firebase.auth().signInWithCustomToken(data.token);
         })
-        .then(function () {
+        .then(function (user) {
+            console.log('FCM Chat: Signed in successfully as ' + user.user.uid);
             wireRealtime();
         })
         .catch(function (e) {
-            console.warn('Firebase chat init failed', e);
+            console.error('FCM Chat: Initialization failed', e);
         });
 
     if (replyForm) {
@@ -126,6 +165,7 @@
                     replyForm.submit();
                 });
         });
+    }
     }
 })();
 </script>
