@@ -24,7 +24,9 @@ class FcmDispatcher
             $message = CloudMessage::new()
                 ->toToken($user->fcm_token)
                 ->withNotification(Notification::create($title, $body))
-                ->withData(array_map('strval', $data));
+                ->withData(array_map('strval', $data))
+                ->withAndroidConfig(['notification' => ['sound' => 'default']])
+                ->withApnsConfig(['payload' => ['aps' => ['sound' => 'default']]]);
             $messaging->send($message);
 
             Log::info('FCM sent successfully via Kreait SDK', ['user_id' => $user->id, 'title' => $title]);
@@ -67,6 +69,8 @@ class FcmDispatcher
                     'title' => $title,
                     'body' => $body,
                 ],
+                'android' => ['notification' => ['sound' => 'default']],
+                'apns' => ['payload' => ['aps' => ['sound' => 'default']]],
                 'data' => array_map('strval', $data),
             ],
         ];

@@ -131,6 +131,13 @@
     // Foreground notifications
     messaging.onMessage(function(payload) {
         console.log('FCM: Foreground message received', payload);
+        
+        // Play notification sound
+        try {
+            const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.mp3');
+            audio.play();
+        } catch (e) { console.warn('Sound play blocked'); }
+
         if (typeof Toastify !== 'undefined') {
             Toastify({
                 text: (payload.notification ? payload.notification.title + ": " + payload.notification.body : "New update received"),
@@ -141,11 +148,11 @@
                 stopOnFocus: true,
                 style: {
                     background: "linear-gradient(to right, #00b09b, #96c93d)",
+                    borderRadius: "10px",
+                    boxShadow: "0 4px 15px rgba(0,0,0,0.1)"
                 },
-                onClick: function(){} // Callback after click
+                onClick: function(){} 
             }).showToast();
-        } else {
-            alert((payload.notification ? payload.notification.title + "\n" + payload.notification.body : "New update received"));
         }
     });
     }

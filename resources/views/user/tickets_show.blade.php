@@ -1,33 +1,104 @@
 @extends('user.layouts.app')
 
 @section('content')
-<div class="container-fluid py-3">
-    <div class="mb-3">
-        <a href="{{ route('user.tickets.index') }}" class="text-decoration-none small fw-bold text-primary">← Tickets</a>
-    </div>
-    <h4 class="fw-black">{{ $ticket->subject }}</h4>
-    <p class="text-muted small">Status: <span class="badge bg-secondary">{{ $ticket->status }}</span>
-        @if(!empty($firebaseChat['enabled']))
-            <span class="badge bg-success ms-1">Live chat (Firebase)</span>
-        @endif
-    </p>
-    <div class="card border-0 shadow-sm rounded-4 mb-3">
-        <div class="card-body" id="chat-box" style="max-height: 400px; overflow-y: auto;">
-            @foreach($ticket->messages as $m)
-            <div class="mb-3 {{ $m->is_admin ? '' : 'text-end' }}" data-message-id="{{ $m->id }}">
-                <div class="d-inline-block text-start p-3 rounded-4 {{ $m->is_admin ? 'bg-primary text-white' : 'bg-light' }}" style="max-width: 88%;">
-                    <div class="small opacity-75">{{ $m->sender?->name }} · {{ $m->created_at?->format('M d H:i') }}</div>
-                    <div>{{ $m->body }}</div>
-                </div>
+<div class="user-ticket-workspace">
+    <div class="workspace-header border-bottom bg-white d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+            <a href="{{ route('user.tickets.index') }}" class="btn btn-sm btn-light border-0 rounded-circle">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+            <div>
+                <h6 class="mb-0 fw-bold">{{ $ticket->subject }}</h6>
+                <div class="text-muted small">#{{ $ticket->id }} • {{ $ticket->slot?->service_date?->format('d M') }}</div>
             </div>
-            @endforeach
+        </div>
+        <span class="badge bg-{{ $ticket->status === 'closed' ? 'success' : ($ticket->status === 'in_progress' ? 'primary' : 'danger') }} rounded-pill px-3">
+            {{ strtoupper(str_replace('_', ' ', $ticket->status)) }}
+        </span>
+    </div>
+
+    <div class="workspace-body">
+        <div class="chat-container-wrapper">
+            <div class="chat-container-main">
+                @include('components.firebase-ticket-chat', ['firebaseChat' => $firebaseChat, 'ticket' => $ticket, 'layout' => 'full'])
+            </div>
         </div>
     </div>
-    <form id="ticket-reply-form" method="post" action="{{ route('user.tickets.reply', $ticket) }}" class="d-flex gap-2">
-        @csrf
-        <input type="text" name="message" class="form-control rounded-pill" placeholder="Write a message…" required maxlength="5000">
-        <button class="btn btn-primary rounded-pill px-4" type="submit">Send</button>
-    </form>
 </div>
-@include('components.firebase-ticket-chat', ['firebaseChat' => $firebaseChat, 'ticket' => $ticket])
+
+<style>
+    /* PREVENT ALL SYSTEM SCROLLING - LOCK TO APP VIEW */
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100% !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        position: fixed !important; /* Forces iPhone to stay put */
+    }
+
+    .main-content {
+        padding: 0 !important;
+        margin: 0 !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        width: 100% !important;
+    }
+
+    .user-ticket-workspace {
+        position: fixed !important;
+        top: 0 !important;
+        left: var(--sidebar-width, 280px) !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        background: #fff !important;
+        z-index: 2000 !important;
+        height: 100% !important;
+    }
+
+    .workspace-header {
+        flex-shrink: 0 !important;
+        background: #fff;
+        padding: 10px 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+
+    .workspace-body {
+        flex: 1 !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        background: #f8fafc;
+        position: relative !important;
+    }
+
+    .chat-container-wrapper {
+        flex: 1 !important;
+        display: flex !important;
+        justify-content: center !important;
+        overflow: hidden !important;
+        height: 100% !important;
+    }
+
+    .chat-container-main {
+        width: 100%;
+        max-width: 900px;
+        height: 100% !important;
+        background: #fff;
+        display: flex !important;
+        flex-direction: column !important;
+        box-shadow: 0 0 40px rgba(0,0,0,0.03);
+        overflow: hidden !important;
+    }
+
+    /* MOBILE OVERRIDES */
+    @media (max-width: 991px) {
+        .user-ticket-workspace {
+            left: 0 !important;
+            width: 100% !important;
+        }
+    }
+</style>
 @endsection

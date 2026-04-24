@@ -89,32 +89,39 @@ class SolarTicketService
         // FCM: admin replies → notify user
         $ticket->load('user');
         if ($asAdmin && $ticket->user && $ticket->user->fcm_token) {
-            Log::info('FCM: dispatching ticket reply notification to user', [
-                'ticket_id' => $ticket->id,
-                'user_id' => $ticket->user->id,
-            ]);
+            $snippet = strlen($body) > 100 ? substr($body, 0, 97) . '...' : $body;
             $this->fcm->sendToUser(
                 $ticket->user,
-                'Ticket update',
-                'You have a new reply on: '.$ticket->subject,
+                $sender->name . ' replied',
+                $snippet,
                 ['type' => 'ticket_reply', 'ticket_id' => (string) $ticket->id]
             );
         }
 
-        // FCM: user replies → notify assigned admin
-        if (! $asAdmin && $ticket->assigned_admin_id) {
-            $admin = User::find($ticket->assigned_admin_id);
-            if ($admin && $admin->fcm_token) {
-                Log::info('FCM: dispatching ticket reply notification to admin', [
-                    'ticket_id' => $ticket->id,
-                    'admin_id' => $admin->id,
-                ]);
-                $this->fcm->sendToUser(
-                    $admin,
-                    'New ticket reply',
-                    $sender->name.' replied on: '.$ticket->subject,
-                    ['type' => 'ticket_reply', 'ticket_id' => (string) $ticket->id]
-                );
+        // FCM: user replies → notify assigned admin OR all admins if unassigned
+        if (! $asAdmin) {
+            $snippet = strlen($body) > 100 ? substr($body, 0, 97) . '...' : $body;
+            if ($ticket->assigned_admin_id) {
+                $admin = User::find($ticket->assigned_admin_id);
+                if ($admin && $admin->fcm_token) {
+                    $this->fcm->sendToUser(
+                        $admin,
+                        $sender->name . ' (New Message)',
+                        $snippet,
+                        ['type' => 'ticket_reply', 'ticket_id' => (string) $ticket->id]
+                    );
+                }
+            } else {
+                // Not assigned yet? Notify all admins
+                $admins = User::where('role', 'admin')->whereNotNull('fcm_token')->get();
+                foreach ($admins as $admin) {
+                    $this->fcm->sendToUser(
+                        $admin,
+                        $sender->name . ' (New Ticket Reply)',
+                        $snippet,
+                        ['type' => 'ticket_reply', 'ticket_id' => (string) $ticket->id]
+                    );
+                }
             }
         }
 
@@ -135,7 +142,17 @@ class SolarTicketService
 
         Log::info('Ticket status updated', ['ticket_id' => $ticket->id, 'status' => $status, 'admin_id' => $admin->id]);
 
+        // Notify user about status change
+        $ticket->load('user');
+        if ($ticket->user && $ticket->user->fcm_token) {
+            $this->fcm->sendToUser(
+                $ticket->user,
+                'Ticket Status Updated',
+                'Your ticket #' . $ticket->id . ' is now: ' . str_replace('_', ' ', $status),
+                ['type' => 'status_update', 'ticket_id' => (string) $ticket->id, 'status' => $status]
+            );
+        }
+
         return $ticket->fresh();
     }
 }
-

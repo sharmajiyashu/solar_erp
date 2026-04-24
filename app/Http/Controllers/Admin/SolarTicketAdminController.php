@@ -39,9 +39,15 @@ class SolarTicketAdminController extends Controller
             'slot',
         ]);
 
+        $recentTickets = Ticket::query()
+            ->with(['user', 'messages' => fn($q) => $q->latest()->limit(1)])
+            ->orderByDesc('updated_at')
+            ->limit(15)
+            ->get();
+
         $firebaseChat = FirebaseTicketChat::forAdminTicket($request, $ticket);
 
-        return view('admin.solar.tickets_show', compact('ticket', 'firebaseChat'));
+        return view('admin.solar.tickets_show', compact('ticket', 'firebaseChat', 'recentTickets'));
     }
 
     public function reply(Request $request, Ticket $ticket): JsonResponse|RedirectResponse

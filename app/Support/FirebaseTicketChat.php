@@ -26,12 +26,13 @@ class FirebaseTicketChat
             'enabled' => self::enabled(),
             'web' => config('services.firebase_web', []),
             'token_url' => route('user.tickets.firebase-token', $ticket),
+            'reply_url' => route('user.tickets.reply', $ticket),
             'layout' => 'user',
         ];
     }
 
     /**
-     * @return array{enabled: bool, web: array<string, mixed>, token_url: string, layout: 'user'|'admin'}
+     * @return array{enabled: bool, web: array<string, mixed>, token_url: string, reply_url: string, layout: 'user'|'admin'}
      */
     public static function forAdminTicket(Request $request, Ticket $ticket): array
     {
@@ -39,6 +40,7 @@ class FirebaseTicketChat
             'enabled' => self::enabled(),
             'web' => config('services.firebase_web', []),
             'token_url' => route('admin.solar.tickets.firebase-token', $ticket),
+            'reply_url' => route('admin.solar.tickets.reply', $ticket),
             'layout' => 'admin',
         ];
     }
