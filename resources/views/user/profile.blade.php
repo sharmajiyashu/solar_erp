@@ -1,27 +1,18 @@
 @extends('user.layouts.app')
 
 @section('content')
-<div class="container-fluid py-3">
-    <!-- Slim Premium Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="welcome-card p-4 rounded-4 border-0 shadow-lg position-relative overflow-hidden" 
-                 style="background: linear-gradient(135deg, #1e293b 0%, #27445D 100%); min-height: 120px; display: flex; align-items: center;">
-                <div class="position-relative z-index-2 w-100">
-                    <div class="row align-items-center">
-                        <div class="col-md-9 text-center text-md-start">
-                            <h3 class="fw-black text-white mb-1">Account Management</h3>
-                            <p class="text-white-50 mb-0 fw-medium small">Update your profile details and manage your security settings.</p>
-                        </div>
-                        <div class="col-md-3 text-md-end mt-3 mt-md-0 d-none d-md-block">
-                             <div class="icon-circle p-3 rounded-circle d-inline-flex border border-white border-opacity-25 shadow-sm">
-                                <i class="fas fa-user-shield text-white fs-4"></i>
-                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="shape-1"></div>
-            </div>
+<div class="container-fluid py-4">
+    <!-- Clean Header -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-12 text-center text-md-start">
+            <nav aria-label="breadcrumb" class="mb-1">
+                <ol class="breadcrumb mb-0 small fw-bold text-uppercase" style="letter-spacing: 1px;">
+                    <li class="breadcrumb-item text-primary"><a href="{{ route('user.dashboard') }}" class="text-decoration-none">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                </ol>
+            </nav>
+            <h2 class="fw-black text-dark mb-0">Account Settings</h2>
+            <p class="text-muted mb-0 small fw-medium">Update your personal information and manage your security preferences.</p>
         </div>
     </div>
 

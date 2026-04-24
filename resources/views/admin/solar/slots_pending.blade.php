@@ -39,7 +39,7 @@
                                         <div class="fw-bold">{{ $slot->user?->name }}</div>
                                         <small class="text-muted">{{ $slot->user?->mobile }}</small>
                                     </td>
-                                    <td>{{ $slot->service_date?->format('Y-m-d') }}</td>
+                                    <td>{{ $slot->service_date?->format('d M, Y') }}</td>
                                     <td>{{ $slot->subscription?->package?->name }}</td>
                                     <td>
                                         <form method="post" action="{{ route('admin.solar.slots.assign') }}" class="d-flex gap-1 flex-wrap">

@@ -1,83 +1,78 @@
 @extends('user.layouts.app')
 
 @section('content')
-<div class="container-fluid py-3">
-    <!-- Slim Premium Header - MINIMALIST -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="welcome-card p-4 rounded-4 border-0 shadow-lg position-relative overflow-hidden" 
-                 style="background: linear-gradient(135deg, #1e293b 0%, #27445D 100%); min-height: 120px; display: flex; align-items: center;">
-                <div class="position-relative z-index-2 w-100">
-                    <div class="row align-items-center">
-                        <div class="col-md-9 text-center text-md-start">
-                            <h3 class="fw-black text-white mb-1">Solar Subscriptions & Services</h3>
-                            <p class="text-white-50 mb-0 fw-medium small">Manage your energy plans and scheduled maintenance visits in one place.</p>
-                        </div>
-                        <div class="col-md-3 text-md-end mt-3 mt-md-0 d-none d-md-block">
-                             <div class="icon-circle p-3 rounded-circle d-inline-flex border border-white border-opacity-25 shadow-sm">
-                                <i class="fas fa-solar-panel text-white fs-4"></i>
-                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="shape-1"></div>
-            </div>
+<div class="container-fluid py-4 px-0 px-md-3">
+    <!-- Clean Header -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-12 text-center text-md-start">
+            <nav aria-label="breadcrumb" class="mb-1">
+                <ol class="breadcrumb mb-0 small fw-bold text-uppercase" style="letter-spacing: 1px;">
+                    <li class="breadcrumb-item text-primary"><a href="{{ route('user.dashboard') }}" class="text-decoration-none">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Subscriptions</li>
+                </ol>
+            </nav>
+            <h2 class="fw-black text-dark mb-0">Solar Plans & Services</h2>
+            <p class="text-muted mb-0 small fw-medium">Manage your active energy plans and explore new maintenance packages.</p>
         </div>
     </div>
 
-    <!-- Active Subscriptions - CLEANED BGs -->
+    <!-- Active Subscriptions -->
     @if($subscriptions->count() > 0)
-    <div class="row mb-4">
+    <div class="row mb-5">
         <div class="col-12 mb-3 d-flex justify-content-between align-items-center px-4">
-            <h6 class="fw-bold mb-0 text-muted text-uppercase small" style="letter-spacing: 1px;">My Active Plans</h6>
-            <span class="badge border border-success border-opacity-25 text-success rounded-pill px-3 py-1">{{ $subscriptions->count() }} Active</span>
+            <h6 class="fw-black mb-0 text-muted text-uppercase small" style="letter-spacing: 1px;">My Active Plans</h6>
+            <span class="badge bg-light-success text-success border border-success border-opacity-10 rounded-pill px-3 py-2 fw-bold small">
+                {{ $subscriptions->count() }} Active
+            </span>
         </div>
         @foreach($subscriptions as $sub)
         <div class="col-lg-6 mb-4">
-            <div class="card border border-light rounded-4 shadow-sm h-100 overflow-hidden">
+            <div class="card border-0 rounded-4 shadow-sm h-100 overflow-hidden">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-start mb-4">
                         <div class="d-flex align-items-center">
-                            <div class="icon-box border border-primary border-opacity-10 p-3 rounded-4 me-3 text-primary">
-                                <i class="fas fa-bolt-lightning fs-4"></i>
+                            <div class="icon-box bg-primary bg-opacity-10 p-3 rounded-4 me-3 text-primary">
+                                <i class="fas fa-solar-panel fs-4"></i>
                             </div>
                             <div>
                                 <h5 class="fw-black mb-0 text-dark">{{ $sub->package->name }}</h5>
-                                <small class="text-muted fw-bold small text-uppercase" style="font-size: 0.6rem;">ID: #{{ str_pad($sub->id, 5, '0', STR_PAD_LEFT) }} • {{ str_replace('_', ' ', $sub->package->duration_type) }}</small>
+                                <small class="text-muted fw-bold small text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.5px;">ID: #{{ str_pad($sub->id, 5, '0', STR_PAD_LEFT) }} • {{ str_replace('_', ' ', $sub->package->duration_type) }}</small>
                             </div>
                         </div>
                         <div class="text-end">
                             <h4 class="fw-black text-primary mb-0">₹{{ number_format($sub->amount, 0) }}</h4>
-                            <span class="badge border border-success border-opacity-25 text-success rounded-pill px-2 py-1 mt-1 small" style="font-size: 0.6rem;">PAID</span>
+                            <span class="badge bg-light-success text-success border border-success border-opacity-10 rounded-pill px-2 py-1 mt-1 small" style="font-size: 0.6rem;">PAID</span>
                         </div>
                     </div>
                     
                     <div class="row g-3 mb-4">
                         <div class="col-6">
-                            <div class="p-2 px-3 rounded-4 border border-light">
-                                <small class="text-muted d-block small fw-bold text-uppercase" style="font-size: 0.55rem;">Start Date</small>
-                                <span class="fw-bold text-dark small">{{ $sub->start_date->format('d M, Y') }}</span>
+                            <div class="p-3 rounded-4 bg-light border border-white">
+                                <small class="text-muted d-block small fw-black text-uppercase mb-1" style="font-size: 0.55rem;">Start Date</small>
+                                <span class="fw-bold text-dark">{{ $sub->start_date->format('d M, Y') }}</span>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="p-2 px-3 rounded-4 border border-light">
-                                <small class="text-muted d-block small fw-bold text-uppercase" style="font-size: 0.55rem;">Expiry Date</small>
-                                <span class="fw-bold text-dark small">{{ $sub->end_date->format('d M, Y') }}</span>
+                            <div class="p-3 rounded-4 bg-light border border-white">
+                                <small class="text-muted d-block small fw-black text-uppercase mb-1" style="font-size: 0.55rem;">Expiry Date</small>
+                                <span class="fw-bold text-dark">{{ $sub->end_date->format('d M, Y') }}</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="visit-logs pt-3 border-top border-light">
-                        <h6 class="fw-bold mb-3 small d-flex align-items-center text-muted">
-                            <i class="fas fa-calendar-check text-primary me-2"></i> Visit Schedule
-                            <span class="ms-auto text-dark fw-black small">{{ $sub->slots->where('status', 'completed')->count() }} / {{ $sub->slots->count() }} Done</span>
-                        </h6>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="fw-bold mb-0 small text-muted text-uppercase" style="letter-spacing: 0.5px;">
+                                <i class="fas fa-calendar-check text-primary me-2"></i> Visit Schedule
+                            </h6>
+                            <span class="text-dark fw-black small">{{ $sub->slots->where('status', 'completed')->count() }} / {{ $sub->slots->count() }} Completed</span>
+                        </div>
                         
-                        <div class="scroll-horizontal-compact d-flex gap-2 pb-2 overflow-auto">
+                        <div class="scroll-horizontal-compact d-flex gap-2 pb-2 overflow-auto custom-scrollbar">
                             @foreach($sub->slots as $slot)
-                            <div class="visit-pill p-2 px-3 border rounded-pill text-center transition-all flex-shrink-0 {{ $slot->status == 'completed' ? 'border-success border-opacity-25' : 'border-light' }}" style="min-width: 90px;">
+                            <div class="visit-pill p-2 px-3 border rounded-pill text-center transition-all flex-shrink-0 {{ $slot->status == 'completed' ? 'bg-light-success border-success border-opacity-10' : 'bg-white border-light' }}" style="min-width: 95px;">
                                 <span class="fw-bold small d-block {{ $slot->status == 'completed' ? 'text-success' : 'text-muted' }}" style="font-size: 0.7rem;">
-                                    {{ $slot->service_date->format('M d') }}
+                                    {{ $slot->service_date->format('M d, Y') }}
                                     @if($slot->status == 'completed') <i class="fas fa-check-circle ms-1"></i> @endif
                                 </span>
                             </div>
@@ -91,46 +86,40 @@
     </div>
     @endif
 
-    <!-- Preferred start date (first visit) -->
-    <div class="row mb-4 px-4">
-        <div class="col-md-6 col-lg-4">
-            <label class="form-label small fw-bold text-muted text-uppercase" style="letter-spacing: 0.5px;">Preferred first visit date</label>
-            <input type="date" id="solarStartDate" class="form-control rounded-4 border-light shadow-sm" value="{{ now()->format('Y-m-d') }}" min="{{ now()->format('Y-m-d') }}">
-            <small class="text-muted">Used when you subscribe; visits are then scheduled from this date.</small>
-        </div>
-    </div>
-
-    <!-- New Plans - CLEANED BGs -->
+    <!-- New Plans -->
     <div class="row">
-        <div class="col-12 mb-3 px-4">
-            <h6 class="fw-bold mb-0 text-muted text-uppercase small" style="letter-spacing: 1px;">Available Plans</h6>
+        <div class="col-12 mb-4 px-4">
+            <h6 class="fw-black mb-0 text-muted text-uppercase small" style="letter-spacing: 1px;">Available Maintenance Plans</h6>
         </div>
         
         @foreach($packages as $package)
         @php
             $isSubscribed = $subscriptions->where('package_id', $package->id)->where('status', 'active')->count() > 0;
         @endphp
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 border border-light rounded-4 shadow-sm hover-shadow-primary overflow-hidden bg-white" style="border-radius: 1.5rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 border-0 rounded-4 shadow-sm hover-shadow-primary overflow-hidden bg-white transition-all">
                 <div class="card-body p-4 d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="icon-box-sm border border-primary border-opacity-25 p-2 px-3 rounded-pill text-primary fw-black small">
+                        <div class="badge bg-light-primary text-primary border border-primary border-opacity-10 p-2 px-3 rounded-pill fw-black small">
                             {{ strtoupper($package->package_type) }}
                         </div>
                         @if($isSubscribed)
-                            <span class="badge border border-success border-opacity-25 text-success rounded-pill px-3 py-1 fw-bold small">Current</span>
+                            <span class="badge bg-light-success text-success border border-success border-opacity-10 rounded-pill px-3 py-2 fw-bold small">Current Plan</span>
                         @endif
                     </div>
                     
                     <h4 class="fw-black mb-1 text-dark">{{ $package->name }}</h4>
-                    <p class="text-muted small mb-4 fw-medium lh-sm" style="opacity: 0.8 !important;">{{ \Str::limit($package->description, 70) }}</p>
+                    <p class="text-muted small mb-4 fw-medium lh-sm opacity-75">{{ \Str::limit($package->description, 100) }}</p>
                     
-                    <div class="plan-features mb-4 flex-grow-1">
+                    <div class="plan-features mb-4 flex-grow-1 p-3 bg-light rounded-4">
+                        <h6 class="small fw-black text-muted text-uppercase mb-3" style="font-size: 0.6rem; letter-spacing: 1px;">Features Included</h6>
                         @if($package->features)
                         @foreach($package->features as $feature)
                         <div class="d-flex align-items-center mb-2">
-                            <i class="fas fa-circle-check text-primary me-2" style="font-size: 0.75rem;"></i>
-                            <span class="small text-dark fw-medium" style="font-size: 0.8rem;">{{ $feature }}</span>
+                            <div class="bg-primary bg-opacity-10 rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 18px; height: 18px;">
+                                <i class="fas fa-check text-primary" style="font-size: 0.6rem;"></i>
+                            </div>
+                            <span class="small text-dark fw-bold" style="font-size: 0.75rem;">{{ $feature }}</span>
                         </div>
                         @endforeach
                         @endif
@@ -139,17 +128,17 @@
                     <div class="mt-auto pt-4 border-top border-light">
                         <div class="d-flex justify-content-between align-items-end mb-3">
                             <div>
-                                <small class="text-muted d-block small mb-1">Service every {{ str_replace('_days', ' days', $package->frequency) }}</small>
+                                <small class="text-muted d-block small mb-1 fw-bold">Frequency: Every {{ str_replace('_days', ' days', $package->frequency) }}</small>
                                 <div class="d-flex align-items-baseline">
-                                    <h3 class="fw-black text-dark mb-0">₹{{ number_format($package->price, 0) }}</h3>
-                                    <small class="text-muted ms-1 fw-bold">/ plan</small>
+                                    <h3 class="fw-black text-primary mb-0">₹{{ number_format($package->price, 0) }}</h3>
+                                    <small class="text-muted ms-1 fw-bold">/ total</small>
                                 </div>
                             </div>
                         </div>
                         
                         @if($isSubscribed)
                             <button class="btn btn-outline-success w-100 rounded-pill py-2 fw-black small" disabled>
-                                <i class="fas fa-check-double me-2"></i> Active
+                                <i class="fas fa-check-double me-2"></i> Plan Active
                             </button>
                         @else
                             <button class="btn btn-primary w-100 rounded-pill py-2 fw-black shadow-sm purchase-pkg-btn" 
@@ -167,15 +156,72 @@
     </div>
 </div>
 
+<!-- Purchase Confirmation Modal -->
+<div class="modal fade" id="purchaseConfirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header bg-primary text-white border-0 p-4">
+                <div class="d-flex align-items-center">
+                    <div class="icon-box bg-white bg-opacity-20 p-2 rounded-3 me-3">
+                        <i class="fas fa-calendar-alt fs-4"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title text-white fw-black mb-0">Confirm Subscription</h5>
+                        <small class="text-white-50" id="confirm_package_name"></small>
+                    </div>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="p-3 bg-light rounded-4 mb-4">
+                    <label class="form-label small fw-black text-muted text-uppercase" style="letter-spacing: 0.5px;">Preferred first visit date</label>
+                    <input type="date" id="solarStartDate" class="form-control form-control-lg rounded-3 border-0 shadow-sm" 
+                           value="{{ now()->format('Y-m-d') }}" min="{{ now()->format('Y-m-d') }}">
+                    <div class="form-text mt-2 small text-primary d-flex align-items-start">
+                        <i class="fas fa-info-circle mt-1 me-2"></i>
+                        <span>Used when you subscribe; all visits in this plan will be scheduled starting from this date.</span>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center px-2">
+                    <span class="text-muted fw-bold">Total Amount:</span>
+                    <h3 class="fw-black text-primary mb-0" id="confirm_package_price"></h3>
+                </div>
+            </div>
+            <div class="modal-footer border-0 p-4 pt-0">
+                <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary rounded-pill px-4 py-2 fw-black shadow-sm" id="confirmPurchaseBtn">
+                    Proceed to Payment <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('scripts')
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 $(document).ready(function() {
+    let selectedPackageId = null;
+    let selectedBtn = null;
+    let originalBtnText = '';
+
     $('.purchase-pkg-btn').on('click', function() {
-        let btn = $(this);
-        let packageId = btn.data('id');
-        let originalText = btn.html();
+        selectedBtn = $(this);
+        selectedPackageId = selectedBtn.data('id');
+        originalBtnText = selectedBtn.html();
         
+        $('#confirm_package_name').text(selectedBtn.data('name'));
+        $('#confirm_package_price').text('₹' + parseFloat(selectedBtn.data('price')).toLocaleString('en-IN'));
+        $('#purchaseConfirmModal').modal('show');
+    });
+
+    $('#confirmPurchaseBtn').on('click', function() {
+        $('#purchaseConfirmModal').modal('hide');
+        initiateSubscription(selectedPackageId, selectedBtn, originalBtnText);
+    });
+
+    function initiateSubscription(packageId, btn, originalText) {
         btn.attr('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span> Processing...');
         
         $.ajax({
@@ -202,7 +248,7 @@ $(document).ready(function() {
                             "email": "{{ Auth::user()->email }}",
                             "contact": "{{ Auth::user()->mobile }}"
                         },
-                        "theme": { "color": "#71bbb2" },
+                        "theme": { "color": "#27445D" },
                         "modal": {
                             "ondismiss": function() {
                                 btn.attr('disabled', false).html(originalText);
@@ -221,7 +267,7 @@ $(document).ready(function() {
                 btn.attr('disabled', false).html(originalText);
             }
         });
-    });
+    }
 
     function verifyPayment(razorResponse, packageId, btn, originalText) {
         $.ajax({

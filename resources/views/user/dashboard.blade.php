@@ -1,101 +1,88 @@
 @extends('user.layouts.app')
 
 @section('content')
-<div class="container-fluid py-3">
-    <!-- Slim Premium Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="welcome-card p-4 rounded-4 border-0 shadow-lg position-relative overflow-hidden" 
-                 style="background: linear-gradient(135deg, #1e293b 0%, #27445D 100%); min-height: 140px; display: flex; align-items: center;">
-                <div class="position-relative z-index-2 w-100">
-                    <div class="row align-items-center text-center text-md-start">
-                        <div class="col-md-8">
-                            <h2 class="fw-black text-white mb-1">Hello, {{ Auth::user()->name }}! 👋</h2>
-                            <p class="text-white-50 mb-0 fw-medium small">Your solar energy dashboard is live and performing well.</p>
-                        </div>
-                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <a href="{{ route('user.services') }}" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm btn-sm">Subscriptions</a>
-                            <a href="{{ route('user.profile') }}" class="btn btn-glass rounded-pill px-4 py-2 fw-bold text-white shadow-sm border border-white border-opacity-25 btn-sm ms-2">Settings</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Abstract Background Shapes -->
-                <div class="shape-1"></div>
-            </div>
+<div class="container-fluid py-4 px-0 px-md-3">
+    <!-- Clean Header -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-8 text-center text-md-start">
+            <nav aria-label="breadcrumb" class="mb-1">
+                <ol class="breadcrumb mb-0 small fw-bold text-uppercase" style="letter-spacing: 1px;">
+                    <li class="breadcrumb-item text-primary"><a href="#" class="text-decoration-none">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Overview</li>
+                </ol>
+            </nav>
+            <h2 class="fw-black text-dark mb-0">Hello, {{ Auth::user()->name }}! 👋</h2>
+            <p class="text-muted mb-0 small fw-medium">Welcome back! Here's what's happening with your solar energy today.</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0 d-none d-md-flex justify-content-end gap-2">
+            <a href="{{ route('user.services') }}" class="btn btn-white btn-sm px-4 py-2 fw-bold">My Plans</a>
+            <a href="{{ route('user.profile') }}" class="btn btn-primary btn-sm px-4 py-2 fw-bold text-white">Profile Settings</a>
         </div>
     </div>
 
-    <!-- Vibrant Compact Stats Grid - NO BACKGROUND CLASSES -->
+    <!-- Simple Blue Stats Grid -->
     <div class="row g-3 mb-4">
         <div class="col-6 col-lg-3">
-            <div class="card stat-card border border-light rounded-4 shadow-sm h-100 overflow-hidden" 
-                 style="background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); transition: all 0.3s ease;">
-                <div class="card-body p-3 text-white">
+            <div class="card h-100 border-0 border-start border-4 border-primary shadow-sm">
+                <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <div class="icon-box p-2 rounded-3 border border-white border-opacity-25">
-                            <i class="fa-solid fa-bolt-lightning fs-5 text-warning"></i>
+                        <div class="icon-box p-2 rounded-3 bg-light-primary text-primary">
+                            <i class="fa-solid fa-bolt-lightning fs-5"></i>
                         </div>
-                        <span class="badge border border-white border-opacity-25 rounded-pill" style="font-size: 0.6rem;">PLANS</span>
+                        <span class="badge badge-primary small fw-bold" style="font-size: 0.6rem;">PLANS</span>
                     </div>
                     <div class="ps-1">
-                        <h3 class="fw-black mb-0 display-6" style="font-size: 1.5rem;">{{ $subscriptions->count() }}</h3>
-                        <p class="text-white-50 small fw-bold text-uppercase mb-0 mt-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Active Plans</p>
+                        <h3 class="fw-black mb-0 text-dark" style="font-size: 1.5rem;">{{ $subscriptions->count() }}</h3>
+                        <p class="text-muted small fw-bold text-uppercase mb-0 mt-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Active Plans</p>
                     </div>
-                    <div class="card-glow"></div>
                 </div>
             </div>
         </div>
         <div class="col-6 col-lg-3">
-            <div class="card stat-card border border-light rounded-4 shadow-sm h-100 overflow-hidden" 
-                 style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); transition: all 0.3s ease;">
-                <div class="card-body p-3 text-white">
+            <div class="card h-100 border-0 border-start border-4 border-primary shadow-sm">
+                <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <div class="icon-box p-2 rounded-3 border border-white border-opacity-25">
+                        <div class="icon-box p-2 rounded-3 bg-light-primary text-primary">
                             <i class="fa-solid fa-handshake-angle fs-5"></i>
                         </div>
-                        <span class="badge border border-white border-opacity-25 rounded-pill" style="font-size: 0.6rem;">VISITS</span>
+                        <span class="badge badge-primary small fw-bold" style="font-size: 0.6rem;">VISITS</span>
                     </div>
                     <div class="ps-1">
-                        <h3 class="fw-black mb-0 display-6" style="font-size: 1.5rem;">{{ $totalSlotsCount }}</h3>
-                        <p class="text-white-50 small fw-bold text-uppercase mb-0 mt-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Total Visits</p>
+                        <h3 class="fw-black mb-0 text-dark" style="font-size: 1.5rem;">{{ $totalSlotsCount }}</h3>
+                        <p class="text-muted small fw-bold text-uppercase mb-0 mt-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Total Visits</p>
                     </div>
-                    <div class="card-glow"></div>
                 </div>
             </div>
         </div>
         <div class="col-6 col-lg-3">
-            <div class="card stat-card border border-light rounded-4 shadow-sm h-100 overflow-hidden" 
-                 style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); transition: all 0.3s ease;">
-                <div class="card-body p-3 text-white">
+            <div class="card h-100 border-0 border-start border-4 border-primary shadow-sm">
+                <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <div class="icon-box p-2 rounded-3 border border-white border-opacity-25">
+                        <div class="icon-box p-2 rounded-3 bg-light-primary text-primary">
                             <i class="fa-solid fa-spinner fs-5 fa-spin-pulse" style="--fa-animation-duration: 3s;"></i>
                         </div>
-                        <span class="badge border border-white border-opacity-25 rounded-pill" style="font-size: 0.6rem;">WAITS</span>
+                        <span class="badge badge-primary small fw-bold" style="font-size: 0.6rem;">WAITS</span>
                     </div>
                     <div class="ps-1">
-                        <h3 class="fw-black mb-0 display-6" style="font-size: 1.5rem;">{{ $totalSlotsCount - $completedSlotsCount }}</h3>
-                        <p class="text-white-50 small fw-bold text-uppercase mb-0 mt-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Pending</p>
+                        <h3 class="fw-black mb-0 text-dark" style="font-size: 1.5rem;">{{ $totalSlotsCount - $completedSlotsCount }}</h3>
+                        <p class="text-muted small fw-bold text-uppercase mb-0 mt-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Pending</p>
                     </div>
-                    <div class="card-glow"></div>
                 </div>
             </div>
         </div>
         <div class="col-6 col-lg-3">
-            <div class="card stat-card border border-light rounded-4 shadow-sm h-100 overflow-hidden" 
-                 style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); transition: all 0.3s ease;">
-                <div class="card-body p-3 text-white">
+            <div class="card h-100 border-0 border-start border-4 border-primary shadow-sm">
+                <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <div class="icon-box p-2 rounded-3 border border-white border-opacity-25">
+                        <div class="icon-box p-2 rounded-3 bg-light-primary text-primary">
                             <i class="fa-solid fa-award fs-5"></i>
                         </div>
-                        <span class="badge border border-white border-opacity-25 rounded-pill" style="font-size: 0.6rem;">DONE</span>
+                        <span class="badge badge-primary small fw-bold" style="font-size: 0.6rem;">DONE</span>
                     </div>
                     <div class="ps-1">
-                        <h3 class="fw-black mb-0 display-6" style="font-size: 1.5rem;">{{ $completedSlotsCount }}</h3>
-                        <p class="text-white-50 small fw-bold text-uppercase mb-0 mt-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Completed</p>
+                        <h3 class="fw-black mb-0 text-dark" style="font-size: 1.5rem;">{{ $completedSlotsCount }}</h3>
+                        <p class="text-muted small fw-bold text-uppercase mb-0 mt-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Completed</p>
                     </div>
-                    <div class="card-glow"></div>
                 </div>
             </div>
         </div>

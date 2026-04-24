@@ -61,13 +61,13 @@
                         <tbody>
                             @forelse($reviews as $row)
                             <tr>
-                                <td>{{ $row->created_at?->format('Y-m-d H:i') }}</td>
+                                <td>{{ $row->created_at?->format('d M, Y H:i') }}</td>
                                 <td>
                                     <div class="fw-bold">{{ $row->customer?->name }}</div>
                                     <small class="text-muted">{{ $row->customer?->email }}</small>
                                 </td>
                                 <td>{{ $row->technician?->name }}</td>
-                                <td>{{ $row->slot?->service_date?->format('Y-m-d') }} <small class="text-muted">#{{ $row->slot_id }}</small></td>
+                                <td>{{ $row->slot?->service_date?->format('d M, Y') }} <small class="text-muted">#{{ $row->slot_id }}</small></td>
                                 <td>
                                     @for($i = 1; $i <= 5; $i++)
                                         <i class="bi bi-star{{ $i <= $row->rating ? '-fill text-warning' : '' }}"></i>

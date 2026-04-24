@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 text-end">
-                    <button class="btn btn-primary d-flex align-items-center ms-auto" data-bs-toggle="modal" data-bs-target="#addPackageModal" style="border-radius: 8px; box-shadow: 0 4px 14px 0 rgba(113, 187, 178, 0.39);">
+                    <button class="btn btn-primary d-flex align-items-center ms-auto" data-bs-toggle="modal" data-bs-target="#addPackageModal" style="border-radius: 8px; box-shadow: 0 4px 14px 0 rgba(0, 82, 204, 0.2);">
                         <i data-feather="plus" class="me-50"></i>
                         <span>Add New Package</span>
                     </button>
@@ -41,6 +41,7 @@
                                                 <tr>
                                                     <th class="ps-2 py-1" style="width: 50px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">#</th>
                                                     <th class="py-1" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Details</th>
+                                                    <th class="py-1" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Configuration</th>
                                                     <th class="py-1 text-end" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Price (₹)</th>
                                                     <th class="py-1 text-center" style="width: 100px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Status</th>
                                                     <th class="py-1 text-center pe-2" style="width: 120px; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; color: #5e5873;">Actions</th>
@@ -58,8 +59,8 @@
                                                         </td>
                                                         <td class="py-1 align-middle">
                                                             <span class="badge badge-light-primary text-uppercase">{{ str_replace('_', ' ', $package->package_type) }}</span>
-                                                            <span class="badge badge-light-info"> Every {{ str_replace('_days', ' Days', $package->frequency) }}</span>
-                                                            <span class="badge badge-light-warning"> {{ str_replace('_', ' ', $package->duration_type) }}</span>
+                                                            <span class="badge badge-light-secondary"> Every {{ str_replace('_days', ' Days', $package->frequency) }}</span>
+                                                            <span class="badge badge-light-secondary"> {{ str_replace('_', ' ', $package->duration_type) }}</span>
                                                         </td>
                                                         <td class="py-1 align-middle text-end fw-bolder text-dark" style="font-size: 1rem;">
                                                             ₹{{ number_format($package->price, 2) }}
@@ -75,7 +76,7 @@
                                                                 <button class="btn btn-icon btn-flat-primary btn-sm edit-package me-25" data-id="{{ $package->id }}" title="Edit">
                                                                     <i data-feather="edit" style="width: 14px; height: 14px;"></i>
                                                                 </button>
-                                                                <button class="btn btn-icon btn-flat-danger btn-sm delete-package" data-id="{{ $package->id }}" title="Delete">
+                                                                 <button class="btn btn-icon btn-flat-secondary btn-sm delete-package" data-id="{{ $package->id }}" title="Delete">
                                                                     <i data-feather="trash-2" style="width: 14px; height: 14px;"></i>
                                                                 </button>
                                                             </div>
@@ -185,7 +186,7 @@
                                 <div id="add-features-container" class="mt-1">
                                     <div class="input-group mb-50 feature-row">
                                         <input type="text" name="features[]" class="form-control form-control-sm" placeholder="e.g., 2 Preventive maintenance visits" />
-                                        <button class="btn btn-outline-danger btn-sm remove-feature-row" type="button"><i data-feather="x"></i></button>
+                                        <button class="btn btn-outline-secondary btn-sm remove-feature-row" type="button"><i data-feather="x"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -318,7 +319,7 @@
                 container.append(`
                     <div class="input-group mb-50 feature-row">
                         <input type="text" name="features[]" class="form-control form-control-sm" placeholder="Enter feature..." />
-                        <button class="btn btn-outline-danger btn-sm remove-feature-row" type="button"><i data-feather="x"></i></button>
+                        <button class="btn btn-outline-secondary btn-sm remove-feature-row" type="button"><i data-feather="x"></i></button>
                     </div>
                 `);
                 feather.replace();
@@ -384,7 +385,7 @@
                                 container.append(`
                                     <div class="input-group mb-50 feature-row">
                                         <input type="text" name="features[]" class="form-control form-control-sm" value="${feature}" />
-                                        <button class="btn btn-outline-danger btn-sm remove-feature-row" type="button"><i data-feather="x"></i></button>
+                                        <button class="btn btn-outline-secondary btn-sm remove-feature-row" type="button"><i data-feather="x"></i></button>
                                     </div>
                                 `);
                             });
